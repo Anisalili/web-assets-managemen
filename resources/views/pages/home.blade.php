@@ -1,8 +1,8 @@
 @extends('layouts.public')
 
-@section('title', 'Home - Web Assets Management')
+@section('title', 'Beranda - Sistem Manajemen Asset OMBÉ')
 
-@section('meta_description', 'Professional web assets management system to organize and manage your digital resources efficiently.')
+@section('meta_description', 'Sistem manajemen, monitoring, dan perbaikan asset internal PT Panen Embun Kemakmuran.')
 
 @section('content')
     <!-- Start header Area -->
@@ -11,20 +11,13 @@
             <div class="row align-items-center">
                 <div class="col-lg-6 col-md-12 col-12">
                     <div class="header-content">
-                        <h1>Modern Web Assets Management System.</h1>
+                        <h1>Sistem Manajemen Asset OMBÉ</h1>
                         <p>
-                            We provide a comprehensive solution to manage, organize, and optimize your web assets.
-                            Streamline your digital workflow with our powerful management tools.
+                            Platform terintegrasi untuk manajemen, monitoring, dan perbaikan asset perusahaan.
+                            Tingkatkan efisiensi operasional dengan sistem pengelolaan asset yang modern dan handal.
                         </p>
                         <div class="button">
-                            <a href="javascript:void(0)" class="btn primary-btn">Get Started</a>
-                            <a href="https://www.youtube.com/watch?v=r44RKWyfcFw&fbclid=IwAR21beSJORalzmzokxDRcGfkZA1AtRTE__l5N4r09HcGS5Y6vOluyouM9EM"
-                                class="glightbox video-button">
-                                <span class="btn icon-btn rounded-full">
-                                    <i class="lni lni-play"></i>
-                                </span>
-                                <span class="text">Watch Intro</span>
-                            </a>
+                            <a href="{{ route('login') }}" class="btn primary-btn">Akses Sistem</a>
                         </div>
                     </div>
                 </div>
@@ -132,45 +125,46 @@
                 </div>
                 <div class="col-lg-6 col-12">
                     <div class="about-five-content">
-                        <h6 class="small-title text-lg">OUR STORY</h6>
-                        <h2 class="main-title fw-bold">Our team comes with the experience and knowledge</h2>
+                        <h6 class="small-title text-lg">TENTANG PERUSAHAAN</h6>
+                        <h2 class="main-title fw-bold">PT Panen Embun Kemakmuran</h2>
                         <div class="about-five-tab">
                             <nav>
                                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
                                     <button class="nav-link active" id="nav-who-tab" data-bs-toggle="tab"
                                         data-bs-target="#nav-who" type="button" role="tab" aria-controls="nav-who"
-                                        aria-selected="true">Who We Are</button>
+                                        aria-selected="true">Profil Perusahaan</button>
                                     <button class="nav-link" id="nav-vision-tab" data-bs-toggle="tab"
                                         data-bs-target="#nav-vision" type="button" role="tab"
-                                        aria-controls="nav-vision" aria-selected="false">our Vision</button>
+                                        aria-controls="nav-vision" aria-selected="false">Visi & Misi</button>
                                     <button class="nav-link" id="nav-history-tab" data-bs-toggle="tab"
                                         data-bs-target="#nav-history" type="button" role="tab"
-                                        aria-controls="nav-history" aria-selected="false">our History</button>
+                                        aria-controls="nav-history" aria-selected="false">Sejarah</button>
                                 </div>
                             </nav>
                             <div class="tab-content" id="nav-tabContent">
                                 <div class="tab-pane fade show active" id="nav-who" role="tabpanel"
                                     aria-labelledby="nav-who-tab">
-                                    <p>We are a dedicated team focused on providing the best web assets management solution.
-                                        Our platform helps businesses organize, optimize, and deliver their digital content
-                                        efficiently.</p>
-                                    <p>With years of experience in web development and digital asset management, we understand
-                                        the challenges businesses face in managing their digital resources.</p>
+                                    <p>PT Panen Embun Kemakmuran adalah perusahaan manufaktur air minum dalam kemasan (AMDK)
+                                        yang memproduksi produk berkualitas tinggi dengan merek "OMBÉ". Berlokasi di Bati-Bati,
+                                        Kabupaten Tanah Laut, Kalimantan Selatan.</p>
+                                    <p>Kami memproduksi berbagai jenis kemasan mulai dari galon 19L, cup 220ml, botol 250ml,
+                                        hingga berbagai ukuran lainnya untuk memenuhi kebutuhan konsumen yang beragam.</p>
                                 </div>
                                 <div class="tab-pane fade" id="nav-vision" role="tabpanel"
                                     aria-labelledby="nav-vision-tab">
-                                    <p>Our vision is to revolutionize how businesses manage their web assets. We aim to
-                                        provide a seamless, intuitive platform that makes asset management effortless and
-                                        efficient.</p>
-                                    <p>We believe in continuous innovation and improvement, always striving to deliver the
-                                        best possible experience to our users.</p>
+                                    <p>Visi kami adalah menjadi produsen air minum dalam kemasan terkemuka di Indonesia yang
+                                        mengutamakan kualitas, kesehatan, dan kepuasan konsumen.</p>
+                                    <p>Misi kami adalah menyediakan produk air minum berkualitas tinggi dengan standar
+                                        internasional, menerapkan teknologi modern dalam proses produksi, dan memberikan
+                                        kontribusi positif bagi masyarakat dan lingkungan.</p>
                                 </div>
                                 <div class="tab-pane fade" id="nav-history" role="tabpanel"
                                     aria-labelledby="nav-history-tab">
-                                    <p>Founded with a mission to simplify web asset management, we've grown from a simple
-                                        tool to a comprehensive platform trusted by businesses worldwide.</p>
-                                    <p>Our journey has been driven by user feedback and a commitment to solving real-world
-                                        problems in digital asset management.</p>
+                                    <p>Didirikan pada 30 Mei 2014, PT Panen Embun Kemakmuran memulai operasional komersialnya
+                                        pada 1 November 2020. Dalam perjalanannya, perusahaan terus berkembang menjadi salah
+                                        satu produsen AMDK yang dipercaya di wilayah Kalimantan Selatan.</p>
+                                    <p>Dengan fasilitas produksi modern dan sistem manajemen yang terintegrasi, kami berkomitmen
+                                        untuk terus meningkatkan kualitas produk dan layanan kepada konsumen.</p>
                                 </div>
                             </div>
                         </div>
@@ -191,11 +185,11 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="content">
-                            <h6>Services</h6>
-                            <h2 class="fw-bold">Our Best Services</h2>
+                            <h6>Fitur Sistem</h6>
+                            <h2 class="fw-bold">Fitur Manajemen Asset</h2>
                             <p>
-                                Comprehensive solutions for all your web assets management needs,
-                                from organization to optimization and delivery.
+                                Sistem komprehensif untuk pengelolaan, monitoring, dan pemeliharaan
+                                asset perusahaan dengan teknologi terkini.
                             </p>
                         </div>
                     </div>
@@ -210,13 +204,13 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="single-services">
                         <div class="service-icon">
-                            <i class="lni lni-capsule"></i>
+                            <i class="lni lni-package"></i>
                         </div>
                         <div class="service-content">
-                            <h4>Modern Design</h4>
+                            <h4>Inventarisasi Asset</h4>
                             <p>
-                                Clean and intuitive interface designed for efficiency. Manage your assets
-                                with ease using our modern dashboard.
+                                Pendataan lengkap semua asset perusahaan mulai dari mesin produksi,
+                                kendaraan, peralatan, hingga infrastruktur pabrik.
                             </p>
                         </div>
                     </div>
@@ -224,13 +218,13 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="single-services">
                         <div class="service-icon">
-                            <i class="lni lni-bootstrap"></i>
+                            <i class="lni lni-graph"></i>
                         </div>
                         <div class="service-content">
-                            <h4>Built with Laravel</h4>
+                            <h4>Monitoring Real-time</h4>
                             <p>
-                                Powered by Laravel framework for robust security, scalability,
-                                and maintainability of your assets.
+                                Pantau kondisi dan status asset secara real-time untuk memastikan
+                                operasional produksi berjalan optimal dan efisien.
                             </p>
                         </div>
                     </div>
@@ -238,13 +232,13 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="single-services">
                         <div class="service-icon">
-                            <i class="lni lni-shortcode"></i>
+                            <i class="lni lni-cog"></i>
                         </div>
                         <div class="service-content">
-                            <h4>Multiple Features</h4>
+                            <h4>Manajemen Pemeliharaan</h4>
                             <p>
-                                Comprehensive set of features including upload, organize, search,
-                                and manage all your web assets in one place.
+                                Jadwal maintenance terpadu, tracking perbaikan, dan histori
+                                perawatan untuk menjaga performa optimal asset.
                             </p>
                         </div>
                     </div>
@@ -252,13 +246,13 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="single-services">
                         <div class="service-icon">
-                            <i class="lni lni-dashboard"></i>
+                            <i class="lni lni-analytics"></i>
                         </div>
                         <div class="service-content">
-                            <h4>Speed Optimized</h4>
+                            <h4>Laporan & Analisis</h4>
                             <p>
-                                Fast loading times and optimized performance ensure smooth
-                                workflow and efficient asset management.
+                                Dashboard analitik dan laporan komprehensif untuk mendukung
+                                pengambilan keputusan manajemen yang tepat.
                             </p>
                         </div>
                     </div>
@@ -266,13 +260,13 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="single-services">
                         <div class="service-icon">
-                            <i class="lni lni-layers"></i>
+                            <i class="lni lni-shield"></i>
                         </div>
                         <div class="service-content">
-                            <h4>Fully Customizable</h4>
+                            <h4>Keamanan Data</h4>
                             <p>
-                                Tailor the system to your needs with flexible configuration
-                                options and customizable workflows.
+                                Sistem keamanan berlapis dengan enkripsi data, backup otomatis,
+                                dan kontrol akses berbasis role untuk proteksi maksimal.
                             </p>
                         </div>
                     </div>
@@ -280,13 +274,13 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="single-services">
                         <div class="service-icon">
-                            <i class="lni lni-reload"></i>
+                            <i class="lni lni-mobile"></i>
                         </div>
                         <div class="service-content">
-                            <h4>Regular Updates</h4>
+                            <h4>Akses Multi-Device</h4>
                             <p>
-                                Continuous improvements and new features to keep your asset
-                                management system up-to-date and secure.
+                                Akses sistem dari berbagai perangkat - desktop, tablet, atau smartphone
+                                untuk kemudahan monitoring di lapangan.
                             </p>
                         </div>
                     </div>
@@ -296,136 +290,20 @@
     </section>
     <!-- ===== service-area end ===== -->
 
-
-    <!-- Start Pricing  Area -->
-    <section id="pricing" class="pricing-area pricing-fourteen">
-        <!--======  Start Section Title Five ======-->
-        <div class="section-title-five">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="content">
-                            <h6>Pricing</h6>
-                            <h2 class="fw-bold">Pricing & Plans</h2>
-                            <p>
-                                Choose the plan that best fits your needs. Start free and upgrade
-                                as your asset management requirements grow.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <!-- row -->
-            </div>
-            <!-- container -->
-        </div>
-        <!--======  End Section Title Five ======-->
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-6 col-12">
-                    <div class="pricing-style-fourteen">
-                        <div class="table-head">
-                            <h6 class="title">Starter</h4>
-                                <p>Perfect for individuals and small projects getting started.</p>
-                                <div class="price">
-                                    <h2 class="amount">
-                                        <span class="currency">$</span>0<span class="duration">/mo </span>
-                                    </h2>
-                                </div>
-                        </div>
-
-                        <div class="light-rounded-buttons">
-                            <a href="javascript:void(0)" class="btn primary-btn-outline">
-                                Start free trial
-                            </a>
-                        </div>
-
-                        <div class="table-content">
-                            <ul class="table-list">
-                                <li> <i class="lni lni-checkmark-circle"></i> 100 MB Storage</li>
-                                <li> <i class="lni lni-checkmark-circle"></i> Basic Asset Management</li>
-                                <li> <i class="lni lni-checkmark-circle deactive"></i> Advanced Analytics</li>
-                                <li> <i class="lni lni-checkmark-circle deactive"></i> Priority Support</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-12">
-                    <div class="pricing-style-fourteen middle">
-                        <div class="table-head">
-                            <h6 class="title">Professional</h4>
-                                <p>For growing teams and businesses with higher demands.</p>
-                                <div class="price">
-                                    <h2 class="amount">
-                                        <span class="currency">$</span>99<span class="duration">/mo </span>
-                                    </h2>
-                                </div>
-                        </div>
-
-                        <div class="light-rounded-buttons">
-                            <a href="javascript:void(0)" class="btn primary-btn">
-                                Start free trial
-                            </a>
-                        </div>
-
-                        <div class="table-content">
-                            <ul class="table-list">
-                                <li> <i class="lni lni-checkmark-circle"></i> 10 GB Storage</li>
-                                <li> <i class="lni lni-checkmark-circle"></i> Advanced Asset Management</li>
-                                <li> <i class="lni lni-checkmark-circle"></i> Basic Analytics</li>
-                                <li> <i class="lni lni-checkmark-circle deactive"></i> Priority Support</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-12">
-                    <div class="pricing-style-fourteen">
-                        <div class="table-head">
-                            <h6 class="title">Enterprise</h4>
-                                <p>For large organizations with comprehensive needs.</p>
-                                <div class="price">
-                                    <h2 class="amount">
-                                        <span class="currency">$</span>150<span class="duration">/mo </span>
-                                    </h2>
-                                </div>
-                        </div>
-
-                        <div class="light-rounded-buttons">
-                            <a href="javascript:void(0)" class="btn primary-btn-outline">
-                                Start free trial
-                            </a>
-                        </div>
-
-                        <div class="table-content">
-                            <ul class="table-list">
-                                <li> <i class="lni lni-checkmark-circle"></i> Unlimited Storage</li>
-                                <li> <i class="lni lni-checkmark-circle"></i> Full Asset Management</li>
-                                <li> <i class="lni lni-checkmark-circle"></i> Advanced Analytics</li>
-                                <li> <i class="lni lni-checkmark-circle"></i> 24/7 Priority Support</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--/ End Pricing  Area -->
-
-
-
     <!-- Start Cta Area -->
     <section id="call-action" class="call-action">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-xxl-6 col-xl-7 col-lg-8 col-md-9">
                     <div class="inner-content">
-                        <h2>We love to make perfect <br />solutions for your business</h2>
+                        <h2>Kelola Asset Perusahaan <br />dengan Lebih Efisien</h2>
                         <p>
-                            Transform the way you manage your digital assets with our comprehensive solution.
-                            Get started today and experience the difference professional asset management can make
-                            for your business workflow and productivity.
+                            Transformasikan cara Anda mengelola asset dengan sistem yang terintegrasi dan mudah digunakan.
+                            Tingkatkan produktivitas operasional dan maksimalkan nilai investasi asset perusahaan Anda
+                            dengan teknologi manajemen asset modern.
                         </p>
                         <div class="light-rounded-buttons">
-                            <a href="javascript:void(0)" class="btn primary-btn-outline">Get Started</a>
+                            <a href="{{ route('login') }}" class="btn primary-btn-outline">Akses Sistem</a>
                         </div>
                     </div>
                 </div>
@@ -433,176 +311,6 @@
         </div>
     </section>
     <!-- End Cta Area -->
-
-
-
-    <!-- Start Latest News Area -->
-    <div id="blog" class="latest-news-area section">
-        <!--======  Start Section Title Five ======-->
-        <div class="section-title-five">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="content">
-                            <h6>latest news</h6>
-                            <h2 class="fw-bold">Latest News & Blog</h2>
-                            <p>
-                                Stay updated with the latest insights, tips, and updates about
-                                web assets management and digital workflow optimization.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <!-- row -->
-            </div>
-            <!-- container -->
-        </div>
-        <!--======  End Section Title Five ======-->
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-6 col-12">
-                    <!-- Single News -->
-                    <div class="single-news">
-                        <div class="image">
-                            <a href="javascript:void(0)"><img class="thumb"
-                                    src="{{ asset('templates/business/assets/images/blog/1.jpg') }}"
-                                    alt="Blog" /></a>
-                            <div class="meta-details">
-                                <img class="thumb"
-                                    src="{{ asset('templates/business/assets/images/blog/b6.jpg') }}"
-                                    alt="Author" />
-                                <span>BY ADMIN</span>
-                            </div>
-                        </div>
-                        <div class="content-body">
-                            <h4 class="title">
-                                <a href="javascript:void(0)"> Best Practices for Digital Asset Management </a>
-                            </h4>
-                            <p>
-                                Learn the essential practices for managing your digital assets effectively.
-                                Discover tips and techniques to optimize your workflow.
-                            </p>
-                        </div>
-                    </div>
-                    <!-- End Single News -->
-                </div>
-                <div class="col-lg-4 col-md-6 col-12">
-                    <!-- Single News -->
-                    <div class="single-news">
-                        <div class="image">
-                            <a href="javascript:void(0)"><img class="thumb"
-                                    src="{{ asset('templates/business/assets/images/blog/2.jpg') }}"
-                                    alt="Blog" /></a>
-                            <div class="meta-details">
-                                <img class="thumb"
-                                    src="{{ asset('templates/business/assets/images/blog/b6.jpg') }}"
-                                    alt="Author" />
-                                <span>BY ADMIN</span>
-                            </div>
-                        </div>
-                        <div class="content-body">
-                            <h4 class="title">
-                                <a href="javascript:void(0)">
-                                    How to Organize Your Web Assets Efficiently
-                                </a>
-                            </h4>
-                            <p>
-                                Explore strategies for organizing and categorizing your web assets
-                                for maximum efficiency and easy retrieval.
-                            </p>
-                        </div>
-                    </div>
-                    <!-- End Single News -->
-                </div>
-                <div class="col-lg-4 col-md-6 col-12">
-                    <!-- Single News -->
-                    <div class="single-news">
-                        <div class="image">
-                            <a href="javascript:void(0)"><img class="thumb"
-                                    src="{{ asset('templates/business/assets/images/blog/3.jpg') }}"
-                                    alt="Blog" /></a>
-                            <div class="meta-details">
-                                <img class="thumb"
-                                    src="{{ asset('templates/business/assets/images/blog/b6.jpg') }}"
-                                    alt="Author" />
-                                <span>BY ADMIN</span>
-                            </div>
-                        </div>
-                        <div class="content-body">
-                            <h4 class="title">
-                                <a href="javascript:void(0)">
-                                    5 Ways to Improve Your Asset Management Workflow
-                                </a>
-                            </h4>
-                            <p>
-                                Discover actionable tips to streamline your asset management
-                                processes and boost team productivity.
-                            </p>
-                        </div>
-                    </div>
-                    <!-- End Single News -->
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Latest News Area -->
-
-    <!-- Start Brand Area -->
-    <div id="clients" class="brand-area section">
-        <!--======  Start Section Title Five ======-->
-        <div class="section-title-five">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="content">
-                            <h6>Meet our Clients</h6>
-                            <h2 class="fw-bold">Our Awesome Clients</h2>
-                            <p>
-                                Trusted by leading companies worldwide for their web assets
-                                management needs and digital workflow solutions.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <!-- row -->
-            </div>
-            <!-- container -->
-        </div>
-        <!--======  End Section Title Five ======-->
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 offset-lg-2 col-12">
-                    <div class="clients-logos">
-                        <div class="single-image">
-                            <img src="{{ asset('templates/business/assets/images/client-logo/graygrids.svg') }}"
-                                alt="Brand Logo Images" />
-                        </div>
-                        <div class="single-image">
-                            <img src="{{ asset('templates/business/assets/images/client-logo/uideck.svg') }}"
-                                alt="Brand Logo Images" />
-                        </div>
-                        <div class="single-image">
-                            <img src="{{ asset('templates/business/assets/images/client-logo/ayroui.svg') }}"
-                                alt="Brand Logo Images" />
-                        </div>
-                        <div class="single-image">
-                            <img src="{{ asset('templates/business/assets/images/client-logo/lineicons.svg') }}"
-                                alt="Brand Logo Images" />
-                        </div>
-                        <div class="single-image">
-                            <img src="{{ asset('templates/business/assets/images/client-logo/tailwindtemplates.svg') }}"
-                                alt="Brand Logo Images" />
-                        </div>
-                        <div class="single-image">
-                            <img src="{{ asset('templates/business/assets/images/client-logo/ecomhtml.svg') }}"
-                                alt="Brand Logo Images" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Brand Area -->
 
     <!-- ========================= contact-section start ========================= -->
     <section id="contact" class="contact-section">
@@ -617,9 +325,9 @@
                                         <i class="lni lni-phone"></i>
                                     </div>
                                     <div class="contact-content">
-                                        <h4>Contact</h4>
-                                        <p>0984537278623</p>
-                                        <p>support@webassetsmanagement.com</p>
+                                        <h4>Kontak</h4>
+                                        <p>+62 XXX XXXX XXXX</p>
+                                        <p>info@ombe.co.id</p>
                                     </div>
                                 </div>
                             </div>
@@ -629,9 +337,9 @@
                                         <i class="lni lni-map-marker"></i>
                                     </div>
                                     <div class="contact-content">
-                                        <h4>Address</h4>
-                                        <p>175 5th Ave, New York, NY 10010</p>
-                                        <p>United States</p>
+                                        <h4>Alamat</h4>
+                                        <p>Jl. A. Yani Km. 33, Desa Nusa Indah RT. 10 RW.02</p>
+                                        <p>Kec. Bati-Bati, Kab. Tanah Laut, Kalimantan Selatan</p>
                                     </div>
                                 </div>
                             </div>
@@ -641,9 +349,9 @@
                                         <i class="lni lni-alarm-clock"></i>
                                     </div>
                                     <div class="contact-content">
-                                        <h4>Schedule</h4>
-                                        <p>24 Hours / 7 Days Open</p>
-                                        <p>Office time: 10 AM - 5:30 PM</p>
+                                        <h4>Jam Operasional</h4>
+                                        <p>Senin - Sabtu: 08:00 - 17:00 WITA</p>
+                                        <p>Minggu & Hari Libur: Tutup</p>
                                     </div>
                                 </div>
                             </div>
@@ -655,13 +363,13 @@
                         <div class="row">
                             <div class="col-xl-10 col-lg-8 mx-auto">
                                 <div class="section-title text-center">
-                                    <span> Get in Touch </span>
+                                    <span> Hubungi Kami </span>
                                     <h2>
-                                        Ready to Get Started
+                                        Butuh Bantuan?
                                     </h2>
                                     <p>
-                                        Have questions about our web assets management system? We're here to help.
-                                        Contact us today to learn more.
+                                        Tim IT Support kami siap membantu Anda dengan segala pertanyaan terkait
+                                        sistem manajemen asset. Hubungi kami untuk dukungan teknis.
                                     </p>
                                 </div>
                             </div>
@@ -670,7 +378,7 @@
                             @csrf
                             <div class="row">
                                 <div class="col-md-6">
-                                    <input type="text" name="name" id="name" placeholder="Name" required />
+                                    <input type="text" name="name" id="name" placeholder="Nama" required />
                                 </div>
                                 <div class="col-md-6">
                                     <input type="email" name="email" id="email" placeholder="Email" required />
@@ -678,22 +386,22 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <input type="text" name="phone" id="phone" placeholder="Phone" required />
+                                    <input type="text" name="phone" id="phone" placeholder="No. Telepon" required />
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" name="subject" id="subject" placeholder="Subject" required />
+                                    <input type="text" name="subject" id="subject" placeholder="Subjek" required />
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-12">
-                                    <textarea name="message" id="message" placeholder="Type Message" rows="5"></textarea>
+                                    <textarea name="message" id="message" placeholder="Pesan Anda" rows="5"></textarea>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-12">
                                     <div class="button text-center rounded-buttons">
                                         <button type="submit" class="btn primary-btn rounded-full">
-                                            Send Message
+                                            Kirim Pesan
                                         </button>
                                     </div>
                                 </div>
@@ -709,8 +417,9 @@
     <!-- ========================= map-section start ========================= -->
     <section class="map-section map-style-9">
         <div class="map-container">
-            <object style="border:0; height: 500px; width: 100%;"
-                data="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3102.7887109309127!2d-77.44196278417968!3d38.95165507956235!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzjCsDU3JzA2LjAiTiA3N8KwMjYnMjMuMiJX!5e0!3m2!1sen!2sbd!4v1545420879707"></object>
+            <iframe style="border:0; height: 500px; width: 100%;"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3983.5304894!2d114.7319207!3d-3.5570746!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2de68fc49b9d3833%3A0x8c5fc45cc0f7d9af!2sOMB%C3%89%20AIR%20MINERAL%20FACTORY%20(PT.%20PANEN%20EMBUN%20KEMAKMURAN)!5e0!3m2!1sid!2sid!4v1234567890"
+                allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
     </section>
     <!-- ========================= map-section end ========================= -->
