@@ -80,9 +80,7 @@ Route::middleware('auth')->group(function () {
 
     // User Management - hanya untuk Admin
     Route::middleware('role:Super Admin,Admin')->group(function () {
-        Route::get('/users', function () {
-            return 'Users List';
-        })->name('users.index');
+        Route::resource('users', App\Http\Controllers\Admin\UserController::class);
     });
 
     // RBAC Management - hanya untuk Super Admin
