@@ -25,10 +25,6 @@
                             <li class="nav-item">
                                 <a class="page-scroll" href="#services">Services</a>
                             </li>
-
-                            <li class="nav-item">
-                                <a class="page-scroll" href="#pricing">Pricing</a>
-                            </li>
                             <li class="nav-item">
                                 <a class="page-scroll" href="#contact">Contact</a>
                             </li>

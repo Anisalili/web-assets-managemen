@@ -98,14 +98,18 @@
         </li>
         @endif
 
-        @if(auth()->user()->hasAnyRole(['Super Admin', 'Admin']))
-        <li class="nav-item nav-category">Administrasi</li>
+        @if(auth()->user()->hasPermission('view-users') || auth()->user()->hasRole('Super Admin'))
+        <li class="nav-item nav-category">Manajemen Sistem</li>
+        @endif
+
+        @if(auth()->user()->hasPermission('view-users'))
         <li class="nav-item {{ request()->routeIs('users.*') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('users.index') }}">
                 <i class="menu-icon mdi mdi-account-multiple"></i>
                 <span class="menu-title">Pengguna</span>
             </a>
         </li>
+        @endif
 
         @if(auth()->user()->hasRole('Super Admin'))
         <li class="nav-item {{ request()->routeIs('roles.*') || request()->routeIs('permissions.*') ? 'active' : '' }}">
@@ -117,15 +121,14 @@
             <div class="collapse" id="rbac-menu">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('roles.index') }}">Manajemen Role</a>
+                        <a class="nav-link" href="{{ route('roles.index') }}">Role</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('permissions.index') }}">Manajemen Permission</a>
+                        <a class="nav-link" href="{{ route('permissions.index') }}">Permission</a>
                     </li>
                 </ul>
             </div>
         </li>
-        @endif
         @endif
     </ul>
 </nav>

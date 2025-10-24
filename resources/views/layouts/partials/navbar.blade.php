@@ -40,9 +40,9 @@
                     <a class="dropdown-item" href="{{ route('profile') }}">
                         <i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> Profil Saya
                     </a>
-                    <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                    <form method="POST" action="{{ route('logout') }}" id="logoutForm" class="d-inline">
                         @csrf
-                        <button type="submit" class="dropdown-item">
+                        <button type="button" class="dropdown-item" onclick="confirmLogout()">
                             <i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Logout
                         </button>
                     </form>

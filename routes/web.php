@@ -78,19 +78,14 @@ Route::middleware('auth')->group(function () {
         })->name('rooms.index');
     });
 
-    // User Management - hanya untuk Admin
-    Route::middleware('role:Super Admin,Admin')->group(function () {
-        Route::resource('users', App\Http\Controllers\Admin\UserController::class);
+    // User Management - berbasis permission
+    Route::middleware('permission:view-users')->group(function () {
+        Route::resource('users', App\Http\Controllers\Management\UserController::class);
     });
 
     // RBAC Management - hanya untuk Super Admin
     Route::middleware('role:Super Admin')->group(function () {
-        Route::get('/roles', function () {
-            return 'Roles Management';
-        })->name('roles.index');
-
-        Route::get('/permissions', function () {
-            return 'Permissions Management';
-        })->name('permissions.index');
+        Route::resource('roles', App\Http\Controllers\Management\RoleController::class);
+        Route::get('/permissions', [App\Http\Controllers\Management\PermissionController::class, 'index'])->name('permissions.index');
     });
 });

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Management;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
@@ -32,12 +32,12 @@ class UserController extends Controller
         $hasFilters = !empty($filters['search']) || !empty($filters['roles']);
 
         $users = $hasFilters
-            ? $this->userService->advancedSearchUsers($filters, 15)
-            : $this->userService->getPaginatedUsers(15);
+            ? $this->userService->advancedSearchUsers($filters, 25)
+            : $this->userService->getPaginatedUsers(25);
 
         $roles = Role::all();
 
-        return view('admin.users.index', compact('users', 'filters', 'roles'));
+        return view('management.users.index', compact('users', 'filters', 'roles'));
     }
 
     /**
@@ -46,7 +46,7 @@ class UserController extends Controller
     public function create(): View
     {
         $roles = Role::all();
-        return view('admin.users.create', compact('roles'));
+        return view('management.users.create', compact('roles'));
     }
 
     /**
@@ -73,7 +73,7 @@ class UserController extends Controller
     public function show(User $user): View
     {
         $user->load('roles');
-        return view('admin.users.show', compact('user'));
+        return view('management.users.show', compact('user'));
     }
 
     /**
@@ -83,7 +83,7 @@ class UserController extends Controller
     {
         $user->load('roles');
         $roles = Role::all();
-        return view('admin.users.edit', compact('user', 'roles'));
+        return view('management.users.edit', compact('user', 'roles'));
     }
 
     /**

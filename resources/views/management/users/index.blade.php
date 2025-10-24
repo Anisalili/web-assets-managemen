@@ -137,12 +137,12 @@
                                     @if(auth()->user()->hasPermission('delete-users') && $user->id !== auth()->id())
                                     <form action="{{ route('users.destroy', $user) }}"
                                           method="POST"
-                                          class="d-inline"
-                                          onsubmit="return confirm('Yakin ingin menghapus user ini?')">
+                                          class="d-inline delete-form"
+                                          data-user-name="{{ $user->name }}">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit"
-                                                class="btn btn-sm btn-danger"
+                                        <button type="button"
+                                                class="btn btn-sm btn-danger btn-delete"
                                                 title="Hapus">
                                             <i class="mdi mdi-delete"></i>
                                         </button>
@@ -166,8 +166,13 @@
                 </div>
 
                 <!-- Pagination -->
-                <div class="mt-3">
-                    {{ $users->appends($filters)->links() }}
+                <div class="mt-3 d-flex justify-content-between align-items-center">
+                    <div class="text-muted small">
+                        Menampilkan {{ $users->firstItem() ?? 0 }} sampai {{ $users->lastItem() ?? 0 }} dari {{ $users->total() }} data
+                    </div>
+                    <div>
+                        {{ $users->appends($filters)->links('vendor.pagination.custom') }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -260,6 +265,22 @@
                 e.stopPropagation();
             });
         }
+
+        // Handle delete confirmation with toast
+        const deleteButtons = document.querySelectorAll('.btn-delete');
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const form = this.closest('.delete-form');
+                const userName = form.dataset.userName;
+
+                showConfirmToast(
+                    `Apakah Anda yakin ingin menghapus user <strong>${userName}</strong>?`,
+                    function() {
+                        form.submit();
+                    }
+                );
+            });
+        });
     });
 </script>
 @endpush
