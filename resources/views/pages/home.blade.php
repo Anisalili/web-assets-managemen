@@ -120,7 +120,7 @@
                             <circle cx="60.333" cy="132" r="1.66667" fill="#DADADA" />
                             <circle cx="104" cy="132" r="1.66667" fill="#DADADA" />
                         </svg>
-                        <img src="{{ asset('templates/business/assets/images/about/about-img1.jpg') }}" alt="about" />
+                        <img src="{{ asset('templates/business/assets/images/about/LOGO_OMBE.png') }}" alt="about" />
                     </div>
                 </div>
                 <div class="col-lg-6 col-12">
@@ -144,24 +144,27 @@
                             <div class="tab-content" id="nav-tabContent">
                                 <div class="tab-pane fade show active" id="nav-who" role="tabpanel"
                                     aria-labelledby="nav-who-tab">
-                                    <p>PT Panen Embun Kemakmuran adalah perusahaan manufaktur air minum dalam kemasan (AMDK)
-                                        yang memproduksi produk berkualitas tinggi dengan merek "OMBÉ". Berlokasi di Bati-Bati,
-                                        Kabupaten Tanah Laut, Kalimantan Selatan.</p>
-                                    <p>Kami memproduksi berbagai jenis kemasan mulai dari galon 19L, cup 220ml, botol 250ml,
-                                        hingga berbagai ukuran lainnya untuk memenuhi kebutuhan konsumen yang beragam.</p>
+                                    <p>PT Panen Embun Kemakmuran merupakan perusahaan yang bergerak dibidang industri Air Minum 
+                                        Dalam Kemasan (AMDK) yang berlokasi di Jl. A. Yani, Desa Nusa Indah, RT. 010 RW. 002,
+                                        Kec. Bati-Bati, Kab. Tanah Laut Prov. Kalimantan Selatan.</p>
+                                    <p>Kami memproduksi Air Minum Dalam Kemasan (AMDK) dengan melalui
+                                         berbagai tahap pengolahan dan proses produksi sehingga menghasilkan 
+                                         air mineral yang siap minum dengan merk dagang “OMBE” dalam berbagai 
+                                         variasi ukuran kemasan, meliputi: Cup dengan volume 220 ml, Botol dengan 
+                                         volume 250ml, 350ml, 600ml, dan 1500ml, serta Galon dengan volume 19L.</p>
                                 </div>
                                 <div class="tab-pane fade" id="nav-vision" role="tabpanel"
                                     aria-labelledby="nav-vision-tab">
-                                    <p>Visi kami adalah menjadi produsen air minum dalam kemasan terkemuka di Indonesia yang
-                                        mengutamakan kualitas, kesehatan, dan kepuasan konsumen.</p>
-                                    <p>Misi kami adalah menyediakan produk air minum berkualitas tinggi dengan standar
-                                        internasional, menerapkan teknologi modern dalam proses produksi, dan memberikan
-                                        kontribusi positif bagi masyarakat dan lingkungan.</p>
+                                    <p>Visi kami adalah Menjadi Produsen Produk Air Mineral yang bermutu pilihan konsumen.</p>
+                                    <p>Misi kami adalah sebagai berikut:
+
+                                    "Mengembangkan Usaha untuk meningkatkan kesejahteraan karyawan" &
+                                    "Memberikan pelayanan prima bagi pelanggan"</p>
                                 </div>
                                 <div class="tab-pane fade" id="nav-history" role="tabpanel"
                                     aria-labelledby="nav-history-tab">
                                     <p>Didirikan pada 30 Mei 2014, PT Panen Embun Kemakmuran memulai operasional komersialnya
-                                        pada 1 November 2020. Dalam perjalanannya, perusahaan terus berkembang menjadi salah
+                                        pada 20 November 2020. Dalam perjalanannya, perusahaan terus berkembang menjadi salah
                                         satu produsen AMDK yang dipercaya di wilayah Kalimantan Selatan.</p>
                                     <p>Dengan fasilitas produksi modern dan sistem manajemen yang terintegrasi, kami berkomitmen
                                         untuk terus meningkatkan kualitas produk dan layanan kepada konsumen.</p>
@@ -188,7 +191,7 @@
                             <h6>Fitur Sistem</h6>
                             <h2 class="fw-bold">Fitur Manajemen Asset</h2>
                             <p>
-                                Sistem komprehensif untuk pengelolaan, monitoring, dan pemeliharaan
+                                Sistem komprehensif untuk pengelolaan, monitoring,serta pemeliharaan dan kerusaakan
                                 asset perusahaan dengan teknologi terkini.
                             </p>
                         </div>
@@ -235,7 +238,7 @@
                             <i class="lni lni-cog"></i>
                         </div>
                         <div class="service-content">
-                            <h4>Manajemen Pemeliharaan</h4>
+                            <h4>Manajemen Pemeliharaan dan kerusakan asset</h4>
                             <p>
                                 Jadwal maintenance terpadu, tracking perbaikan, dan histori
                                 perawatan untuk menjaga performa optimal asset.
@@ -326,8 +329,8 @@
                                     </div>
                                     <div class="contact-content">
                                         <h4>Kontak</h4>
-                                        <p>+62 XXX XXXX XXXX</p>
-                                        <p>info@ombe.co.id</p>
+                                        <p>+628172817818</p>
+                                        <p>ombeairmineral@gmail.com</p>
                                     </div>
                                 </div>
                             </div>
@@ -350,7 +353,9 @@
                                     </div>
                                     <div class="contact-content">
                                         <h4>Jam Operasional</h4>
-                                        <p>Senin - Sabtu: 08:00 - 17:00 WITA</p>
+                                        <p>Senin - Kamis: 08:00 - 16:00 WITA</p>
+                                        <p>Jumat        : 08:00 - 17:00 WITA</p>
+                                        <p>Sabtu        : 08:00 - 13:00 WITA</p>
                                         <p>Minggu & Hari Libur: Tutup</p>
                                     </div>
                                 </div>
