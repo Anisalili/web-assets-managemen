@@ -5,7 +5,9 @@
             <div class="col-lg-12">
                 <nav class="navbar navbar-expand-lg">
                     <a class="navbar-brand" href="{{ route('home') }}">
-                        <img src="{{ asset('templates/business/assets/images/white-logo.svg') }}" alt="Logo" />
+                        <img src="{{ asset('templates/business/assets/images/logoptpek.png') }}" 
+                            alt="Logo"
+                            style="width:120px; height:auto;">
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarNine" aria-controls="navbarNine" aria-expanded="false"

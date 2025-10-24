@@ -11,9 +11,10 @@
             <div class="row align-items-center">
                 <div class="col-lg-6 col-md-12 col-12">
                     <div class="header-content">
-                        <h1>Sistem Manajemen Asset OMBÉ</h1>
+                        <h1>Sistem Inventaris Asset</h1>
+                        <h1>PT. Panen Embun Kemakmuran</h1>
                         <p>
-                            Platform terintegrasi untuk manajemen, monitoring, dan perbaikan asset perusahaan.
+                            Platform sistem informasi inventaris asset, monitoring, pemeliharaan dan kerusakan asset PT. PEK
                             Tingkatkan efisiensi operasional dengan sistem pengelolaan asset yang modern dan handal.
                         </p>
                         <div class="button">
