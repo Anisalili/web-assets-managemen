@@ -399,7 +399,7 @@ p {
 
 /*===== NAVBAR NINE =====*/
 .navbar-area.navbar-nine {
-  background: var(--primary);
+  background: #4182b7;
   padding: 10px 0;
   position: absolute;
   left: 0;
