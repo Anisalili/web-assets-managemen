@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Beranda - Sistem Manajemen Asset OMBÉ')
+@section('title', 'Beranda - Sistem Inventaris Asset PT. Panen Embun Kemakmuran')
 
 @section('meta_description', 'Sistem manajemen, monitoring, dan perbaikan asset internal PT Panen Embun Kemakmuran.')
 
@@ -24,7 +24,7 @@
                 </div>
                 <div class="col-lg-6 col-md-12 col-12">
                     <div class="header-image">
-                        <img src="{{ asset('templates/business/assets/images/header/hero-image.jpg') }}" alt="#" />
+                        <img src="{{ asset('images/lapangan-ptprk.png') }}" alt="PT. Panen Embun Kemakmuran" />
                     </div>
                 </div>
             </div>
@@ -295,7 +295,7 @@
     <!-- ===== service-area end ===== -->
 
     <!-- Start Cta Area -->
-    <section id="call-action" class="call-action">
+    <section id="call-action" class="call-action" style="position: relative; overflow: hidden;">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-xxl-6 col-xl-7 col-lg-8 col-md-9">
@@ -313,6 +313,9 @@
                 </div>
             </div>
         </div>
+        <!-- Produk OMBE di sudut kanan bawah -->
+        <img src="{{ asset('images/produk-ombe.png') }}" alt="Produk OMBE"
+             style="position: absolute; bottom: 0; right: 20px; max-width: 250px; height: auto; opacity: 0.9; z-index: 1;">
     </section>
     <!-- End Cta Area -->
 

@@ -6,10 +6,11 @@
     <div class="sidebar-content">
         <div class="sidebar-logo">
             <a href="{{ route('home') }}">
-                <img src="{{ asset('templates/business/assets/images/logo.svg') }}" alt="Logo" />
+                <img src="{{ asset('images/logo-pt-pek-putih.png') }}" alt="Logo PT. PEK" style="max-width: 80px; height: auto;" />
             </a>
+            <h4 class="text-white mt-3">PT. Panen Embun Kemakmuran</h4>
         </div>
-        <p class="text">Making the world a better place through managing elegant web assets.</p>
+        <p class="text">Sistem Inventaris Asset PT. Panen Embun Kemakmuran - Mengelola asset perusahaan dengan efisien dan terintegrasi.</p>
         <!-- logo -->
         <div class="sidebar-menu">
             <h5 class="menu-title">Quick Links</h5>
@@ -17,6 +18,7 @@
                 <li><a href="{{ route('home') }}">Home</a></li>
                 <li><a href="#services">Services</a></li>
                 <li><a href="#contact">Contact</a></li>
+                <li><a href="{{ route('login') }}" class="text-primary fw-bold"><i class="lni lni-lock"></i> Login</a></li>
             </ul>
         </div>
         <!-- menu -->

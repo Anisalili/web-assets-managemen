@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Login - Sistem Manajemen Asset OMBÉ</title>
+    <title>Login - Sistem Inventaris Asset PT. Panen Embun Kemakmuran</title>
 
     <link rel="stylesheet" href="{{ asset('star-admin2-free-admin-template-1.0.0/template/vendors/feather/feather.css') }}">
     <link rel="stylesheet" href="{{ asset('star-admin2-free-admin-template-1.0.0/template/vendors/mdi/css/materialdesignicons.min.css') }}">
@@ -22,8 +22,9 @@
                     <div class="col-lg-4 mx-auto">
                         <div class="auth-form-light text-left py-5 px-4 px-sm-5">
                             <div class="brand-logo text-center mb-4">
-                                <h2 class="text-primary fw-bold">OMBÉ</h2>
-                                <p class="text-muted">Sistem Manajemen Asset</p>
+                                <img src="{{ asset('images/logo-pt-pek-putih.png') }}" alt="PT. PEK" style="max-width: 100px; height: auto; margin-bottom: 1rem;">
+                                <h2 class="text-primary fw-bold">PT. Panen Embun Kemakmuran</h2>
+                                <p class="text-muted">Sistem Inventaris Asset</p>
                             </div>
 
                             @if(session('success'))

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>@yield('title', 'Dashboard') - Sistem Manajemen Asset OMBÉ</title>
+    <title>@yield('title', 'Dashboard') - Sistem Inventaris Asset PT. Panen Embun Kemakmuran</title>
 
     <!-- plugins:css -->
     <link rel="stylesheet" href="{{ asset('star-admin2-free-admin-template-1.0.0/template/vendors/feather/feather.css') }}">
@@ -197,11 +197,11 @@
 <body>
     <div class="container-scroller">
         <!-- Navbar -->
-        @include('layouts.partials.navbar')
+        @include('layouts.management.navbar')
 
         <div class="container-fluid page-body-wrapper">
             <!-- Sidebar -->
-            @include('layouts.partials.sidebar')
+            @include('layouts.management.sidebar')
 
             <div class="main-panel">
                 <div class="content-wrapper">
@@ -210,7 +210,7 @@
                 </div>
 
                 <!-- Footer -->
-                @include('layouts.partials.footer')
+                @include('layouts.management.footer')
             </div>
         </div>
     </div>

@@ -38,9 +38,13 @@ class RolePermissionSeeder extends Seeder
 
             // Building & Room Permissions
             ['name' => 'view-buildings', 'description' => 'Lihat daftar gedung'],
-            ['name' => 'manage-buildings', 'description' => 'Kelola gedung'],
+            ['name' => 'create-buildings', 'description' => 'Tambah gedung'],
+            ['name' => 'edit-buildings', 'description' => 'Edit gedung'],
+            ['name' => 'delete-buildings', 'description' => 'Hapus gedung'],
             ['name' => 'view-rooms', 'description' => 'Lihat daftar ruangan'],
-            ['name' => 'manage-rooms', 'description' => 'Kelola ruangan'],
+            ['name' => 'create-rooms', 'description' => 'Tambah ruangan'],
+            ['name' => 'edit-rooms', 'description' => 'Edit ruangan'],
+            ['name' => 'delete-rooms', 'description' => 'Hapus ruangan'],
 
             // User Management Permissions
             ['name' => 'view-users', 'description' => 'Lihat daftar pengguna'],

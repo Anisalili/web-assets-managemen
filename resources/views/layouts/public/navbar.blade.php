@@ -5,8 +5,8 @@
             <div class="col-lg-12">
                 <nav class="navbar navbar-expand-lg">
                     <a class="navbar-brand" href="{{ route('home') }}">
-                        <img src="{{ asset('templates/business/assets/images/logoptpek.png') }}" 
-                            alt="Logo"
+                        <img src="{{ asset('images/logo-pt-pek-putih.png') }}"
+                            alt="Logo PT. Panen Embun Kemakmuran"
                             style="width:120px; height:auto;">
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"

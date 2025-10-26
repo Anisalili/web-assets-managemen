@@ -69,13 +69,8 @@ Route::middleware('auth')->group(function () {
 
     // Buildings & Rooms Routes
     Route::middleware('permission:view-buildings')->group(function () {
-        Route::get('/buildings', function () {
-            return 'Buildings List';
-        })->name('buildings.index');
-
-        Route::get('/rooms', function () {
-            return 'Rooms List';
-        })->name('rooms.index');
+        Route::resource('buildings', App\Http\Controllers\Management\BuildingController::class);
+        Route::resource('rooms', App\Http\Controllers\Management\RoomController::class);
     });
 
     // User Management - berbasis permission
