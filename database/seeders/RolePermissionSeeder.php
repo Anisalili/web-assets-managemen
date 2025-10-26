@@ -20,10 +20,14 @@ class RolePermissionSeeder extends Seeder
             // Asset Permissions
             ['name' => 'view-assets', 'description' => 'Lihat daftar asset'],
             ['name' => 'create-assets', 'description' => 'Tambah asset baru'],
-            ['name' => 'edit-assets', 'description' => 'Edit asset'],
-            ['name' => 'delete-assets', 'description' => 'Hapus asset'],
+            ['name' => 'update-assets', 'description' => 'Edit asset'],
+            ['name' => 'delete-assets', 'description' => 'Hapus asset (stock off)'],
+
+            // Asset Category Permissions
             ['name' => 'view-asset-categories', 'description' => 'Lihat kategori asset'],
-            ['name' => 'manage-asset-categories', 'description' => 'Kelola kategori asset'],
+            ['name' => 'create-asset-categories', 'description' => 'Tambah kategori asset'],
+            ['name' => 'edit-asset-categories', 'description' => 'Edit kategori asset'],
+            ['name' => 'delete-asset-categories', 'description' => 'Hapus kategori asset'],
 
             // Maintenance Permissions
             ['name' => 'view-maintenance', 'description' => 'Lihat jadwal maintenance'],
@@ -118,6 +122,8 @@ class RolePermissionSeeder extends Seeder
         // Teknisi - maintenance focused
         $teknisi->permissions()->attach(Permission::whereIn('name', [
             'view-assets',
+            'update-assets', // Teknisi bisa update status aset (perbaikan)
+            'view-asset-categories',
             'view-maintenance',
             'create-maintenance',
             'edit-maintenance',

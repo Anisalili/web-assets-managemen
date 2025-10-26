@@ -6,12 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Building\StoreBuildingRequest;
 use App\Http\Requests\Building\UpdateBuildingRequest;
 use App\Models\Building;
+use App\Services\BuildingService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class BuildingController extends Controller
 {
+    public function __construct(
+        protected BuildingService $buildingService
+    ) {}
+
     /**
      * Display a listing of the resource.
      */
@@ -19,18 +24,9 @@ class BuildingController extends Controller
     {
         $search = $request->get('search');
 
-        $buildings = Building::query()
-            ->withCount('rooms')
-            ->when($search, function ($query, $search) {
-                $query->where(function ($q) use ($search) {
-                    $q->where('building_code', 'like', "%{$search}%")
-                      ->orWhere('name', 'like', "%{$search}%")
-                      ->orWhere('description', 'like', "%{$search}%");
-                });
-            })
-            ->latest()
-            ->paginate(25)
-            ->withQueryString();
+        $buildings = !empty($search)
+            ? $this->buildingService->searchBuildings($search, 25)
+            : $this->buildingService->getPaginatedBuildings(25);
 
         return view('management.buildings.index', compact('buildings', 'search'));
     }
@@ -49,7 +45,7 @@ class BuildingController extends Controller
     public function store(StoreBuildingRequest $request): RedirectResponse
     {
         try {
-            Building::create($request->validated());
+            $this->buildingService->createBuilding($request->validated());
 
             return redirect()
                 ->route('buildings.index')
@@ -66,10 +62,7 @@ class BuildingController extends Controller
      */
     public function show(Building $building): View
     {
-        $building->loadCount('rooms');
-        $building->load(['rooms' => function ($query) {
-            $query->latest()->take(10);
-        }]);
+        $building = $this->buildingService->findBuildingById($building->id);
 
         return view('management.buildings.show', compact('building'));
     }
@@ -88,7 +81,7 @@ class BuildingController extends Controller
     public function update(UpdateBuildingRequest $request, Building $building): RedirectResponse
     {
         try {
-            $building->update($request->validated());
+            $this->buildingService->updateBuilding($building, $request->validated());
 
             return redirect()
                 ->route('buildings.index')
@@ -106,19 +99,13 @@ class BuildingController extends Controller
     public function destroy(Building $building): RedirectResponse
     {
         try {
-            $roomsCount = $building->rooms()->count();
-
-            if ($roomsCount > 0) {
-                return back()->with('error', "Gagal menghapus gedung. Masih ada {$roomsCount} ruangan yang terhubung.");
-            }
-
-            $building->delete();
+            $this->buildingService->deleteBuilding($building);
 
             return redirect()
                 ->route('buildings.index')
                 ->with('success', 'Gedung berhasil dihapus.');
         } catch (\Exception $e) {
-            return back()->with('error', 'Gagal menghapus gedung: ' . $e->getMessage());
+            return back()->with('error', $e->getMessage());
         }
     }
 }

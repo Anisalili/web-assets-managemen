@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
             RolePermissionSeeder::class,
             BuildingSeeder::class,
             RoomSeeder::class,
+            AssetCategorySeeder::class,
+            AssetSeeder::class,
         ]);
     }
 }

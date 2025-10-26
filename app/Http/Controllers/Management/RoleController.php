@@ -3,20 +3,26 @@
 namespace App\Http\Controllers\Management;
 
 use App\Http\Controllers\Controller;
-use App\Models\Permission;
 use App\Models\Role;
+use App\Repositories\PermissionRepository;
+use App\Services\RoleService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class RoleController extends Controller
 {
+    public function __construct(
+        protected RoleService $roleService,
+        protected PermissionRepository $permissionRepository
+    ) {}
+
     /**
      * Display a listing of the resource.
      */
     public function index(): View
     {
-        $roles = Role::withCount('users', 'permissions')->paginate(25);
+        $roles = $this->roleService->getPaginatedRoles(25);
         return view('management.roles.index', compact('roles'));
     }
 
@@ -25,12 +31,7 @@ class RoleController extends Controller
      */
     public function create(): View
     {
-        $permissions = Permission::all()->groupBy(function($permission) {
-            // Group by prefix (before first hyphen)
-            $parts = explode('-', $permission->name);
-            return $parts[0] ?? 'other';
-        });
-
+        $permissions = $this->permissionRepository->getAllGrouped();
         return view('management.roles.create', compact('permissions'));
     }
 
@@ -47,14 +48,7 @@ class RoleController extends Controller
         ]);
 
         try {
-            $role = Role::create([
-                'name' => $validated['name'],
-                'description' => $validated['description'] ?? null,
-            ]);
-
-            if (!empty($validated['permissions'])) {
-                $role->permissions()->sync($validated['permissions']);
-            }
+            $this->roleService->createRole($validated);
 
             return redirect()
                 ->route('roles.index')
@@ -71,12 +65,8 @@ class RoleController extends Controller
      */
     public function edit(Role $role): View
     {
-        $role->load('permissions');
-        $permissions = Permission::all()->groupBy(function($permission) {
-            // Group by prefix (before first hyphen)
-            $parts = explode('-', $permission->name);
-            return $parts[0] ?? 'other';
-        });
+        $role = $this->roleService->findRoleById($role->id);
+        $permissions = $this->permissionRepository->getAllGrouped();
 
         return view('management.roles.edit', compact('role', 'permissions'));
     }
@@ -94,12 +84,7 @@ class RoleController extends Controller
         ]);
 
         try {
-            $role->update([
-                'name' => $validated['name'],
-                'description' => $validated['description'] ?? null,
-            ]);
-
-            $role->permissions()->sync($validated['permissions'] ?? []);
+            $this->roleService->updateRole($role, $validated);
 
             return redirect()
                 ->route('roles.index')
@@ -116,21 +101,14 @@ class RoleController extends Controller
      */
     public function destroy(Role $role): RedirectResponse
     {
-        // Prevent deleting role if it has users
-        if ($role->users()->count() > 0) {
-            return back()->with('error', 'Tidak dapat menghapus role yang masih memiliki user.');
-        }
-
         try {
-            $role->permissions()->detach();
-            $role->delete();
+            $this->roleService->deleteRole($role);
 
             return redirect()
                 ->route('roles.index')
                 ->with('success', 'Role berhasil dihapus.');
         } catch (\Exception $e) {
-            return back()
-                ->with('error', 'Gagal menghapus role: ' . $e->getMessage());
+            return back()->with('error', $e->getMessage());
         }
     }
 }

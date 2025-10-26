@@ -7,40 +7,39 @@ use App\Http\Requests\Room\StoreRoomRequest;
 use App\Http\Requests\Room\UpdateRoomRequest;
 use App\Models\Building;
 use App\Models\Room;
+use App\Services\RoomService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class RoomController extends Controller
 {
+    public function __construct(
+        protected RoomService $roomService
+    ) {}
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request): View
     {
-        $search = $request->get('search');
-        $buildingId = $request->get('building_id');
+        $filters = [
+            'search' => $request->get('search'),
+            'building_id' => $request->get('building_id'),
+        ];
 
-        $rooms = Room::query()
-            ->with('building')
-            ->when($search, function ($query, $search) {
-                $query->where(function ($q) use ($search) {
-                    $q->where('room_code', 'like', "%{$search}%")
-                      ->orWhere('name', 'like', "%{$search}%")
-                      ->orWhere('description', 'like', "%{$search}%")
-                      ->orWhereHas('building', function ($q) use ($search) {
-                          $q->where('name', 'like', "%{$search}%");
-                      });
-                });
-            })
-            ->when($buildingId, function ($query, $buildingId) {
-                $query->where('building_id', $buildingId);
-            })
-            ->latest()
-            ->paginate(25)
-            ->withQueryString();
+        // Check if any filter is applied
+        $hasFilters = !empty($filters['search']) || !empty($filters['building_id']);
+
+        $rooms = $hasFilters
+            ? $this->roomService->advancedSearchRooms($filters, 25)
+            : $this->roomService->getPaginatedRooms(25);
 
         $buildings = Building::orderBy('name')->get();
+
+        // Extract for view compatibility
+        $search = $filters['search'];
+        $buildingId = $filters['building_id'];
 
         return view('management.rooms.index', compact('rooms', 'search', 'buildingId', 'buildings'));
     }
@@ -60,7 +59,7 @@ class RoomController extends Controller
     public function store(StoreRoomRequest $request): RedirectResponse
     {
         try {
-            Room::create($request->validated());
+            $this->roomService->createRoom($request->validated());
 
             return redirect()
                 ->route('rooms.index')
@@ -77,7 +76,7 @@ class RoomController extends Controller
      */
     public function show(Room $room): View
     {
-        $room->load('building');
+        $room = $this->roomService->findRoomById($room->id);
         return view('management.rooms.show', compact('room'));
     }
 
@@ -96,7 +95,7 @@ class RoomController extends Controller
     public function update(UpdateRoomRequest $request, Room $room): RedirectResponse
     {
         try {
-            $room->update($request->validated());
+            $this->roomService->updateRoom($room, $request->validated());
 
             return redirect()
                 ->route('rooms.index')
@@ -114,7 +113,7 @@ class RoomController extends Controller
     public function destroy(Room $room): RedirectResponse
     {
         try {
-            $room->delete();
+            $this->roomService->deleteRoom($room);
 
             return redirect()
                 ->route('rooms.index')
