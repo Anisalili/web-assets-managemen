@@ -10,15 +10,16 @@
                         <div class="footer-widget f-about">
                             <div class="logo">
                                 <a href="{{ route('home') }}">
-                                    <img src="{{ asset('templates/business/assets/images/logo.svg') }}" alt="#"
-                                        class="img-fluid" />
+                                    <img src="{{ asset('images/logo-pt-pek-putih.png') }}" alt="PT. Panen Embun Kemakmuran"
+                                        class="img-fluid" style="max-width: 100px; height: auto;" />
                                 </a>
                             </div>
+                            <h5 class="text-white mt-3">PT. Panen Embun Kemakmuran</h5>
                             <p>
-                                Making the world a better place through managing elegant web assets hierarchies.
+                                Sistem Inventaris Asset PT. Panen Embun Kemakmuran - Mengelola asset perusahaan dengan efisien dan terintegrasi.
                             </p>
                             <p class="copyright-text">
-                                <span>© {{ date('Y') }} {{ config('app.name') }}.</span>
+                                <span>© {{ date('Y') }} PT. Panen Embun Kemakmuran.</span>
                                 All rights reserved.
                             </p>
                         </div>

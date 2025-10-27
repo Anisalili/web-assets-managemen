@@ -4,9 +4,9 @@
 ===========================*/
 :root {
   --font-family: "Inter", sans-serif;
-  --primary: #155bd5;
-  --primary-dark: #1c3ab6;
-  --primary-light: #e2f1ff;
+  --primary: #2196f3;
+  --primary-dark: #1976d2;
+  --primary-light: #bbdefb;
   --accent: #00d4d7;
   --accent-dark: #00bac1;
   --accent-light: #dff9f8;
@@ -399,7 +399,7 @@ p {
 
 /*===== NAVBAR NINE =====*/
 .navbar-area.navbar-nine {
-  background: #4182b7;
+  background: #2196f3;
   padding: 10px 0;
   position: absolute;
   left: 0;

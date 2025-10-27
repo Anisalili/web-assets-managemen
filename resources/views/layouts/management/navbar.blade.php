@@ -7,10 +7,11 @@
         </div>
         <div>
             <a class="navbar-brand brand-logo" href="{{ route('dashboard') }}">
-                <h3 class="text-primary mb-0">OMBÉ</h3>
+                <img src="{{ asset('images/logo-pt-pek-putih.png') }}" alt="PT. PEK" style="max-width: 50px; height: auto;" class="me-2">
+                <span class="text-primary fw-bold">PT. PEK</span>
             </a>
             <a class="navbar-brand brand-logo-mini" href="{{ route('dashboard') }}">
-                <h3 class="text-primary mb-0">O</h3>
+                <img src="{{ asset('images/logo-pt-pek-putih.png') }}" alt="PT. PEK" style="max-width: 40px; height: auto;">
             </a>
         </div>
     </div>
@@ -18,7 +19,7 @@
         <ul class="navbar-nav">
             <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
                 <h1 class="welcome-text">Selamat Datang, <span class="text-black fw-bold">{{ auth()->user()->name }}</span></h1>
-                <h3 class="welcome-sub-text">Sistem Manajemen Asset OMBÉ</h3>
+                <h3 class="welcome-sub-text">Sistem Inventaris Asset PT. Panen Embun Kemakmuran</h3>
             </li>
         </ul>
         <ul class="navbar-nav ms-auto">

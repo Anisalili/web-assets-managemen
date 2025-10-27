@@ -4,7 +4,7 @@
             Copyright © {{ date('Y') }} PT Panen Embun Kemakmuran. All rights reserved.
         </span>
         <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">
-            Sistem Manajemen Asset OMBÉ
+            Sistem Inventaris Asset PT. Panen Embun Kemakmuran
         </span>
     </div>
 </footer>

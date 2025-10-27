@@ -24,6 +24,7 @@ return new class extends Migration
             $table->datetime('last_update')->nullable();
             $table->text('notes')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

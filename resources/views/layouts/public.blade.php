@@ -34,13 +34,13 @@
 
 <body>
 
-    @include('components.navbar')
+    @include('layouts.public.navbar')
 
-    @include('components.sidebar')
+    @include('layouts.public.sidebar')
 
     @yield('content')
 
-    @include('components.footer')
+    @include('layouts.public.footer')
 
     <a href="#" class="scroll-top btn-hover">
         <i class="lni lni-chevron-up"></i>

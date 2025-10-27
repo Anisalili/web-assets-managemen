@@ -26,23 +26,13 @@ Route::middleware('auth')->group(function () {
         return view('profile.index');
     })->name('profile');
 
-    // Asset Management Routes - dengan permission checking
+    // Asset Management Routes
     Route::middleware('permission:view-assets')->group(function () {
-        Route::get('/assets', function () {
-            return 'Assets List';
-        })->name('assets.index');
-    });
-
-    Route::middleware('permission:create-assets')->group(function () {
-        Route::get('/assets/create', function () {
-            return 'Create Asset';
-        })->name('assets.create');
+        Route::resource('assets', App\Http\Controllers\Management\AssetController::class);
     });
 
     Route::middleware('permission:view-asset-categories')->group(function () {
-        Route::get('/asset-categories', function () {
-            return 'Asset Categories';
-        })->name('asset-categories.index');
+        Route::resource('asset-categories', App\Http\Controllers\Management\AssetCategoryController::class)->except(['show']);
     });
 
     // Maintenance Routes
@@ -69,13 +59,8 @@ Route::middleware('auth')->group(function () {
 
     // Buildings & Rooms Routes
     Route::middleware('permission:view-buildings')->group(function () {
-        Route::get('/buildings', function () {
-            return 'Buildings List';
-        })->name('buildings.index');
-
-        Route::get('/rooms', function () {
-            return 'Rooms List';
-        })->name('rooms.index');
+        Route::resource('buildings', App\Http\Controllers\Management\BuildingController::class);
+        Route::resource('rooms', App\Http\Controllers\Management\RoomController::class);
     });
 
     // User Management - berbasis permission
