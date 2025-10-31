@@ -29,11 +29,17 @@ class RolePermissionSeeder extends Seeder
             ['name' => 'edit-asset-categories', 'description' => 'Edit kategori asset'],
             ['name' => 'delete-asset-categories', 'description' => 'Hapus kategori asset'],
 
-            // Maintenance Permissions
-            ['name' => 'view-maintenance', 'description' => 'Lihat jadwal maintenance'],
-            ['name' => 'create-maintenance', 'description' => 'Buat jadwal maintenance'],
-            ['name' => 'edit-maintenance', 'description' => 'Edit jadwal maintenance'],
-            ['name' => 'delete-maintenance', 'description' => 'Hapus jadwal maintenance'],
+            // Maintenance Schedule Permissions
+            ['name' => 'view-maintenance-schedules', 'description' => 'Lihat jadwal pemeliharaan'],
+            ['name' => 'create-maintenance-schedules', 'description' => 'Tambah jadwal pemeliharaan'],
+            ['name' => 'update-maintenance-schedules', 'description' => 'Edit jadwal pemeliharaan'],
+            ['name' => 'delete-maintenance-schedules', 'description' => 'Hapus jadwal pemeliharaan'],
+
+            // Maintenance Log Permissions
+            ['name' => 'view-maintenance-logs', 'description' => 'Lihat log pemeliharaan'],
+            ['name' => 'create-maintenance-logs', 'description' => 'Tambah log pemeliharaan'],
+            ['name' => 'update-maintenance-logs', 'description' => 'Edit log pemeliharaan'],
+            ['name' => 'delete-maintenance-logs', 'description' => 'Hapus log pemeliharaan'],
 
             // Report Permissions
             ['name' => 'view-reports', 'description' => 'Lihat laporan'],
@@ -103,7 +109,8 @@ class RolePermissionSeeder extends Seeder
         $manager->permissions()->attach(Permission::whereIn('name', [
             'view-assets',
             'view-asset-categories',
-            'view-maintenance',
+            'view-maintenance-schedules',
+            'view-maintenance-logs',
             'view-reports',
             'create-reports',
             'export-reports',
@@ -124,9 +131,12 @@ class RolePermissionSeeder extends Seeder
             'view-assets',
             'update-assets', // Teknisi bisa update status aset (perbaikan)
             'view-asset-categories',
-            'view-maintenance',
-            'create-maintenance',
-            'edit-maintenance',
+            'view-maintenance-schedules',
+            'create-maintenance-schedules',
+            'update-maintenance-schedules',
+            'view-maintenance-logs',
+            'create-maintenance-logs',
+            'update-maintenance-logs',
             'create-reports',
         ])->get());
 

@@ -36,14 +36,12 @@ Route::middleware('auth')->group(function () {
     });
 
     // Maintenance Routes
-    Route::middleware('permission:view-maintenance')->group(function () {
-        Route::get('/maintenance/schedules', function () {
-            return 'Maintenance Schedules';
-        })->name('maintenance.schedules');
+    Route::middleware('permission:view-maintenance-schedules')->group(function () {
+        Route::resource('maintenance-schedules', App\Http\Controllers\Management\MaintenanceScheduleController::class);
+    });
 
-        Route::get('/maintenance/logs', function () {
-            return 'Maintenance Logs';
-        })->name('maintenance.logs');
+    Route::middleware('permission:view-maintenance-logs')->group(function () {
+        Route::resource('maintenance-logs', App\Http\Controllers\Management\MaintenanceLogController::class);
     });
 
     // Reports Routes

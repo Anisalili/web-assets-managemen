@@ -154,8 +154,8 @@
                                 </a>
                                 @endif
 
-                                @if(auth()->user()->hasPermission('view-maintenance'))
-                                <a href="{{ route('maintenance.schedules') }}" class="btn btn-warning btn-fw">
+                                @if(auth()->user()->hasPermission('view-maintenance-schedules'))
+                                <a href="{{ route('maintenance-schedules.index') }}" class="btn btn-warning btn-fw">
                                     <i class="mdi mdi-calendar"></i> Jadwal Maintenance
                                 </a>
                                 @endif

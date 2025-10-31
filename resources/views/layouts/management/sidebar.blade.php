@@ -37,7 +37,7 @@
         </li>
         @endif
 
-        @if(auth()->user()->hasPermission('view-maintenance'))
+        @if(auth()->user()->hasPermission('view-maintenance-schedules') || auth()->user()->hasPermission('view-maintenance-logs'))
         <li class="nav-item {{ request()->routeIs('maintenance.*') ? 'active' : '' }}">
             <a class="nav-link" data-bs-toggle="collapse" href="#maintenance-menu" aria-expanded="{{ request()->routeIs('maintenance.*') ? 'true' : 'false' }}" aria-controls="maintenance-menu">
                 <i class="menu-icon mdi mdi-wrench"></i>
@@ -46,12 +46,16 @@
             </a>
             <div class="collapse {{ request()->routeIs('maintenance.*') ? 'show' : '' }}" id="maintenance-menu">
                 <ul class="nav flex-column sub-menu">
+                    @if(auth()->user()->hasPermission('view-maintenance-schedules'))
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('maintenance.schedules') }}">Jadwal Maintenance</a>
+                        <a class="nav-link" href="{{ route('maintenance-schedules.index') }}">Jadwal Maintenance</a>
                     </li>
+                    @endif
+                    @if(auth()->user()->hasPermission('view-maintenance-logs'))
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('maintenance.logs') }}">Log Maintenance</a>
+                        <a class="nav-link" href="{{ route('maintenance-logs.index') }}">Log Maintenance</a>
                     </li>
+                    @endif
                 </ul>
             </div>
         </li>

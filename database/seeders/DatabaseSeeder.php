@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             RoomSeeder::class,
             AssetCategorySeeder::class,
             AssetSeeder::class,
+            MaintenanceSeeder::class,
         ]);
     }
 }

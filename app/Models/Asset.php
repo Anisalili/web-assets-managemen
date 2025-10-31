@@ -53,4 +53,20 @@ class Asset extends Model
     {
         return $this->hasMany(AssetStatusHistory::class, 'asset_id');
     }
+
+    /**
+     * Get all maintenance schedules for this asset
+     */
+    public function maintenanceSchedules(): HasMany
+    {
+        return $this->hasMany(MaintenanceSchedule::class, 'asset_id');
+    }
+
+    /**
+     * Get all maintenance logs for this asset
+     */
+    public function maintenanceLogs(): HasMany
+    {
+        return $this->hasMany(MaintenanceLog::class, 'asset_id');
+    }
 }
