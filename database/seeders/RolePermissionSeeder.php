@@ -26,7 +26,7 @@ class RolePermissionSeeder extends Seeder
             // Asset Category Permissions
             ['name' => 'view-asset-categories', 'description' => 'Lihat kategori asset'],
             ['name' => 'create-asset-categories', 'description' => 'Tambah kategori asset'],
-            ['name' => 'edit-asset-categories', 'description' => 'Edit kategori asset'],
+            ['name' => 'update-asset-categories', 'description' => 'Edit kategori asset'],
             ['name' => 'delete-asset-categories', 'description' => 'Hapus kategori asset'],
 
             // Maintenance Schedule Permissions
@@ -49,17 +49,17 @@ class RolePermissionSeeder extends Seeder
             // Building & Room Permissions
             ['name' => 'view-buildings', 'description' => 'Lihat daftar gedung'],
             ['name' => 'create-buildings', 'description' => 'Tambah gedung'],
-            ['name' => 'edit-buildings', 'description' => 'Edit gedung'],
+            ['name' => 'update-buildings', 'description' => 'Edit gedung'],
             ['name' => 'delete-buildings', 'description' => 'Hapus gedung'],
             ['name' => 'view-rooms', 'description' => 'Lihat daftar ruangan'],
             ['name' => 'create-rooms', 'description' => 'Tambah ruangan'],
-            ['name' => 'edit-rooms', 'description' => 'Edit ruangan'],
+            ['name' => 'update-rooms', 'description' => 'Edit ruangan'],
             ['name' => 'delete-rooms', 'description' => 'Hapus ruangan'],
 
             // User Management Permissions
             ['name' => 'view-users', 'description' => 'Lihat daftar pengguna'],
             ['name' => 'create-users', 'description' => 'Tambah pengguna'],
-            ['name' => 'edit-users', 'description' => 'Edit pengguna'],
+            ['name' => 'update-users', 'description' => 'Edit pengguna'],
             ['name' => 'delete-users', 'description' => 'Hapus pengguna'],
 
             // RBAC Permissions

@@ -68,7 +68,7 @@
                                     <span class="badge bg-info">{{ $category->assets_count }} aset</span>
                                 </td>
                                 <td>
-                                    @if(auth()->user()->hasPermission('edit-asset-categories'))
+                                    @if(auth()->user()->hasPermission('update-asset-categories'))
                                     <a href="{{ route('asset-categories.edit', $category) }}"
                                        class="btn btn-sm btn-warning me-1"
                                        title="Edit">

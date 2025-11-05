@@ -10,7 +10,7 @@
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="card-title mb-0">Detail Ruangan</h4>
                     <div>
-                        @if(auth()->user()->hasPermission('edit-rooms'))
+                        @if(auth()->user()->hasPermission('update-rooms'))
                         <a href="{{ route('rooms.edit', $room) }}" class="btn btn-warning btn-sm">
                             <i class="mdi mdi-pencil"></i> Edit
                         </a>

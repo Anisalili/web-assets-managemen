@@ -12,7 +12,7 @@ class UpdateBuildingRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check() && auth()->user()->hasPermission('edit-buildings');
+        return auth()->check() && auth()->user()->hasPermission('update-buildings');
     }
 
     /**

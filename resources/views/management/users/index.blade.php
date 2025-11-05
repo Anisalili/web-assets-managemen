@@ -126,7 +126,7 @@
                                         <i class="mdi mdi-eye"></i>
                                     </a>
 
-                                    @if(auth()->user()->hasPermission('edit-users'))
+                                    @if(auth()->user()->hasPermission('update-users'))
                                     <a href="{{ route('users.edit', $user) }}"
                                        class="btn btn-sm btn-warning me-1"
                                        title="Edit">

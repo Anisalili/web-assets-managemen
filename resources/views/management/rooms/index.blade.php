@@ -94,7 +94,7 @@
                                     </a>
                                     @endif
 
-                                    @if(auth()->user()->hasPermission('edit-rooms'))
+                                    @if(auth()->user()->hasPermission('update-rooms'))
                                     <a href="{{ route('rooms.edit', $room) }}"
                                        class="btn btn-sm btn-warning me-1"
                                        title="Edit">

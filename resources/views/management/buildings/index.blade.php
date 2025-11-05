@@ -78,7 +78,7 @@
                                     </a>
                                     @endif
 
-                                    @if(auth()->user()->hasPermission('edit-buildings'))
+                                    @if(auth()->user()->hasPermission('update-buildings'))
                                     <a href="{{ route('buildings.edit', $building) }}"
                                        class="btn btn-sm btn-warning me-1"
                                        title="Edit">

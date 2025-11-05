@@ -59,6 +59,10 @@ Route::middleware('auth')->group(function () {
     Route::middleware('permission:view-buildings')->group(function () {
         Route::resource('buildings', App\Http\Controllers\Management\BuildingController::class);
         Route::resource('rooms', App\Http\Controllers\Management\RoomController::class);
+        Route::get('building-layout', [App\Http\Controllers\Management\BuildingLayoutController::class, 'index'])->name('building-layout.index');
+
+        // API endpoint for room assets
+        Route::get('api/rooms/{room}/assets', [App\Http\Controllers\Management\BuildingLayoutController::class, 'getRoomAssets'])->name('api.rooms.assets');
     });
 
     // User Management - berbasis permission

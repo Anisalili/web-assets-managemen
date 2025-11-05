@@ -12,7 +12,7 @@ class UpdateRoomRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check() && auth()->user()->hasPermission('edit-rooms');
+        return auth()->check() && auth()->user()->hasPermission('update-rooms');
     }
 
     /**

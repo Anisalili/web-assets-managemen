@@ -83,19 +83,22 @@
 
         @if(auth()->user()->hasPermission('view-buildings'))
         <li class="nav-item nav-category">Lokasi</li>
-        <li class="nav-item {{ request()->routeIs('buildings.*') || request()->routeIs('rooms.*') ? 'active' : '' }}">
-            <a class="nav-link" data-bs-toggle="collapse" href="#location-menu" aria-expanded="false" aria-controls="location-menu">
+        <li class="nav-item {{ request()->routeIs('buildings.*') || request()->routeIs('rooms.*') || request()->routeIs('building-layout.*') ? 'active' : '' }}">
+            <a class="nav-link" data-bs-toggle="collapse" href="#location-menu" aria-expanded="{{ request()->routeIs('buildings.*') || request()->routeIs('rooms.*') || request()->routeIs('building-layout.*') ? 'true' : 'false' }}" aria-controls="location-menu">
                 <i class="menu-icon mdi mdi-office-building"></i>
                 <span class="menu-title">Gedung & Ruangan</span>
                 <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="location-menu">
+            <div class="collapse {{ request()->routeIs('buildings.*') || request()->routeIs('rooms.*') || request()->routeIs('building-layout.*') ? 'show' : '' }}" id="location-menu">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('buildings.index') }}">Daftar Gedung</a>
+                        <a class="nav-link {{ request()->routeIs('buildings.index') ? 'active' : '' }}" href="{{ route('buildings.index') }}">Daftar Gedung</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('rooms.index') }}">Daftar Ruangan</a>
+                        <a class="nav-link {{ request()->routeIs('rooms.index') ? 'active' : '' }}" href="{{ route('rooms.index') }}">Daftar Ruangan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('building-layout.index') ? 'active' : '' }}" href="{{ route('building-layout.index') }}">Denah Gedung</a>
                     </li>
                 </ul>
             </div>
