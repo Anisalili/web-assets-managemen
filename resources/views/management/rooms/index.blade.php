@@ -105,13 +105,13 @@
                                     @if(auth()->user()->hasPermission('delete-rooms'))
                                     <form action="{{ route('rooms.destroy', $room) }}"
                                           method="POST"
-                                          class="d-inline"
-                                          onsubmit="return confirm('Yakin ingin menghapus ruangan ini?')">
+                                          class="d-inline delete-form">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit"
+                                        <button type="button"
                                                 class="btn btn-sm btn-danger"
-                                                title="Hapus">
+                                                title="Hapus"
+                                                onclick="confirmDelete(this, 'Yakin ingin menghapus ruangan ini?')">
                                             <i class="mdi mdi-delete"></i>
                                         </button>
                                     </form>
@@ -156,3 +156,20 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    // Confirm delete function using toast
+    function confirmDelete(button, message) {
+        const form = button.closest('form');
+        showConfirmToast(
+            message,
+            function() {
+                form.submit();
+            },
+            'Konfirmasi Hapus',
+            'Ya, Hapus'
+        );
+    }
+</script>
+@endpush

@@ -34,8 +34,8 @@
                                         type="button"
                                         data-bs-toggle="dropdown"
                                         aria-expanded="false"
-                                        style="height: 31px; padding: 0.375rem 0.75rem;">
-                                    <span id="categoryFilterLabel" class="text-truncate">
+                                        style="height: 31px; padding: 0.375rem 0.75rem; color: #000;">
+                                    <span id="categoryFilterLabel" class="text-truncate" style="color: #000;">
                                         @if(!empty($categoryId))
                                             {{ count($categoryId) }} Kategori
                                         @else
@@ -174,7 +174,7 @@
                                 <td><strong class="text-primary">{{ $asset->asset_code }}</strong></td>
                                 <td>{{ $asset->name }}</td>
                                 <td>
-                                    <span class="badge bg-secondary">{{ $asset->category->name }}</span>
+                                    <span class="badge bg-light text-dark">{{ $asset->category->name }}</span>
                                 </td>
                                 <td>
                                     @if($asset->room)
@@ -227,13 +227,13 @@
                                     @if(auth()->user()->hasPermission('delete-assets'))
                                     <form action="{{ route('assets.destroy', $asset) }}"
                                           method="POST"
-                                          class="d-inline"
-                                          onsubmit="return confirm('Yakin ingin stock off aset ini?')">
+                                          class="d-inline delete-form">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit"
+                                        <button type="button"
                                                 class="btn btn-sm btn-danger"
-                                                title="Stock Off">
+                                                title="Stock Off"
+                                                onclick="confirmDelete(this, 'Yakin ingin stock off aset ini?')">
                                             <i class="mdi mdi-delete"></i>
                                         </button>
                                     </form>
@@ -294,11 +294,32 @@
     .filter-dropdown-item.checked:hover {
         background-color: #d3e3fd;
     }
+
+    /* Force black text color for dropdown buttons and labels */
+    .dropdown .btn-outline-secondary,
+    .dropdown .btn-outline-secondary span,
+    .dropdown-item label,
+    .dropdown-item span {
+        color: #000 !important;
+    }
 </style>
 @endpush
 
 @push('scripts')
 <script>
+    // Confirm delete function using toast
+    function confirmDelete(button, message) {
+        const form = button.closest('form');
+        showConfirmToast(
+            message,
+            function() {
+                form.submit();
+            },
+            'Konfirmasi Hapus',
+            'Ya, Hapus'
+        );
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         // Category Filter
         const categoryCheckboxes = document.querySelectorAll('.category-checkbox');

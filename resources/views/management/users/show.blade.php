@@ -80,10 +80,10 @@
                     <p class="text-muted">Tindakan ini tidak dapat dibatalkan</p>
                     <form action="{{ route('users.destroy', $user) }}"
                           method="POST"
-                          onsubmit="return confirm('Yakin ingin menghapus user ini? Tindakan ini tidak dapat dibatalkan!')">
+                          class="delete-form">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger">
+                        <button type="button" class="btn btn-danger" onclick="confirmDelete(this, 'Yakin ingin menghapus user ini? Tindakan ini tidak dapat dibatalkan!')">
                             <i class="mdi mdi-delete"></i> Hapus User
                         </button>
                     </form>
@@ -94,3 +94,20 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    // Confirm delete function using toast
+    function confirmDelete(button, message) {
+        const form = button.closest('form');
+        showConfirmToast(
+            message,
+            function() {
+                form.submit();
+            },
+            'Konfirmasi Hapus',
+            'Ya, Hapus'
+        );
+    }
+</script>
+@endpush

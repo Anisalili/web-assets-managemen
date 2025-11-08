@@ -83,8 +83,8 @@
                                         type="button"
                                         data-bs-toggle="dropdown"
                                         aria-expanded="false"
-                                        style="height: 31px; padding: 0.375rem 0.75rem;">
-                                    <span id="frequencyFilterLabel" class="text-truncate">
+                                        style="height: 31px; padding: 0.375rem 0.75rem; color: #000;">
+                                    <span id="frequencyFilterLabel" class="text-truncate" style="color: #000;">
                                         @if(!empty($frequency))
                                             {{ count($frequency) }} Frekuensi
                                         @else
@@ -160,8 +160,8 @@
                                     <small class="text-muted">{{ $schedule->asset->asset_code }}</small>
                                 </td>
                                 <td>{{ $schedule->scheduled_date->format('d/m/Y') }}</td>
-                                <td><span class="badge bg-secondary">{{ $schedule->frequency }}</span></td>
-                                <td>{{ $schedule->assigned_to ?? '-' }}</td>
+                                <td><span class="badge bg-light text-dark">{{ $schedule->frequency }}</span></td>
+                                <td>{{ $schedule->assignedUser->name ?? '-' }}</td>
                                 <td>
                                     @if($schedule->status === 'terjadwal')
                                         <span class="badge bg-info">Terjadwal</span>
@@ -186,18 +186,28 @@
                                        title="Edit">
                                         <i class="mdi mdi-pencil"></i>
                                     </a>
+
+                                    <!-- Tombol Assign Teknisi -->
+                                    @if(!$schedule->assigned_to)
+                                    <button type="button"
+                                            class="btn btn-sm btn-success me-1"
+                                            title="Assign Teknisi"
+                                            onclick="showAssignModal({{ $schedule->id }}, '{{ addslashes($schedule->asset->name ?? '') }}')">
+                                        <i class="mdi mdi-account-plus"></i>
+                                    </button>
+                                    @endif
                                     @endif
 
                                     @if(auth()->user()->hasPermission('delete-maintenance-schedules'))
                                     <form action="{{ route('maintenance-schedules.destroy', $schedule) }}"
                                           method="POST"
-                                          class="d-inline"
-                                          onsubmit="return confirm('Yakin ingin menghapus jadwal ini?')">
+                                          class="d-inline delete-form">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit"
+                                        <button type="button"
                                                 class="btn btn-sm btn-danger"
-                                                title="Hapus">
+                                                title="Hapus"
+                                                onclick="confirmDelete(this, 'Yakin ingin menghapus jadwal ini?')">
                                             <i class="mdi mdi-delete"></i>
                                         </button>
                                     </form>
@@ -239,6 +249,49 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Assign Teknisi -->
+<div class="modal fade" id="assignTeknisiModal" tabindex="-1" aria-labelledby="assignTeknisiModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="assignTeknisiModalLabel">
+                    <i class="mdi mdi-account-plus"></i> Assign Teknisi
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="scheduleIdForAssign">
+                <p class="mb-3">Pilih teknisi untuk jadwal maintenance: <strong id="assetNameForAssign"></strong></p>
+
+                <div id="teknisiLoadingSpinner" class="text-center py-4">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2">Memuat data teknisi...</p>
+                </div>
+
+                <div id="teknisiSelectContainer" style="display: none;">
+                    <div class="mb-3">
+                        <label for="teknisiSelect" class="form-label">Pilih Teknisi</label>
+                        <select class="form-select" id="teknisiSelect">
+                            <option value="">-- Pilih Teknisi --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="noTeknisiMessage" style="display: none;" class="text-center py-4">
+                    <i class="mdi mdi-alert-circle-outline" style="font-size: 48px; color: #999;"></i>
+                    <p class="text-muted mt-2">Tidak ada teknisi tersedia</p>
+                </div>
+            </div>
+            <div class="modal-footer" id="modalFooter" style="display: none;">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-primary" id="btnAssignTeknisi">Assign Teknisi</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @push('styles')
@@ -259,11 +312,32 @@
     .frequency-dropdown-item.checked:hover {
         background-color: #d3e3fd;
     }
+
+    /* Force black text color for dropdown buttons and labels */
+    .dropdown .btn-outline-secondary,
+    .dropdown .btn-outline-secondary span,
+    .dropdown-item label,
+    .dropdown-item span {
+        color: #000 !important;
+    }
 </style>
 @endpush
 
 @push('scripts')
 <script>
+    // Confirm delete function using toast
+    function confirmDelete(button, message) {
+        const form = button.closest('form');
+        showConfirmToast(
+            message,
+            function() {
+                form.submit();
+            },
+            'Konfirmasi Hapus',
+            'Ya, Hapus'
+        );
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         // Status Filter
         const statusCheckboxes = document.querySelectorAll('.status-checkbox');
@@ -351,6 +425,112 @@
         if (frequencyDropdownMenu) {
             frequencyDropdownMenu.addEventListener('click', function(e) {
                 e.stopPropagation();
+            });
+        }
+    });
+
+    // Function to show assign modal
+    function showAssignModal(scheduleId, assetName) {
+        // Set schedule ID and asset name
+        document.getElementById('scheduleIdForAssign').value = scheduleId;
+        document.getElementById('assetNameForAssign').textContent = assetName;
+
+        // Show modal
+        const modal = new bootstrap.Modal(document.getElementById('assignTeknisiModal'));
+        modal.show();
+
+        // Show loading spinner and hide others
+        document.getElementById('teknisiLoadingSpinner').style.display = 'block';
+        document.getElementById('teknisiSelectContainer').style.display = 'none';
+        document.getElementById('noTeknisiMessage').style.display = 'none';
+        document.getElementById('modalFooter').style.display = 'none';
+
+        // Fetch teknisi list
+        fetch('/api/teknisi')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('teknisiLoadingSpinner').style.display = 'none';
+
+                if (data.teknisi && data.teknisi.length > 0) {
+                    document.getElementById('teknisiSelectContainer').style.display = 'block';
+                    document.getElementById('modalFooter').style.display = 'flex';
+
+                    const teknisiSelect = document.getElementById('teknisiSelect');
+                    teknisiSelect.innerHTML = '<option value="">-- Pilih Teknisi --</option>';
+
+                    data.teknisi.forEach(tek => {
+                        const option = document.createElement('option');
+                        option.value = tek.id;
+                        option.textContent = `${tek.name} (${tek.email})`;
+                        option.dataset.name = tek.name;
+                        teknisiSelect.appendChild(option);
+                    });
+                } else {
+                    document.getElementById('noTeknisiMessage').style.display = 'block';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching teknisi:', error);
+                document.getElementById('teknisiLoadingSpinner').style.display = 'none';
+                document.getElementById('noTeknisiMessage').style.display = 'block';
+            });
+    }
+
+    // Handle assign button click
+    document.addEventListener('DOMContentLoaded', function() {
+        const btnAssignTeknisi = document.getElementById('btnAssignTeknisi');
+        if (btnAssignTeknisi) {
+            btnAssignTeknisi.addEventListener('click', function() {
+                const scheduleId = document.getElementById('scheduleIdForAssign').value;
+                const teknisiSelect = document.getElementById('teknisiSelect');
+                const teknisiId = teknisiSelect.value;
+                const teknisiName = teknisiSelect.options[teknisiSelect.selectedIndex]?.dataset.name || '';
+
+                if (!teknisiId) {
+                    showToast('warning', 'Silakan pilih teknisi terlebih dahulu');
+                    return;
+                }
+
+                // Show confirmation toast
+                showConfirmToast(
+                    `Assign ${teknisiName} ke jadwal maintenance ini?`,
+                    function() {
+                        // Perform assign
+                        fetch(`/maintenance-schedules/${scheduleId}/assign`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: JSON.stringify({
+                                teknisi_id: teknisiId
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Close modal
+                                bootstrap.Modal.getInstance(document.getElementById('assignTeknisiModal')).hide();
+
+                                // Show success message
+                                showToast('success', data.message);
+
+                                // Reload page after 1 second
+                                setTimeout(() => {
+                                    window.location.reload();
+                                }, 1000);
+                            } else {
+                                showToast('error', 'Gagal assign teknisi: ' + data.message);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error assigning teknisi:', error);
+                            showToast('error', 'Terjadi kesalahan saat assign teknisi');
+                        });
+                    },
+                    'Konfirmasi Assign',
+                    'Ya, Assign'
+                );
             });
         }
     });

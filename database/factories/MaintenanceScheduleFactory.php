@@ -25,7 +25,7 @@ class MaintenanceScheduleFactory extends Factory
             'scheduled_date' => fake()->dateTimeBetween('-2 months', '+3 months'),
             'frequency' => fake()->randomElement($frequencies),
             'description' => fake()->optional(0.7)->sentence(10),
-            'assigned_to' => fake()->optional(0.8)->name(),
+            'assigned_to' => null, // Kosongkan, akan di-assign manual
             'status' => fake()->randomElement($statuses),
         ];
     }

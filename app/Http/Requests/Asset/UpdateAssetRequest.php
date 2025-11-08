@@ -21,7 +21,7 @@ class UpdateAssetRequest extends FormRequest
      */
     public function rules(): array
     {
-        $assetId = $this->route('asset');
+        $assetId = $this->route('asset')->id ?? $this->route('asset');
 
         return [
             'asset_code' => ['required', 'string', 'max:50', 'unique:assets,asset_code,' . $assetId],
