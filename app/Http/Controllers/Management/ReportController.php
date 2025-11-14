@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Asset;
 use App\Models\AssetCategory;
 use App\Models\Building;
+use App\Models\MaintenanceLog;
+use App\Models\MaintenanceSchedule;
 use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -46,14 +48,17 @@ class ReportController extends Controller
             $query->whereDate("purchase_date", "<=", $request->date_to);
         }
 
-        // Get results
-        $assets = $query->orderBy("created_at", "desc")->get();
+        // Calculate statistics before pagination
+        $totalAssets = $query->count();
+        $totalValue = $query->sum("value");
 
-        // Calculate statistics
-        $totalAssets = $assets->count();
-        $totalValue = $assets->sum("value");
-        $assetsByStatus = $assets->groupBy("status")->map->count();
-        $assetsByCategory = $assets->groupBy("category.name")->map->count();
+        // Get all for statistics
+        $allAssets = $query->get();
+        $assetsByStatus = $allAssets->groupBy("status")->map->count();
+        $assetsByCategory = $allAssets->groupBy("category.name")->map->count();
+
+        // Get paginated results
+        $assets = $query->orderBy("created_at", "desc")->paginate(25);
 
         // Get filter options
         $categories = AssetCategory::orderBy("name")->get();
@@ -78,6 +83,70 @@ class ReportController extends Controller
     }
 
     /**
+     * Display maintenance report
+     */
+    public function maintenance(Request $request): View
+    {
+        $query = MaintenanceLog::with([
+            "asset.category",
+            "asset.room.building",
+            "schedule",
+        ]);
+
+        // Apply filters
+        if ($request->filled("asset_id")) {
+            $query->where("asset_id", $request->asset_id);
+        }
+
+        if ($request->filled("date_from")) {
+            $query->whereDate("date_performed", ">=", $request->date_from);
+        }
+
+        if ($request->filled("date_to")) {
+            $query->whereDate("date_performed", "<=", $request->date_to);
+        }
+
+        if ($request->filled("performed_by")) {
+            $query->where(
+                "performed_by",
+                "like",
+                "%" . $request->performed_by . "%",
+            );
+        }
+
+        // Calculate statistics before pagination
+        $totalMaintenance = $query->count();
+        $totalCost = $query->sum("maintenance_cost");
+
+        // Get all for statistics
+        $allLogs = $query->get();
+        $maintenanceByMonth = $allLogs
+            ->groupBy(function ($log) {
+                return $log->date_performed->format("Y-m");
+            })
+            ->map->count();
+
+        // Get paginated results
+        $maintenanceLogs = $query
+            ->orderBy("date_performed", "desc")
+            ->paginate(25);
+
+        // Get filter options
+        $assets = Asset::orderBy("name")->get();
+
+        return view(
+            "management.reports.maintenance",
+            compact(
+                "maintenanceLogs",
+                "totalMaintenance",
+                "totalCost",
+                "maintenanceByMonth",
+                "assets",
+            ),
+        );
+    }
+
+    /**
      * Display damage report
      */
     public function damage(Request $request): View
@@ -96,13 +165,16 @@ class ReportController extends Controller
             $query->where("status", $request->status);
         }
 
-        // Get results
-        $assets = $query->orderBy("updated_at", "desc")->get();
+        // Calculate statistics before pagination
+        $totalDamaged = $query->count();
+        $totalValueDamaged = $query->sum("value");
 
-        // Calculate statistics
-        $totalDamaged = $assets->count();
-        $totalValueDamaged = $assets->sum("value");
-        $assetsByStatus = $assets->groupBy("status")->map->count();
+        // Get all for statistics
+        $allAssets = $query->get();
+        $assetsByStatus = $allAssets->groupBy("status")->map->count();
+
+        // Get paginated results
+        $assets = $query->orderBy("updated_at", "desc")->paginate(25);
 
         // Get filter options
         $categories = AssetCategory::orderBy("name")->get();

@@ -145,13 +145,13 @@
                             <div class="tab-content" id="nav-tabContent">
                                 <div class="tab-pane fade show active" id="nav-who" role="tabpanel"
                                     aria-labelledby="nav-who-tab">
-                                    <p>PT Panen Embun Kemakmuran merupakan perusahaan yang bergerak dibidang industri Air Minum 
+                                    <p>PT Panen Embun Kemakmuran merupakan perusahaan yang bergerak dibidang industri Air Minum
                                         Dalam Kemasan (AMDK) yang berlokasi di Jl. A. Yani, Desa Nusa Indah, RT. 010 RW. 002,
                                         Kec. Bati-Bati, Kab. Tanah Laut Prov. Kalimantan Selatan.</p>
                                     <p>Kami memproduksi Air Minum Dalam Kemasan (AMDK) dengan melalui
-                                         berbagai tahap pengolahan dan proses produksi sehingga menghasilkan 
-                                         air mineral yang siap minum dengan merk dagang “OMBE” dalam berbagai 
-                                         variasi ukuran kemasan, meliputi: Cup dengan volume 220 ml, Botol dengan 
+                                         berbagai tahap pengolahan dan proses produksi sehingga menghasilkan
+                                         air mineral yang siap minum dengan merk dagang “OMBE” dalam berbagai
+                                         variasi ukuran kemasan, meliputi: Cup dengan volume 220 ml, Botol dengan
                                          volume 250ml, 350ml, 600ml, dan 1500ml, serta Galon dengan volume 19L.</p>
                                 </div>
                                 <div class="tab-pane fade" id="nav-vision" role="tabpanel"
@@ -250,7 +250,7 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="single-services">
                         <div class="service-icon">
-                            <i class="lni lni-analytics"></i>
+                            <i class="lni lni-bar-chart"></i>
                         </div>
                         <div class="service-content">
                             <h4>Laporan & Analisis</h4>

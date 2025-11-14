@@ -139,7 +139,7 @@
                         <tbody>
                             @forelse($assets as $index => $asset)
                             <tr>
-                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $assets->firstItem() + $index }}</td>
                                 <td><strong>{{ $asset->asset_code }}</strong></td>
                                 <td>{{ $asset->name }}</td>
                                 <td>{{ $asset->category->name }}</td>
@@ -197,6 +197,13 @@
                         @endif
                     </table>
                 </div>
+
+                <!-- Pagination -->
+                @if($assets->hasPages())
+                <div class="mt-3">
+                    {{ $assets->links('vendor.pagination.custom') }}
+                </div>
+                @endif
 
                 <!-- Summary by Category -->
                 @if($assetsByCategory->count() > 0)

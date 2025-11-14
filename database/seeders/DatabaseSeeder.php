@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             AssetCategorySeeder::class,
             AssetSeeder::class,
             MaintenanceSeeder::class,
+            DamageReportSeeder::class,
         ]);
     }
 }

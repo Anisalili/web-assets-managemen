@@ -80,12 +80,51 @@ Route::middleware("auth")->group(function () {
         );
     });
 
+    // Damage Reports & Repairs Routes
+    Route::middleware("permission:view-damage-reports")->group(function () {
+        Route::resource(
+            "damage-reports",
+            App\Http\Controllers\AssetDamageReportController::class,
+        )->parameters([
+            "damage-reports" => "damageReport",
+        ]);
+    });
+
+    // Update status damage report (for teknisi)
+    Route::middleware("permission:update-damage-status")
+        ->post("damage-reports/{damageReport}/update-status", [
+            App\Http\Controllers\AssetDamageReportController::class,
+            "updateStatus",
+        ])
+        ->name("damage-reports.update-status");
+
+    Route::middleware("permission:view-repairs")->group(function () {
+        Route::resource(
+            "repairs",
+            App\Http\Controllers\AssetRepairController::class,
+        )->parameters([
+            "repairs" => "repair",
+        ]);
+    });
+
+    // Update status repair (for teknisi)
+    Route::middleware("permission:update-repair-status")
+        ->post("repairs/{repair}/update-status", [
+            App\Http\Controllers\AssetRepairController::class,
+            "updateStatus",
+        ])
+        ->name("repairs.update-status");
+
     // Reports Routes
     Route::middleware("permission:view-reports")->group(function () {
         Route::get("/reports/assets", [
             App\Http\Controllers\Management\ReportController::class,
             "assets",
         ])->name("reports.assets");
+        Route::get("/reports/maintenance", [
+            App\Http\Controllers\Management\ReportController::class,
+            "maintenance",
+        ])->name("reports.maintenance");
         Route::get("/reports/damage", [
             App\Http\Controllers\Management\ReportController::class,
             "damage",

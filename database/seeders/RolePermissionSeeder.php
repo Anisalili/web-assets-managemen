@@ -18,53 +18,133 @@ class RolePermissionSeeder extends Seeder
         // Create Permissions
         $permissions = [
             // Asset Permissions
-            ['name' => 'view-assets', 'description' => 'Lihat daftar asset'],
-            ['name' => 'create-assets', 'description' => 'Tambah asset baru'],
-            ['name' => 'update-assets', 'description' => 'Edit asset'],
-            ['name' => 'delete-assets', 'description' => 'Hapus asset (stock off)'],
+            ["name" => "view-assets", "description" => "Lihat daftar asset"],
+            ["name" => "create-assets", "description" => "Tambah asset baru"],
+            ["name" => "update-assets", "description" => "Edit asset"],
+            [
+                "name" => "delete-assets",
+                "description" => "Hapus asset (stock off)",
+            ],
 
             // Asset Category Permissions
-            ['name' => 'view-asset-categories', 'description' => 'Lihat kategori asset'],
-            ['name' => 'create-asset-categories', 'description' => 'Tambah kategori asset'],
-            ['name' => 'update-asset-categories', 'description' => 'Edit kategori asset'],
-            ['name' => 'delete-asset-categories', 'description' => 'Hapus kategori asset'],
+            [
+                "name" => "view-asset-categories",
+                "description" => "Lihat kategori asset",
+            ],
+            [
+                "name" => "create-asset-categories",
+                "description" => "Tambah kategori asset",
+            ],
+            [
+                "name" => "update-asset-categories",
+                "description" => "Edit kategori asset",
+            ],
+            [
+                "name" => "delete-asset-categories",
+                "description" => "Hapus kategori asset",
+            ],
 
             // Maintenance Schedule Permissions
-            ['name' => 'view-maintenance-schedules', 'description' => 'Lihat jadwal pemeliharaan'],
-            ['name' => 'create-maintenance-schedules', 'description' => 'Tambah jadwal pemeliharaan'],
-            ['name' => 'update-maintenance-schedules', 'description' => 'Edit jadwal pemeliharaan'],
-            ['name' => 'delete-maintenance-schedules', 'description' => 'Hapus jadwal pemeliharaan'],
+            [
+                "name" => "view-maintenance-schedules",
+                "description" => "Lihat jadwal pemeliharaan",
+            ],
+            [
+                "name" => "create-maintenance-schedules",
+                "description" => "Tambah jadwal pemeliharaan",
+            ],
+            [
+                "name" => "update-maintenance-schedules",
+                "description" => "Edit jadwal pemeliharaan",
+            ],
+            [
+                "name" => "delete-maintenance-schedules",
+                "description" => "Hapus jadwal pemeliharaan",
+            ],
 
             // Maintenance Log Permissions
-            ['name' => 'view-maintenance-logs', 'description' => 'Lihat log pemeliharaan'],
-            ['name' => 'create-maintenance-logs', 'description' => 'Tambah log pemeliharaan'],
-            ['name' => 'update-maintenance-logs', 'description' => 'Edit log pemeliharaan'],
-            ['name' => 'delete-maintenance-logs', 'description' => 'Hapus log pemeliharaan'],
+            [
+                "name" => "view-maintenance-logs",
+                "description" => "Lihat log pemeliharaan",
+            ],
+            [
+                "name" => "create-maintenance-logs",
+                "description" => "Tambah log pemeliharaan",
+            ],
+            [
+                "name" => "update-maintenance-logs",
+                "description" => "Edit log pemeliharaan",
+            ],
+            [
+                "name" => "delete-maintenance-logs",
+                "description" => "Hapus log pemeliharaan",
+            ],
+
+            // Damage Report Permissions
+            [
+                "name" => "view-damage-reports",
+                "description" => "Lihat laporan kerusakan",
+            ],
+            [
+                "name" => "create-damage-reports",
+                "description" => "Tambah laporan kerusakan",
+            ],
+            [
+                "name" => "update-damage-reports",
+                "description" => "Edit laporan kerusakan",
+            ],
+            [
+                "name" => "delete-damage-reports",
+                "description" => "Hapus laporan kerusakan",
+            ],
+
+            // Repair Permissions
+            [
+                "name" => "view-repairs",
+                "description" => "Lihat riwayat perbaikan",
+            ],
+            ["name" => "create-repairs", "description" => "Tambah perbaikan"],
+            ["name" => "update-repairs", "description" => "Edit perbaikan"],
+            ["name" => "delete-repairs", "description" => "Hapus perbaikan"],
+            [
+                "name" => "update-repair-status",
+                "description" => "Update status perbaikan saja",
+            ],
+            [
+                "name" => "update-damage-status",
+                "description" => "Update status kerusakan saja",
+            ],
 
             // Report Permissions
-            ['name' => 'view-reports', 'description' => 'Lihat laporan'],
-            ['name' => 'create-reports', 'description' => 'Buat laporan'],
-            ['name' => 'export-reports', 'description' => 'Export laporan'],
+            ["name" => "view-reports", "description" => "Lihat laporan"],
+            ["name" => "create-reports", "description" => "Buat laporan"],
+            ["name" => "export-reports", "description" => "Export laporan"],
 
             // Building & Room Permissions
-            ['name' => 'view-buildings', 'description' => 'Lihat daftar gedung'],
-            ['name' => 'create-buildings', 'description' => 'Tambah gedung'],
-            ['name' => 'update-buildings', 'description' => 'Edit gedung'],
-            ['name' => 'delete-buildings', 'description' => 'Hapus gedung'],
-            ['name' => 'view-rooms', 'description' => 'Lihat daftar ruangan'],
-            ['name' => 'create-rooms', 'description' => 'Tambah ruangan'],
-            ['name' => 'update-rooms', 'description' => 'Edit ruangan'],
-            ['name' => 'delete-rooms', 'description' => 'Hapus ruangan'],
+            [
+                "name" => "view-buildings",
+                "description" => "Lihat daftar gedung",
+            ],
+            ["name" => "create-buildings", "description" => "Tambah gedung"],
+            ["name" => "update-buildings", "description" => "Edit gedung"],
+            ["name" => "delete-buildings", "description" => "Hapus gedung"],
+            ["name" => "view-rooms", "description" => "Lihat daftar ruangan"],
+            ["name" => "create-rooms", "description" => "Tambah ruangan"],
+            ["name" => "update-rooms", "description" => "Edit ruangan"],
+            ["name" => "delete-rooms", "description" => "Hapus ruangan"],
 
             // User Management Permissions
-            ['name' => 'view-users', 'description' => 'Lihat daftar pengguna'],
-            ['name' => 'create-users', 'description' => 'Tambah pengguna'],
-            ['name' => 'update-users', 'description' => 'Edit pengguna'],
-            ['name' => 'delete-users', 'description' => 'Hapus pengguna'],
+            ["name" => "view-users", "description" => "Lihat daftar pengguna"],
+            ["name" => "create-users", "description" => "Tambah pengguna"],
+            ["name" => "update-users", "description" => "Edit pengguna"],
+            ["name" => "delete-users", "description" => "Hapus pengguna"],
 
             // RBAC Permissions
-            ['name' => 'manage-roles', 'description' => 'Kelola role'],
-            ['name' => 'manage-permissions', 'description' => 'Kelola permission'],
+            ["name" => "manage-roles", "description" => "Kelola role"],
+            [
+                "name" => "manage-permissions",
+                "description" => "Kelola permission",
+            ],
         ];
 
         foreach ($permissions as $permission) {
@@ -73,28 +153,31 @@ class RolePermissionSeeder extends Seeder
 
         // Create Roles
         $superAdmin = Role::create([
-            'name' => 'Super Admin',
-            'description' => 'Administrator dengan akses penuh ke semua fitur sistem',
+            "name" => "Super Admin",
+            "description" =>
+                "Administrator dengan akses penuh ke semua fitur sistem",
         ]);
 
         $admin = Role::create([
-            'name' => 'Admin',
-            'description' => 'Administrator dengan akses ke manajemen asset dan pengguna',
+            "name" => "Admin",
+            "description" =>
+                "Administrator dengan akses ke manajemen asset dan pengguna",
         ]);
 
         $manager = Role::create([
-            'name' => 'Manager',
-            'description' => 'Manager dengan akses ke asset dan laporan',
+            "name" => "Manager",
+            "description" => "Manager dengan akses ke asset dan laporan",
         ]);
 
         $staff = Role::create([
-            'name' => 'Staff',
-            'description' => 'Staff dengan akses terbatas untuk melihat asset',
+            "name" => "Staff",
+            "description" => "Staff dengan akses terbatas untuk melihat asset",
         ]);
 
         $teknisi = Role::create([
-            'name' => 'Teknisi',
-            'description' => 'Teknisi maintenance dengan akses ke jadwal dan log maintenance',
+            "name" => "Teknisi",
+            "description" =>
+                "Teknisi maintenance dengan akses ke jadwal dan log maintenance",
         ]);
 
         // Assign Permissions to Roles
@@ -103,79 +186,103 @@ class RolePermissionSeeder extends Seeder
         $superAdmin->permissions()->attach(Permission::all());
 
         // Admin - hampir semua kecuali manage roles & permissions
-        $admin->permissions()->attach(Permission::whereNotIn('name', ['manage-roles', 'manage-permissions'])->get());
+        $admin
+            ->permissions()
+            ->attach(
+                Permission::whereNotIn("name", [
+                    "manage-roles",
+                    "manage-permissions",
+                ])->get(),
+            );
 
         // Manager - view & report focused
-        $manager->permissions()->attach(Permission::whereIn('name', [
-            'view-assets',
-            'view-asset-categories',
-            'view-maintenance-schedules',
-            'view-maintenance-logs',
-            'view-reports',
-            'create-reports',
-            'export-reports',
-            'view-buildings',
-            'view-rooms',
-        ])->get());
+        $manager
+            ->permissions()
+            ->attach(
+                Permission::whereIn("name", [
+                    "view-assets",
+                    "view-asset-categories",
+                    "view-maintenance-schedules",
+                    "view-maintenance-logs",
+                    "view-damage-reports",
+                    "view-repairs",
+                    "view-reports",
+                    "create-reports",
+                    "export-reports",
+                    "view-buildings",
+                    "view-rooms",
+                ])->get(),
+            );
 
         // Staff - view only
-        $staff->permissions()->attach(Permission::whereIn('name', [
-            'view-assets',
-            'view-asset-categories',
-            'view-buildings',
-            'view-rooms',
-        ])->get());
+        $staff
+            ->permissions()
+            ->attach(
+                Permission::whereIn("name", [
+                    "view-assets",
+                    "view-asset-categories",
+                    "view-buildings",
+                    "view-rooms",
+                ])->get(),
+            );
 
-        // Teknisi - maintenance focused
-        $teknisi->permissions()->attach(Permission::whereIn('name', [
-            'view-assets',
-            'update-assets', // Teknisi bisa update status aset (perbaikan)
-            'view-asset-categories',
-            'view-maintenance-schedules',
-            'create-maintenance-schedules',
-            'update-maintenance-schedules',
-            'view-maintenance-logs',
-            'create-maintenance-logs',
-            'update-maintenance-logs',
-            'create-reports',
-        ])->get());
+        // Teknisi - maintenance focused (limited edit access)
+        $teknisi->permissions()->attach(
+            Permission::whereIn("name", [
+                "view-assets",
+                "view-asset-categories",
+                "view-maintenance-schedules",
+                "create-maintenance-schedules",
+                "view-maintenance-logs",
+                "create-maintenance-logs",
+                "view-damage-reports",
+                "create-damage-reports",
+                "update-damage-status", // Hanya update status
+                "view-repairs",
+                "create-repairs",
+                "update-repair-status", // Hanya update status
+                "create-reports",
+            ])->get(),
+        );
 
         // Create Sample Users
         $superAdminUser = User::create([
-            'name' => 'Super Admin',
-            'email' => 'superadmin@ombe.co.id',
-            'password' => Hash::make('password'),
+            "name" => "Super Admin",
+            "email" => "superadmin@ombe.co.id",
+            "password" => Hash::make("password"),
         ]);
         $superAdminUser->roles()->attach($superAdmin);
 
         $adminUser = User::create([
-            'name' => 'Admin User',
-            'email' => 'admin@ombe.co.id',
-            'password' => Hash::make('password'),
+            "name" => "Admin User",
+            "email" => "admin@ombe.co.id",
+            "password" => Hash::make("password"),
         ]);
         $adminUser->roles()->attach($admin);
 
         $managerUser = User::create([
-            'name' => 'Manager User',
-            'email' => 'manager@ombe.co.id',
-            'password' => Hash::make('password'),
+            "name" => "Manager User",
+            "email" => "manager@ombe.co.id",
+            "password" => Hash::make("password"),
         ]);
         $managerUser->roles()->attach($manager);
 
         $staffUser = User::create([
-            'name' => 'Staff User',
-            'email' => 'staff@ombe.co.id',
-            'password' => Hash::make('password'),
+            "name" => "Staff User",
+            "email" => "staff@ombe.co.id",
+            "password" => Hash::make("password"),
         ]);
         $staffUser->roles()->attach($staff);
 
         $teknisiUser = User::create([
-            'name' => 'Teknisi User',
-            'email' => 'teknisi@ombe.co.id',
-            'password' => Hash::make('password'),
+            "name" => "Teknisi User",
+            "email" => "teknisi@ombe.co.id",
+            "password" => Hash::make("password"),
         ]);
         $teknisiUser->roles()->attach($teknisi);
 
-        $this->command->info('Roles, Permissions, and Users created successfully!');
+        $this->command->info(
+            "Roles, Permissions, and Users created successfully!",
+        );
     }
 }

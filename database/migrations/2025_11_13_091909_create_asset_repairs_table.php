@@ -10,23 +10,23 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create("maintenance_logs", function (Blueprint $table) {
+        Schema::create("asset_repairs", function (Blueprint $table) {
             $table->id();
             $table
-                ->foreignId("schedule_id")
-                ->nullable()
-                ->constrained("maintenance_schedules")
-                ->onDelete("set null");
+                ->foreignId("damage_report_id")
+                ->constrained("asset_damage_reports")
+                ->onDelete("cascade");
             $table
                 ->foreignId("asset_id")
                 ->constrained("assets")
                 ->onDelete("cascade");
-            $table->string("performed_by", 100);
-            $table->datetime("date_performed");
-            $table->text("result")->nullable();
+            $table->datetime("repair_start_date");
+            $table->datetime("repair_end_date")->nullable();
+            $table->string("repaired_by", 100);
+            $table->text("repair_description");
             $table->text("spare_parts_used")->nullable();
-            $table->decimal("maintenance_cost", 15, 2)->default(0);
-            $table->date("next_recommendation_date")->nullable();
+            $table->decimal("repair_cost", 15, 2)->default(0);
+            $table->string("status", 20); // pending, in_progress, completed, failed
             $table->text("notes")->nullable();
             $table->timestamps();
         });
@@ -37,6 +37,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists("maintenance_logs");
+        Schema::dropIfExists("asset_repairs");
     }
 };

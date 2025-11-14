@@ -41,19 +41,43 @@
         <li class="nav-item {{ request()->routeIs('maintenance.*') ? 'active' : '' }}">
             <a class="nav-link" data-bs-toggle="collapse" href="#maintenance-menu" aria-expanded="{{ request()->routeIs('maintenance.*') ? 'true' : 'false' }}" aria-controls="maintenance-menu">
                 <i class="menu-icon mdi mdi-wrench"></i>
-                <span class="menu-title">Pemeliharaan</span>
+                <span class="menu-title">Perawatan</span>
                 <i class="menu-arrow"></i>
             </a>
             <div class="collapse {{ request()->routeIs('maintenance.*') ? 'show' : '' }}" id="maintenance-menu">
                 <ul class="nav flex-column sub-menu">
                     @if(auth()->user()->hasPermission('view-maintenance-schedules'))
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('maintenance-schedules.index') }}">Jadwal Maintenance</a>
+                        <a class="nav-link" href="{{ route('maintenance-schedules.index') }}">Jadwal Perawatan</a>
                     </li>
                     @endif
                     @if(auth()->user()->hasPermission('view-maintenance-logs'))
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('maintenance-logs.index') }}">Log Maintenance</a>
+                        <a class="nav-link" href="{{ route('maintenance-logs.index') }}">Log Perawatan</a>
+                    </li>
+                    @endif
+                </ul>
+            </div>
+        </li>
+        @endif
+
+        @if(auth()->user()->hasPermission('view-damage-reports') || auth()->user()->hasPermission('view-repairs'))
+        <li class="nav-item {{ request()->routeIs('damage-reports.*') || request()->routeIs('repairs.*') ? 'active' : '' }}">
+            <a class="nav-link" data-bs-toggle="collapse" href="#damage-menu" aria-expanded="{{ request()->routeIs('damage-reports.*') || request()->routeIs('repairs.*') ? 'true' : 'false' }}" aria-controls="damage-menu">
+                <i class="menu-icon mdi mdi-alert-circle"></i>
+                <span class="menu-title">Kerusakan & Perbaikan</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse {{ request()->routeIs('damage-reports.*') || request()->routeIs('repairs.*') ? 'show' : '' }}" id="damage-menu">
+                <ul class="nav flex-column sub-menu">
+                    @if(auth()->user()->hasPermission('view-damage-reports'))
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('damage-reports.index') }}">Laporan Kerusakan</a>
+                    </li>
+                    @endif
+                    @if(auth()->user()->hasPermission('view-repairs'))
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('repairs.index') }}">Riwayat Perbaikan</a>
                     </li>
                     @endif
                 </ul>
@@ -72,6 +96,9 @@
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('reports.assets') }}">Laporan Asset</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('reports.maintenance') }}">Laporan Perawatan</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('reports.damage') }}">Laporan Kerusakan</a>
