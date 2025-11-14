@@ -14,7 +14,7 @@
                         <h1>Sistem Inventaris Asset</h1>
                         <h1>PT. Panen Embun Kemakmuran</h1>
                         <p>
-                            Platform sistem informasi inventaris asset, monitoring, pemeliharaan dan kerusakan asset PT. PEK
+                            Platform sistem informasi inventaris asset, monitoring, pemeliharaan dan kerusakan asset.
                             Tingkatkan efisiensi operasional dengan sistem pengelolaan asset yang modern dan handal.
                         </p>
                         <div class="button">

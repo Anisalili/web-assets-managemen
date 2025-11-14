@@ -1,5 +1,5 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
-    <ul class="nav">
+    <ul class="nav" id="sidebar-nav">
         <li class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('dashboard') }}">
                 <i class="mdi mdi-grid-large menu-icon"></i>
@@ -15,7 +15,7 @@
                 <span class="menu-title">Asset</span>
                 <i class="menu-arrow"></i>
             </a>
-            <div class="collapse {{ request()->routeIs('assets.*') ? 'show' : '' }}" id="asset-menu">
+            <div class="collapse {{ request()->routeIs('assets.*') ? 'show' : '' }}" id="asset-menu" data-bs-parent="#sidebar-nav">
                 <ul class="nav flex-column sub-menu">
                     @if(auth()->user()->hasPermission('view-assets'))
                     <li class="nav-item">
@@ -44,7 +44,7 @@
                 <span class="menu-title">Perawatan</span>
                 <i class="menu-arrow"></i>
             </a>
-            <div class="collapse {{ request()->routeIs('maintenance.*') ? 'show' : '' }}" id="maintenance-menu">
+            <div class="collapse {{ request()->routeIs('maintenance.*') ? 'show' : '' }}" id="maintenance-menu" data-bs-parent="#sidebar-nav">
                 <ul class="nav flex-column sub-menu">
                     @if(auth()->user()->hasPermission('view-maintenance-schedules'))
                     <li class="nav-item">
@@ -68,7 +68,7 @@
                 <span class="menu-title">Kerusakan & Perbaikan</span>
                 <i class="menu-arrow"></i>
             </a>
-            <div class="collapse {{ request()->routeIs('damage-reports.*') || request()->routeIs('repairs.*') ? 'show' : '' }}" id="damage-menu">
+            <div class="collapse {{ request()->routeIs('damage-reports.*') || request()->routeIs('repairs.*') ? 'show' : '' }}" id="damage-menu" data-bs-parent="#sidebar-nav">
                 <ul class="nav flex-column sub-menu">
                     @if(auth()->user()->hasPermission('view-damage-reports'))
                     <li class="nav-item">
@@ -92,7 +92,7 @@
                 <span class="menu-title">Laporan</span>
                 <i class="menu-arrow"></i>
             </a>
-            <div class="collapse {{ request()->routeIs('reports.*') ? 'show' : '' }}" id="reports-menu">
+            <div class="collapse {{ request()->routeIs('reports.*') ? 'show' : '' }}" id="reports-menu" data-bs-parent="#sidebar-nav">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('reports.assets') }}">Laporan Asset</a>
@@ -116,7 +116,7 @@
                 <span class="menu-title">Gedung & Ruangan</span>
                 <i class="menu-arrow"></i>
             </a>
-            <div class="collapse {{ request()->routeIs('buildings.*') || request()->routeIs('rooms.*') || request()->routeIs('building-layout.*') ? 'show' : '' }}" id="location-menu">
+            <div class="collapse {{ request()->routeIs('buildings.*') || request()->routeIs('rooms.*') || request()->routeIs('building-layout.*') ? 'show' : '' }}" id="location-menu" data-bs-parent="#sidebar-nav">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('buildings.index') ? 'active' : '' }}" href="{{ route('buildings.index') }}">Daftar Gedung</a>
@@ -152,7 +152,7 @@
                 <span class="menu-title">RBAC</span>
                 <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="rbac-menu">
+            <div class="collapse" id="rbac-menu" data-bs-parent="#sidebar-nav">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('roles.index') }}">Role</a>

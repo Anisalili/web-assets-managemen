@@ -11,6 +11,7 @@ class AssetDamageReport extends Model
     protected $fillable = [
         "asset_id",
         "reported_by",
+        "assigned_to",
         "report_date",
         "severity",
         "damage_type",
@@ -38,5 +39,20 @@ class AssetDamageReport extends Model
     public function repairs(): HasMany
     {
         return $this->hasMany(AssetRepair::class, "damage_report_id");
+    }
+
+    public function assignedUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, "assigned_to");
+    }
+
+    public function reportedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, "reported_by");
+    }
+
+    public function resolvedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, "resolved_by");
     }
 }

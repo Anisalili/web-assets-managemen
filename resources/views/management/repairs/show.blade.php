@@ -16,14 +16,18 @@
                         <a href="{{ route('repairs.index') }}" class="btn btn-sm btn-light mr-2">
                             <i class="mdi mdi-arrow-left"></i> Kembali
                         </a>
-                        @if(auth()->user()->hasPermission('update-repairs'))
-                        <a href="{{ route('repairs.edit', $repair) }}" class="btn btn-sm btn-primary">
-                            <i class="mdi mdi-pencil"></i> Edit Full
-                        </a>
-                        @elseif(auth()->user()->hasPermission('update-repair-status'))
-                        <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#updateStatusModal">
+
+                        {{-- Tombol Update Status untuk Teknisi yang di-assign --}}
+                        @if($repair->assigned_to == auth()->id() && !in_array($repair->status, ['completed', 'failed']))
+                        <button type="button" class="btn btn-sm btn-primary mr-2" data-toggle="modal" data-target="#updateStatusModal">
                             <i class="mdi mdi-sync"></i> Update Status
                         </button>
+                        @endif
+
+                        @if(auth()->user()->hasPermission('update-repairs'))
+                        <a href="{{ route('repairs.edit', $repair) }}" class="btn btn-sm btn-warning">
+                            <i class="mdi mdi-pencil"></i> Edit Full
+                        </a>
                         @endif
                     </div>
                 </div>
@@ -56,7 +60,17 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="font-weight-bold">Lokasi:</label>
-                                <p>{{ $repair->asset->room->building->name }} - {{ $repair->asset->room->name }}</p>
+                                <p>
+                                    @if($repair->asset->room)
+                                        @if($repair->asset->room->building)
+                                            {{ $repair->asset->room->building->name }} - {{ $repair->asset->room->name }}
+                                        @else
+                                            {{ $repair->asset->room->name }}
+                                        @endif
+                                    @else
+                                        -
+                                    @endif
+                                </p>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -161,7 +175,7 @@
                             </span>
                         </div>
                         <p class="text-muted mb-1"><small>Dilaporkan: {{ $repair->damageReport->report_date->format('d M Y') }}</small></p>
-                        <p class="mb-2"><strong>Dilaporkan Oleh:</strong> {{ $repair->damageReport->reported_by }}</p>
+                        <p class="mb-2"><strong>Dilaporkan Oleh:</strong> {{ $repair->damageReport->reportedBy->name ?? '-' }}</p>
                         <p class="mb-2">{{ Str::limit($repair->damageReport->description, 150) }}</p>
                         <a href="{{ route('damage-reports.show', $repair->damageReport) }}" class="btn btn-sm btn-outline-primary">
                             <i class="mdi mdi-eye"></i> Lihat Laporan Lengkap
@@ -239,15 +253,17 @@
         </div>
     </div>
 </div>
-<!-- Modal Update Status (for Teknisi) -->
-@if(auth()->user()->hasPermission('update-repair-status'))
+<!-- Modal Update Status (for Teknisi yang di-assign) -->
+@if($repair->assigned_to == auth()->id() && !in_array($repair->status, ['completed', 'failed']))
 <div class="modal fade" id="updateStatusModal" tabindex="-1" role="dialog" aria-labelledby="updateStatusModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <form action="{{ route('repairs.update-status', $repair) }}" method="POST">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="updateStatusModalLabel">Update Status Perbaikan</h5>
+                    <h5 class="modal-title" id="updateStatusModalLabel">
+                        <i class="mdi mdi-sync"></i> Update Status Perbaikan
+                    </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -256,19 +272,33 @@
                     <div class="form-group">
                         <label for="status">Status <span class="text-danger">*</span></label>
                         <select class="form-control" id="status" name="status" required>
-                            <option value="pending" {{ $repair->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                            <option value="in_progress" {{ $repair->status == 'in_progress' ? 'selected' : '' }}>In Progress</option>
-                            <option value="completed" {{ $repair->status == 'completed' ? 'selected' : '' }}>Completed</option>
-                            <option value="failed" {{ $repair->status == 'failed' ? 'selected' : '' }}>Failed</option>
+                            <option value="">-- Pilih Status --</option>
+                            @if($repair->status == 'pending')
+                            <option value="in_progress">In Progress (Sedang Dikerjakan)</option>
+                            <option value="completed">Completed (Selesai)</option>
+                            <option value="failed">Failed (Gagal)</option>
+                            @elseif($repair->status == 'in_progress')
+                            <option value="completed">Completed (Selesai)</option>
+                            <option value="failed">Failed (Gagal)</option>
+                            @endif
                         </select>
                     </div>
                     <div class="alert alert-info">
-                        <i class="mdi mdi-information"></i> Jika status diubah menjadi "Completed", tanggal selesai akan otomatis terisi dan status laporan kerusakan akan diupdate.
+                        <i class="mdi mdi-information"></i>
+                        <small>
+                            Status "Completed" akan otomatis:
+                            <ul class="mb-0 mt-1">
+                                <li>Mengisi tanggal selesai perbaikan</li>
+                                <li>Update status laporan kerusakan menjadi "Selesai"</li>
+                            </ul>
+                        </small>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="mdi mdi-check"></i> Update Status
+                    </button>
                 </div>
             </form>
         </div>
@@ -276,3 +306,15 @@
 </div>
 @endif
 @endsection
+
+@push('scripts')
+<script>
+$(document).ready(function() {
+    // Pastikan modal bisa dibuka dengan jQuery
+    $('[data-target="#updateStatusModal"]').on('click', function(e) {
+        e.preventDefault();
+        $('#updateStatusModal').modal('show');
+    });
+});
+</script>
+@endpush

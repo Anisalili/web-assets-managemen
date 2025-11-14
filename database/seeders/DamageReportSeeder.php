@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Asset;
 use App\Models\AssetDamageReport;
 use App\Models\AssetRepair;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DamageReportSeeder extends Seeder
@@ -20,6 +21,21 @@ class DamageReportSeeder extends Seeder
 
         if ($assets->isEmpty()) {
             $this->command->warn("No assets found. Please seed assets first.");
+            return;
+        }
+
+        // Get teknisi users
+        $teknisiUsers = User::whereHas("roles", function ($query) {
+            $query->where("name", "Teknisi");
+        })->get();
+
+        // Fallback to any user if no teknisi found
+        if ($teknisiUsers->isEmpty()) {
+            $teknisiUsers = User::limit(5)->get();
+        }
+
+        if ($teknisiUsers->isEmpty()) {
+            $this->command->warn("No users found. Please seed users first.");
             return;
         }
 
@@ -41,9 +57,15 @@ class DamageReportSeeder extends Seeder
             $reportDate = now()->subDays(rand(1, 90));
             $status = $statuses[array_rand($statuses)];
 
+            $reportedByUser = $teknisiUsers->random();
+            $assignedUser = rand(0, 1) ? $teknisiUsers->random() : null;
+            $resolvedByUser =
+                $status === "selesai" && $assignedUser ? $assignedUser : null;
+
             $damageReport = AssetDamageReport::create([
                 "asset_id" => $asset->id,
-                "reported_by" => "Teknisi " . rand(1, 5),
+                "reported_by" => $reportedByUser->id,
+                "assigned_to" => $assignedUser?->id,
                 "report_date" => $reportDate,
                 "severity" => $severities[array_rand($severities)],
                 "damage_type" => $damageTypes[array_rand($damageTypes)],
@@ -61,8 +83,7 @@ class DamageReportSeeder extends Seeder
                     $status === "selesai"
                         ? $reportDate->copy()->addDays(rand(1, 7))
                         : null,
-                "resolved_by" =>
-                    $status === "selesai" ? "Teknisi " . rand(1, 5) : null,
+                "resolved_by" => $resolvedByUser?->id,
             ]);
 
             // Create repair record if status is dalam_proses or selesai
@@ -73,6 +94,8 @@ class DamageReportSeeder extends Seeder
                         ? "completed"
                         : $repairStatuses[array_rand($repairStatuses)];
 
+                $repairedByUser = $assignedUser ?? $teknisiUsers->random();
+
                 AssetRepair::create([
                     "damage_report_id" => $damageReport->id,
                     "asset_id" => $asset->id,
@@ -81,7 +104,8 @@ class DamageReportSeeder extends Seeder
                         $repairStatus === "completed"
                             ? $repairStartDate->copy()->addDays(rand(1, 5))
                             : null,
-                    "repaired_by" => "Teknisi " . rand(1, 5),
+                    "repaired_by" => $repairedByUser->id,
+                    "assigned_to" => $assignedUser?->id,
                     "repair_description" =>
                         "Perbaikan untuk kerusakan: " .
                         $damageReport->description,

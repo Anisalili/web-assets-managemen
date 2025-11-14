@@ -44,6 +44,14 @@ class MaintenanceScheduleController extends Controller
         $filters["status"] = array_filter($filters["status"]);
         $filters["frequency"] = array_filter($filters["frequency"]);
 
+        // Filter untuk teknisi - hanya tampilkan yang di-assign ke mereka
+        if (
+            auth()->user()->hasRole("Teknisi") &&
+            !auth()->user()->hasPermission("view-all-maintenance-schedules")
+        ) {
+            $filters["assigned_to"] = auth()->id();
+        }
+
         // Check if any filter is applied
         $hasFilters =
             !empty($filters["search"]) ||
@@ -51,7 +59,8 @@ class MaintenanceScheduleController extends Controller
             !empty($filters["status"]) ||
             !empty($filters["frequency"]) ||
             !empty($filters["date_from"]) ||
-            !empty($filters["date_to"]);
+            !empty($filters["date_to"]) ||
+            !empty($filters["assigned_to"]);
 
         $schedules = $hasFilters
             ? $this->scheduleService->advancedSearchSchedules($filters, 25)
@@ -151,7 +160,8 @@ class MaintenanceScheduleController extends Controller
         $maintenanceSchedule->load([
             "asset.category",
             "asset.room.building",
-            "logs",
+            "assignedUser",
+            "logs.performedBy",
         ]);
 
         return view(
@@ -274,6 +284,66 @@ class MaintenanceScheduleController extends Controller
                     "message" => "Gagal assign teknisi: " . $e->getMessage(),
                 ],
                 500,
+            );
+        }
+    }
+
+    /**
+     * Update status maintenance (untuk teknisi)
+     */
+    public function updateStatus(
+        Request $request,
+        MaintenanceSchedule $schedule,
+    ) {
+        // Validasi teknisi hanya bisa update schedule yang di-assign ke mereka
+        if (
+            auth()->user()->hasRole("Teknisi") &&
+            $schedule->assigned_to !== auth()->id()
+        ) {
+            abort(
+                403,
+                "Anda tidak memiliki akses untuk mengupdate schedule ini",
+            );
+        }
+
+        $request->validate([
+            "status" =>
+                "required|in:terjadwal,dalam_perbaikan,selesai,dibatalkan",
+            "result" => "required_if:status,selesai|nullable|string",
+            "maintenance_cost" => "nullable|numeric|min:0",
+            "spare_parts_used" => "nullable|string",
+            "next_recommendation_date" => "nullable|date|after:today",
+            "notes" => "nullable|string",
+        ]);
+
+        try {
+            $oldStatus = $schedule->status;
+            $schedule->status = $request->status;
+            $schedule->save();
+
+            // Jika status selesai, buat maintenance log otomatis
+            if ($request->status === "selesai" && $oldStatus !== "selesai") {
+                \App\Models\MaintenanceLog::create([
+                    "schedule_id" => $schedule->id,
+                    "asset_id" => $schedule->asset_id,
+                    "performed_by" => auth()->id(), // ID user teknisi yang assigned
+                    "date_performed" => now(),
+                    "result" => $request->result,
+                    "spare_parts_used" => $request->spare_parts_used,
+                    "maintenance_cost" => $request->maintenance_cost ?? 0,
+                    "next_recommendation_date" =>
+                        $request->next_recommendation_date,
+                    "notes" => $request->notes,
+                ]);
+            }
+
+            return redirect()
+                ->route("maintenance-schedules.show", $schedule)
+                ->with("success", "Status maintenance berhasil diperbarui");
+        } catch (\Exception $e) {
+            return back()->with(
+                "error",
+                "Gagal memperbarui status: " . $e->getMessage(),
             );
         }
     }

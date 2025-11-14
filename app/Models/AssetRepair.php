@@ -13,6 +13,7 @@ class AssetRepair extends Model
         "repair_start_date",
         "repair_end_date",
         "repaired_by",
+        "assigned_to",
         "repair_description",
         "spare_parts_used",
         "repair_cost",
@@ -34,5 +35,15 @@ class AssetRepair extends Model
     public function asset(): BelongsTo
     {
         return $this->belongsTo(Asset::class);
+    }
+
+    public function assignedUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, "assigned_to");
+    }
+
+    public function repairedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, "repaired_by");
     }
 }

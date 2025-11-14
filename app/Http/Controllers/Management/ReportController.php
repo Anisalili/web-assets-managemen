@@ -151,44 +151,78 @@ class ReportController extends Controller
      */
     public function damage(Request $request): View
     {
-        $query = Asset::with(["category", "room.building"])->whereIn("status", [
-            "dalam_perbaikan",
-            "rusak",
+        $query = \App\Models\AssetDamageReport::with([
+            "asset.category",
+            "asset.room.building",
+            "reportedBy",
+            "assignedUser",
+            "resolvedBy",
+            "repairs",
         ]);
 
         // Apply filters
-        if ($request->filled("category_id")) {
-            $query->where("category_id", $request->category_id);
+        if ($request->filled("asset_id")) {
+            $query->where("asset_id", $request->asset_id);
         }
 
         if ($request->filled("status")) {
             $query->where("status", $request->status);
         }
 
+        if ($request->filled("severity")) {
+            $query->where("severity", $request->severity);
+        }
+
+        if ($request->filled("priority")) {
+            $query->where("priority", $request->priority);
+        }
+
+        if ($request->filled("date_from")) {
+            $query->whereDate("report_date", ">=", $request->date_from);
+        }
+
+        if ($request->filled("date_to")) {
+            $query->whereDate("report_date", "<=", $request->date_to);
+        }
+
         // Calculate statistics before pagination
-        $totalDamaged = $query->count();
-        $totalValueDamaged = $query->sum("value");
+        $totalReports = $query->count();
+        $totalEstimatedCost = $query->sum("estimated_repair_cost");
 
         // Get all for statistics
-        $allAssets = $query->get();
-        $assetsByStatus = $allAssets->groupBy("status")->map->count();
+        $allReports = $query->get();
+        $reportsByStatus = $allReports->groupBy("status")->map->count();
+        $reportsBySeverity = $allReports->groupBy("severity")->map->count();
+        $reportsByPriority = $allReports->groupBy("priority")->map->count();
+
+        // Total actual repair cost from repairs
+        $totalActualCost = $allReports->sum(function ($report) {
+            return $report->repairs->sum("repair_cost");
+        });
 
         // Get paginated results
-        $assets = $query->orderBy("updated_at", "desc")->paginate(25);
+        $damageReports = $query->orderBy("report_date", "desc")->paginate(25);
 
         // Get filter options
-        $categories = AssetCategory::orderBy("name")->get();
-        $statuses = ["dalam_perbaikan", "rusak"];
+        $assets = Asset::orderBy("name")->get();
+        $statuses = ["dilaporkan", "dalam_proses", "selesai"];
+        $severities = ["ringan", "sedang", "berat"];
+        $priorities = ["low", "medium", "high", "critical"];
 
         return view(
             "management.reports.damage",
             compact(
+                "damageReports",
+                "totalReports",
+                "totalEstimatedCost",
+                "totalActualCost",
+                "reportsByStatus",
+                "reportsBySeverity",
+                "reportsByPriority",
                 "assets",
-                "totalDamaged",
-                "totalValueDamaged",
-                "assetsByStatus",
-                "categories",
                 "statuses",
+                "severities",
+                "priorities",
             ),
         );
     }

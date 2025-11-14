@@ -6,7 +6,7 @@
     <div class="sidebar-content">
         <div class="sidebar-logo">
             <a href="{{ route('home') }}">
-                <img src="{{ asset('images/logo-pt-pek-putih.png') }}" alt="Logo PT. PEK" style="max-width: 80px; height: auto;" />
+                <img src="{{ asset('images/logo-pt-pek-putih.png') }}" alt="Logo" style="max-width: 80px; height: auto;" />
             </a>
             <h4 class="text-white mt-3">PT. Panen Embun Kemakmuran</h4>
         </div>

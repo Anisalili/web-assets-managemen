@@ -9,11 +9,10 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="card-title mb-0">Log Pemeliharaan</h4>
-                    @if(auth()->user()->hasPermission('create-maintenance-logs'))
-                    <a href="{{ route('maintenance-logs.create') }}" class="btn btn-primary btn-sm">
-                        <i class="mdi mdi-plus"></i> Tambah Log
-                    </a>
-                    @endif
+                    <div class="alert alert-info mb-0 py-2 px-3">
+                        <i class="mdi mdi-information"></i>
+                        <small>Log pemeliharaan dibuat otomatis saat maintenance schedule selesai</small>
+                    </div>
                 </div>
 
                 <!-- Filter Form -->
@@ -103,28 +102,7 @@
                                     </a>
                                     @endif
 
-                                    @if(auth()->user()->hasPermission('update-maintenance-logs'))
-                                    <a href="{{ route('maintenance-logs.edit', $log) }}"
-                                       class="btn btn-sm btn-warning me-1"
-                                       title="Edit">
-                                        <i class="mdi mdi-pencil"></i>
-                                    </a>
-                                    @endif
-
-                                    @if(auth()->user()->hasPermission('delete-maintenance-logs'))
-                                    <form action="{{ route('maintenance-logs.destroy', $log) }}"
-                                          method="POST"
-                                          class="d-inline delete-form">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="button"
-                                                class="btn btn-sm btn-danger"
-                                                title="Hapus"
-                                                onclick="confirmDelete(this, 'Yakin ingin menghapus log ini?')">
-                                            <i class="mdi mdi-delete"></i>
-                                        </button>
-                                    </form>
-                                    @endif
+                                    {{-- Edit dan Delete disabled karena log adalah read-only --}}
                                 </td>
                             </tr>
                             @empty
@@ -133,11 +111,6 @@
                                     <div class="py-4">
                                         <i class="mdi mdi-file-document-outline" style="font-size: 48px; color: #ccc;"></i>
                                         <p class="text-muted mb-0 mt-2">Tidak ada log pemeliharaan.</p>
-                                        @if(auth()->user()->hasPermission('create-maintenance-logs'))
-                                        <a href="{{ route('maintenance-logs.create') }}" class="btn btn-sm btn-primary mt-2">
-                                            <i class="mdi mdi-plus"></i> Tambah Log
-                                        </a>
-                                        @endif
                                     </div>
                                 </td>
                             </tr>

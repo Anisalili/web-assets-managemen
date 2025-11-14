@@ -22,7 +22,7 @@
                     <div class="col-lg-4 mx-auto">
                         <div class="auth-form-light text-left py-5 px-4 px-sm-5">
                             <div class="brand-logo text-center mb-4">
-                                <img src="{{ asset('images/logo-pt-pek-putih.png') }}" alt="PT. PEK" style="max-width: 100px; height: auto; margin-bottom: 1rem;">
+                                <img src="{{ asset('images/logo-pt-pek-putih.png') }}" alt="Logo" style="max-width: 100px; height: auto; margin-bottom: 1rem;">
                                 <h2 class="text-primary fw-bold">PT. Panen Embun Kemakmuran</h2>
                                 <p class="text-muted">Sistem Inventaris Asset</p>
                             </div>

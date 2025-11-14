@@ -20,10 +20,6 @@
                         <a href="{{ route('damage-reports.edit', $damageReport) }}" class="btn btn-sm btn-primary mr-2">
                             <i class="mdi mdi-pencil"></i> Edit Full
                         </a>
-                        @elseif(auth()->user()->hasPermission('update-damage-status'))
-                        <button type="button" class="btn btn-sm btn-warning mr-2" data-toggle="modal" data-target="#updateStatusModal">
-                            <i class="mdi mdi-sync"></i> Update Status
-                        </button>
                         @endif
                         @if(auth()->user()->hasPermission('create-repairs') && $damageReport->status != 'selesai')
                         <a href="{{ route('repairs.create', ['damage_report_id' => $damageReport->id]) }}" class="btn btn-sm btn-success">
@@ -61,13 +57,46 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="font-weight-bold">Lokasi:</label>
-                                <p>{{ $damageReport->asset->room->building->name }} - {{ $damageReport->asset->room->name }}</p>
+                                <p>
+                                    @if($damageReport->asset->room)
+                                        @if($damageReport->asset->room->building)
+                                            {{ $damageReport->asset->room->building->name }} - {{ $damageReport->asset->room->name }}
+                                        @else
+                                            {{ $damageReport->asset->room->name }}
+                                        @endif
+                                    @else
+                                        -
+                                    @endif
+                                </p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="font-weight-bold">Dilaporkan Oleh:</label>
-                                <p>{{ $damageReport->reported_by }}</p>
+                                <p>{{ $damageReport->reportedBy->name ?? '-' }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if($damageReport->assigned_to)
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="font-weight-bold">Ditugaskan Kepada:</label>
+                                <p>{{ $damageReport->assignedUser->name ?? '-' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <div class="d-flex justify-content-end">
+                                @if($damageReport->assigned_to == auth()->id() && $damageReport->status != 'selesai')
+                                <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#updateStatusModal">
+                                    <i class="mdi mdi-sync"></i> Update Status
+                                </button>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -176,7 +205,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="font-weight-bold">Diselesaikan Oleh:</label>
-                                <p>{{ $damageReport->resolved_by }}</p>
+                                <p>{{ $damageReport->resolvedBy->name ?? '-' }}</p>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -226,15 +255,18 @@
         </div>
     </div>
 </div>
-<!-- Modal Update Status (for Teknisi) -->
-@if(auth()->user()->hasPermission('update-damage-status'))
+
+<!-- Modal Update Status (for Teknisi yang di-assign) -->
+@if($damageReport->assigned_to == auth()->id() && $damageReport->status != 'selesai')
 <div class="modal fade" id="updateStatusModal" tabindex="-1" role="dialog" aria-labelledby="updateStatusModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <form action="{{ route('damage-reports.update-status', $damageReport) }}" method="POST">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="updateStatusModalLabel">Update Status Laporan</h5>
+                    <h5 class="modal-title" id="updateStatusModalLabel">
+                        <i class="mdi mdi-sync"></i> Update Status Laporan
+                    </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -243,18 +275,25 @@
                     <div class="form-group">
                         <label for="status">Status <span class="text-danger">*</span></label>
                         <select class="form-control" id="status" name="status" required>
-                            <option value="dilaporkan" {{ $damageReport->status == 'dilaporkan' ? 'selected' : '' }}>Dilaporkan</option>
-                            <option value="dalam_proses" {{ $damageReport->status == 'dalam_proses' ? 'selected' : '' }}>Dalam Proses</option>
-                            <option value="selesai" {{ $damageReport->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                            <option value="">-- Pilih Status --</option>
+                            @if($damageReport->status == 'dilaporkan')
+                            <option value="dalam_proses">Dalam Proses</option>
+                            <option value="selesai">Selesai</option>
+                            @elseif($damageReport->status == 'dalam_proses')
+                            <option value="selesai">Selesai</option>
+                            @endif
                         </select>
                     </div>
                     <div class="alert alert-info">
-                        <i class="mdi mdi-information"></i> Jika status diubah menjadi "Selesai", tanggal dan user penyelesaian akan otomatis terisi.
+                        <i class="mdi mdi-information"></i>
+                        <small>Status "Selesai" akan otomatis mencatat tanggal dan teknisi penyelesaian</small>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="mdi mdi-check"></i> Update Status
+                    </button>
                 </div>
             </form>
         </div>
@@ -262,3 +301,15 @@
 </div>
 @endif
 @endsection
+
+@push('scripts')
+<script>
+$(document).ready(function() {
+    // Pastikan modal bisa dibuka dengan jQuery
+    $('[data-target="#updateStatusModal"]').on('click', function(e) {
+        e.preventDefault();
+        $('#updateStatusModal').modal('show');
+    });
+});
+</script>
+@endpush

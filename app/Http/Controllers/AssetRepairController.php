@@ -16,7 +16,20 @@ class AssetRepairController extends Controller
      */
     public function index(Request $request): View
     {
-        $query = AssetRepair::with(["asset.category", "damageReport"]);
+        $query = AssetRepair::with([
+            "asset.category",
+            "damageReport",
+            "repairedBy",
+            "assignedUser",
+        ]);
+
+        // Filter untuk teknisi - hanya tampilkan yang di-assign ke mereka
+        if (
+            auth()->user()->hasRole("Teknisi") &&
+            !auth()->user()->hasPermission("view-all-repairs")
+        ) {
+            $query->where("assigned_to", auth()->id());
+        }
 
         // Apply filters
         if ($request->filled("asset_id")) {
@@ -71,7 +84,6 @@ class AssetRepairController extends Controller
             "repair_start_date" => "required|date",
             "repair_end_date" =>
                 "nullable|date|after_or_equal:repair_start_date",
-            "repaired_by" => "required|string|max:100",
             "repair_description" => "required|string",
             "spare_parts_used" => "nullable|string",
             "repair_cost" => "required|numeric|min:0",
@@ -79,13 +91,19 @@ class AssetRepairController extends Controller
             "notes" => "nullable|string",
         ]);
 
+        // Get damage report untuk ambil assigned_to
+        $damageReport = AssetDamageReport::findOrFail(
+            $validated["damage_report_id"],
+        );
+
+        // Auto-fill repaired_by dan assigned_to dari damage report atau auth user
+        $validated["repaired_by"] = $damageReport->assigned_to ?? auth()->id();
+        $validated["assigned_to"] = $damageReport->assigned_to;
+
         AssetRepair::create($validated);
 
         // Update damage report status if repair is completed
         if ($validated["status"] === "completed") {
-            $damageReport = AssetDamageReport::find(
-                $validated["damage_report_id"],
-            );
             $damageReport->update([
                 "status" => "selesai",
                 "resolved_date" => now(),
@@ -174,6 +192,17 @@ class AssetRepairController extends Controller
         Request $request,
         AssetRepair $repair,
     ): RedirectResponse {
+        // Validasi teknisi hanya bisa update data yang di-assign ke mereka
+        if (
+            auth()->user()->hasRole("Teknisi") &&
+            $repair->assigned_to !== auth()->id()
+        ) {
+            abort(
+                403,
+                "Anda tidak memiliki akses untuk mengupdate perbaikan ini",
+            );
+        }
+
         $validated = $request->validate([
             "status" => "required|in:pending,in_progress,completed,failed",
         ]);
@@ -198,6 +227,25 @@ class AssetRepairController extends Controller
         return redirect()
             ->route("repairs.show", $repair)
             ->with("success", "Status perbaikan berhasil diperbarui");
+    }
+
+    /**
+     * Assign teknisi to repair
+     */
+    public function assign(Request $request, AssetRepair $repair)
+    {
+        $validated = $request->validate([
+            "teknisi_id" => "required|exists:users,id",
+        ]);
+
+        $repair->update([
+            "assigned_to" => $validated["teknisi_id"],
+        ]);
+
+        return response()->json([
+            "success" => true,
+            "message" => "Teknisi berhasil di-assign ke perbaikan",
+        ]);
     }
 
     /**

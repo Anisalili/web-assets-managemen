@@ -160,11 +160,13 @@
                                     <small class="text-muted">{{ $schedule->asset->asset_code }}</small>
                                 </td>
                                 <td>{{ $schedule->scheduled_date->format('d/m/Y') }}</td>
-                                <td><span class="badge bg-light text-dark">{{ $schedule->frequency }}</span></td>
+                                <td><span class="badge bg-primary text-white">{{ $schedule->frequency }}</span></td>
                                 <td>{{ $schedule->assignedUser->name ?? '-' }}</td>
                                 <td>
                                     @if($schedule->status === 'terjadwal')
                                         <span class="badge bg-info">Terjadwal</span>
+                                    @elseif($schedule->status === 'dalam_perbaikan')
+                                        <span class="badge bg-warning">Dalam Perbaikan</span>
                                     @elseif($schedule->status === 'selesai')
                                         <span class="badge bg-success">Selesai</span>
                                     @else

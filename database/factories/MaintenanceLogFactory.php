@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Asset;
 use App\Models\MaintenanceSchedule;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,20 +19,31 @@ class MaintenanceLogFactory extends Factory
      */
     public function definition(): array
     {
-        $datePerformed = fake()->dateTimeBetween('-6 months', 'now');
+        $datePerformed = fake()->dateTimeBetween("-6 months", "now");
+
+        // Get teknisi users or fallback to any user
+        $teknisi = User::whereHas("roles", function ($query) {
+            $query->where("name", "Teknisi");
+        })
+            ->inRandomOrder()
+            ->first();
+
+        $performedBy = $teknisi
+            ? $teknisi->id
+            : User::inRandomOrder()->first()?->id;
 
         return [
-            'schedule_id' => fake()->optional(0.6)->randomElement(
-                MaintenanceSchedule::pluck('id')->toArray()
-            ),
-            'asset_id' => Asset::inRandomOrder()->first()?->id ?? Asset::factory(),
-            'performed_by' => fake()->name(),
-            'date_performed' => $datePerformed,
-            'result' => fake()->optional(0.9)->paragraph(3),
-            'next_recommendation_date' => fake()->optional(0.5)->dateTimeBetween(
-                $datePerformed,
-                '+6 months'
-            ),
+            "schedule_id" => fake()
+                ->optional(0.6)
+                ->randomElement(MaintenanceSchedule::pluck("id")->toArray()),
+            "asset_id" =>
+                Asset::inRandomOrder()->first()?->id ?? Asset::factory(),
+            "performed_by" => $performedBy,
+            "date_performed" => $datePerformed,
+            "result" => fake()->optional(0.9)->paragraph(3),
+            "next_recommendation_date" => fake()
+                ->optional(0.5)
+                ->dateTimeBetween($datePerformed, "+6 months"),
         ];
     }
 
@@ -40,9 +52,13 @@ class MaintenanceLogFactory extends Factory
      */
     public function withSchedule(): static
     {
-        return $this->state(fn (array $attributes) => [
-            'schedule_id' => MaintenanceSchedule::inRandomOrder()->first()?->id ?? MaintenanceSchedule::factory(),
-        ]);
+        return $this->state(
+            fn(array $attributes) => [
+                "schedule_id" =>
+                    MaintenanceSchedule::inRandomOrder()->first()?->id ??
+                    MaintenanceSchedule::factory(),
+            ],
+        );
     }
 
     /**
@@ -50,8 +66,10 @@ class MaintenanceLogFactory extends Factory
      */
     public function standalone(): static
     {
-        return $this->state(fn (array $attributes) => [
-            'schedule_id' => null,
-        ]);
+        return $this->state(
+            fn(array $attributes) => [
+                "schedule_id" => null,
+            ],
+        );
     }
 }

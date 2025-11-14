@@ -17,6 +17,7 @@ return new class extends Migration {
                 ->constrained("assets")
                 ->onDelete("cascade");
             $table->string("reported_by", 100);
+            $table->unsignedBigInteger("assigned_to")->nullable();
             $table->datetime("report_date");
             $table->string("severity", 20);
             $table->string("damage_type", 50)->nullable(); // mechanical, electrical, structural, etc

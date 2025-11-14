@@ -11,17 +11,17 @@ class MaintenanceLog extends Model
     use HasFactory;
 
     protected $fillable = [
-        'schedule_id',
-        'asset_id',
-        'performed_by',
-        'date_performed',
-        'result',
-        'next_recommendation_date',
+        "schedule_id",
+        "asset_id",
+        "performed_by",
+        "date_performed",
+        "result",
+        "next_recommendation_date",
     ];
 
     protected $casts = [
-        'date_performed' => 'datetime',
-        'next_recommendation_date' => 'date',
+        "date_performed" => "datetime",
+        "next_recommendation_date" => "date",
     ];
 
     /**
@@ -29,7 +29,7 @@ class MaintenanceLog extends Model
      */
     public function schedule(): BelongsTo
     {
-        return $this->belongsTo(MaintenanceSchedule::class, 'schedule_id');
+        return $this->belongsTo(MaintenanceSchedule::class, "schedule_id");
     }
 
     /**
@@ -37,6 +37,14 @@ class MaintenanceLog extends Model
      */
     public function asset(): BelongsTo
     {
-        return $this->belongsTo(Asset::class, 'asset_id');
+        return $this->belongsTo(Asset::class, "asset_id");
+    }
+
+    /**
+     * Get the user who performed this maintenance
+     */
+    public function performedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, "performed_by");
     }
 }

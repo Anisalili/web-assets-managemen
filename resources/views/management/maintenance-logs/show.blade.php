@@ -10,11 +10,7 @@
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="card-title mb-0">Detail Log Pemeliharaan</h4>
                     <div>
-                        @if(auth()->user()->hasPermission('update-maintenance-logs'))
-                        <a href="{{ route('maintenance-logs.edit', $maintenanceLog) }}" class="btn btn-warning btn-sm">
-                            <i class="mdi mdi-pencil"></i> Edit
-                        </a>
-                        @endif
+                        <span class="badge badge-info mr-2">Auto-Generated Log</span>
                         <a href="{{ route('maintenance-logs.index') }}" class="btn btn-light btn-sm">
                             <i class="mdi mdi-arrow-left"></i> Kembali
                         </a>

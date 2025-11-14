@@ -21,27 +21,35 @@
 
                 <!-- Statistics Cards -->
                 <div class="row mb-4">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="card bg-danger text-white">
                             <div class="card-body">
-                                <h6 class="card-title mb-0">Total Aset Rusak</h6>
-                                <h2 class="mt-2 mb-0">{{ number_format($totalDamaged) }}</h2>
+                                <h6 class="card-title mb-0">Total Laporan</h6>
+                                <h2 class="mt-2 mb-0">{{ number_format($totalReports) }}</h2>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="card bg-warning text-white">
                             <div class="card-body">
-                                <h6 class="card-title mb-0">Total Nilai Kerusakan</h6>
-                                <h2 class="mt-2 mb-0">Rp {{ number_format($totalValueDamaged, 0, ',', '.') }}</h2>
+                                <h6 class="card-title mb-0">Estimasi Biaya</h6>
+                                <h2 class="mt-2 mb-0">Rp {{ number_format($totalEstimatedCost, 0, ',', '.') }}</h2>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
+                        <div class="card bg-primary text-white">
+                            <div class="card-body">
+                                <h6 class="card-title mb-0">Biaya Aktual</h6>
+                                <h2 class="mt-2 mb-0">Rp {{ number_format($totalActualCost, 0, ',', '.') }}</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
                         <div class="card bg-info text-white">
                             <div class="card-body">
-                                <h6 class="card-title mb-0">Dalam Perbaikan</h6>
-                                <h2 class="mt-2 mb-0">{{ number_format($assetsByStatus['dalam_perbaikan'] ?? 0) }}</h2>
+                                <h6 class="card-title mb-0">Dalam Proses</h6>
+                                <h2 class="mt-2 mb-0">{{ number_format($reportsByStatus['dalam_proses'] ?? 0) }}</h2>
                             </div>
                         </div>
                     </div>
@@ -50,18 +58,18 @@
                 <!-- Filter Form -->
                 <form method="GET" action="{{ route('reports.damage') }}" class="mb-3">
                     <div class="row g-2">
-                        <div class="col-md-4">
-                            <select name="category_id" class="form-select form-select-sm">
-                                <option value="">Semua Kategori</option>
-                                @foreach($categories as $cat)
-                                <option value="{{ $cat->id }}" {{ request('category_id') == $cat->id ? 'selected' : '' }}>
-                                    {{ $cat->name }}
+                        <div class="col-md-2">
+                            <select name="asset_id" class="form-select form-select-sm">
+                                <option value="">Semua Asset</option>
+                                @foreach($assets as $asset)
+                                <option value="{{ $asset->id }}" {{ request('asset_id') == $asset->id ? 'selected' : '' }}>
+                                    {{ $asset->name }}
                                 </option>
                                 @endforeach
                             </select>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                             <select name="status" class="form-select form-select-sm">
                                 <option value="">Semua Status</option>
                                 @foreach($statuses as $stat)
@@ -73,12 +81,34 @@
                         </div>
 
                         <div class="col-md-2">
+                            <select name="severity" class="form-select form-select-sm">
+                                <option value="">Semua Severity</option>
+                                @foreach($severities as $sev)
+                                <option value="{{ $sev }}" {{ request('severity') == $sev ? 'selected' : '' }}>
+                                    {{ ucfirst($sev) }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-md-2">
+                            <select name="priority" class="form-select form-select-sm">
+                                <option value="">Semua Priority</option>
+                                @foreach($priorities as $pri)
+                                <option value="{{ $pri }}" {{ request('priority') == $pri ? 'selected' : '' }}>
+                                    {{ ucfirst($pri) }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-md-2">
                             <button class="btn btn-primary btn-sm w-100" type="submit">
                                 <i class="mdi mdi-magnify"></i> Filter
                             </button>
                         </div>
 
-                        @if(request()->hasAny(['category_id', 'status']))
+                        @if(request()->hasAny(['asset_id', 'status', 'severity', 'priority']))
                         <div class="col-md-2">
                             <a href="{{ route('reports.damage') }}" class="btn btn-secondary btn-sm w-100">
                                 <i class="mdi mdi-refresh"></i> Reset
@@ -88,66 +118,75 @@
                     </div>
                 </form>
 
-                <!-- Damaged Assets Table -->
+                <!-- Damage Reports Table -->
                 <div class="table-responsive" id="reportTable">
                     <table class="table table-hover table-bordered">
                         <thead class="table-light">
                             <tr>
                                 <th width="5%">#</th>
-                                <th width="12%">Kode Aset</th>
-                                <th width="18%">Nama Aset</th>
-                                <th width="15%">Kategori</th>
-                                <th width="18%">Lokasi</th>
-                                <th width="12%">Status</th>
-                                <th width="15%">Nilai Aset</th>
-                                <th width="15%">Terakhir Update</th>
+                                <th width="15%">Asset</th>
+                                <th width="12%">Tanggal Laporan</th>
+                                <th width="10%">Severity</th>
+                                <th width="10%">Priority</th>
+                                <th width="10%">Status</th>
+                                <th width="15%">Dilaporkan Oleh</th>
+                                <th width="13%">Estimasi Biaya</th>
+                                <th width="10%">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($assets as $index => $asset)
+                            @forelse($damageReports as $index => $report)
                             <tr>
-                                <td>{{ $assets->firstItem() + $index }}</td>
-                                <td><strong>{{ $asset->asset_code }}</strong></td>
-                                <td>{{ $asset->name }}</td>
-                                <td>{{ $asset->category->name }}</td>
+                                <td>{{ $damageReports->firstItem() + $index }}</td>
+                                <td>{{ $report->asset->name ?? '-' }}</td>
+                                <td>{{ $report->report_date->format('d/m/Y') }}</td>
                                 <td>
-                                    @if($asset->room)
-                                        {{ $asset->room->building->name }} - {{ $asset->room->name }}
+                                    <span class="badge badge-{{ $report->severity == 'berat' ? 'danger' : ($report->severity == 'sedang' ? 'warning' : 'info') }}">
+                                        {{ ucfirst($report->severity) }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge badge-{{ $report->priority == 'critical' ? 'danger' : ($report->priority == 'high' ? 'warning' : 'secondary') }}">
+                                        {{ ucfirst($report->priority) }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge badge-{{ $report->status == 'selesai' ? 'success' : ($report->status == 'dalam_proses' ? 'info' : 'secondary') }}">
+                                        {{ ucfirst(str_replace('_', ' ', $report->status)) }}
+                                    </span>
+                                </td>
+                                <td>{{ $report->reportedBy->name ?? '-' }}</td>
+                                <td>
+                                    @if($report->estimated_repair_cost)
+                                        Rp {{ number_format($report->estimated_repair_cost, 0, ',', '.') }}
                                     @else
                                         <span class="text-muted">-</span>
                                     @endif
                                 </td>
                                 <td>
-                                    @if($asset->status == 'dalam_perbaikan')
-                                        <span class="badge bg-warning">Dalam Perbaikan</span>
-                                    @else
-                                        <span class="badge bg-danger">Rusak</span>
-                                    @endif
+                                    <a href="{{ route('damage-reports.show', $report) }}" class="btn btn-sm btn-info" title="Detail">
+                                        <i class="mdi mdi-eye"></i>
+                                    </a>
                                 </td>
-                                <td>
-                                    @if($asset->value)
-                                        Rp {{ number_format($asset->value, 0, ',', '.') }}
-                                    @else
-                                        <span class="text-muted">-</span>
-                                    @endif
-                                </td>
-                                <td>{{ $asset->updated_at->format('d/m/Y H:i') }}</td>
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="8" class="text-center py-4">
+                                <td colspan="9" class="text-center py-4">
                                     <i class="mdi mdi-file-document-outline" style="font-size: 48px; color: #ccc;"></i>
-                                    <p class="text-muted mb-0 mt-2">Tidak ada data kerusakan untuk ditampilkan</p>
+                                    <p class="text-muted mb-0 mt-2">Tidak ada laporan kerusakan untuk ditampilkan</p>
                                 </td>
                             </tr>
                             @endforelse
                         </tbody>
-                        @if($assets->count() > 0)
+                        @if($damageReports->count() > 0)
                         <tfoot class="table-light">
                             <tr>
-                                <th colspan="6" class="text-end">Total:</th>
-                                <th>Rp {{ number_format($totalValueDamaged, 0, ',', '.') }}</th>
-                                <th>{{ number_format($totalDamaged) }} Aset</th>
+                                <th colspan="7" class="text-end">Total Estimasi:</th>
+                                <th colspan="2">Rp {{ number_format($totalEstimatedCost, 0, ',', '.') }}</th>
+                            </tr>
+                            <tr>
+                                <th colspan="7" class="text-end">Total Biaya Aktual:</th>
+                                <th colspan="2">Rp {{ number_format($totalActualCost, 0, ',', '.') }}</th>
                             </tr>
                         </tfoot>
                         @endif
@@ -155,16 +194,15 @@
                 </div>
 
                 <!-- Pagination -->
-                @if($assets->hasPages())
+                @if($damageReports->hasPages())
                 <div class="mt-3">
-                    {{ $assets->links('vendor.pagination.custom') }}
+                    {{ $damageReports->links('vendor.pagination.custom') }}
                 </div>
                 @endif
 
-                <!-- Summary by Status -->
-                @if($assetsByStatus->count() > 0)
+                <!-- Summary Charts -->
                 <div class="row mt-4">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <h5>Ringkasan per Status</h5>
                         <div class="table-responsive">
                             <table class="table table-sm table-bordered">
@@ -175,7 +213,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($assetsByStatus as $status => $count)
+                                    @foreach($reportsByStatus as $status => $count)
                                     <tr>
                                         <td>{{ ucfirst(str_replace('_', ' ', $status)) }}</td>
                                         <td class="text-end">{{ number_format($count) }}</td>
@@ -185,8 +223,49 @@
                             </table>
                         </div>
                     </div>
+                    <div class="col-md-4">
+                        <h5>Ringkasan per Severity</h5>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Severity</th>
+                                        <th class="text-end">Jumlah</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($reportsBySeverity as $severity => $count)
+                                    <tr>
+                                        <td>{{ ucfirst($severity) }}</td>
+                                        <td class="text-end">{{ number_format($count) }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>Ringkasan per Priority</h5>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Priority</th>
+                                        <th class="text-end">Jumlah</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($reportsByPriority as $priority => $count)
+                                    <tr>
+                                        <td>{{ ucfirst($priority) }}</td>
+                                        <td class="text-end">{{ number_format($count) }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-                @endif
 
             </div>
         </div>

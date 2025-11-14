@@ -179,7 +179,9 @@
                                 <td>
                                     @if($asset->room)
                                         <small class="text-muted">
-                                            {{ $asset->room->building->name }}<br>
+                                            @if($asset->room->building)
+                                                {{ $asset->room->building->name }}<br>
+                                            @endif
                                             {{ $asset->room->name }}
                                         </small>
                                     @else

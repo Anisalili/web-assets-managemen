@@ -40,7 +40,11 @@
                                 <th>Lokasi</th>
                                 <td>
                                     @if($asset->room)
-                                        {{ $asset->room->building->name }} - {{ $asset->room->name }}
+                                        @if($asset->room->building)
+                                            {{ $asset->room->building->name }} - {{ $asset->room->name }}
+                                        @else
+                                            {{ $asset->room->name }}
+                                        @endif
                                     @else
                                         <span class="text-muted">-</span>
                                     @endif

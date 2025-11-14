@@ -18,7 +18,18 @@ class AssetDamageReportController extends Controller
         $query = AssetDamageReport::with([
             "asset.category",
             "asset.room.building",
+            "reportedBy",
+            "assignedUser",
+            "resolvedBy",
         ]);
+
+        // Filter untuk teknisi - hanya tampilkan yang di-assign ke mereka
+        if (
+            auth()->user()->hasRole("Teknisi") &&
+            !auth()->user()->hasPermission("view-all-damage-reports")
+        ) {
+            $query->where("assigned_to", auth()->id());
+        }
 
         // Apply filters
         if ($request->filled("asset_id")) {
@@ -95,7 +106,10 @@ class AssetDamageReportController extends Controller
         $damageReport->load([
             "asset.category",
             "asset.room.building",
-            "repairs",
+            "reportedBy",
+            "assignedUser",
+            "resolvedBy",
+            "repairs.repairedBy",
         ]);
         return view("management.damage-reports.show", compact("damageReport"));
     }
@@ -155,8 +169,16 @@ class AssetDamageReportController extends Controller
         Request $request,
         AssetDamageReport $damageReport,
     ): RedirectResponse {
+        // Validasi teknisi hanya bisa update data yang di-assign ke mereka
+        if ($damageReport->assigned_to !== auth()->id()) {
+            abort(
+                403,
+                "Anda tidak memiliki akses untuk mengupdate laporan ini",
+            );
+        }
+
         $validated = $request->validate([
-            "status" => "required|in:dilaporkan,dalam_proses,selesai",
+            "status" => "required|in:dalam_proses,selesai",
         ]);
 
         $damageReport->update([
@@ -167,13 +189,32 @@ class AssetDamageReportController extends Controller
                     : $damageReport->resolved_date,
             "resolved_by" =>
                 $validated["status"] === "selesai"
-                    ? auth()->user()->name
+                    ? auth()->id() // User ID teknisi yang assigned
                     : $damageReport->resolved_by,
         ]);
 
         return redirect()
             ->route("damage-reports.show", $damageReport)
             ->with("success", "Status laporan kerusakan berhasil diperbarui");
+    }
+
+    /**
+     * Assign teknisi to damage report
+     */
+    public function assign(Request $request, AssetDamageReport $damageReport)
+    {
+        $validated = $request->validate([
+            "teknisi_id" => "required|exists:users,id",
+        ]);
+
+        $damageReport->update([
+            "assigned_to" => $validated["teknisi_id"],
+        ]);
+
+        return response()->json([
+            "success" => true,
+            "message" => "Teknisi berhasil di-assign ke laporan kerusakan",
+        ]);
     }
 
     /**

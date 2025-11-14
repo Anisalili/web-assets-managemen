@@ -73,11 +73,19 @@ Route::middleware("auth")->group(function () {
         ])
         ->name("maintenance-schedules.assign");
 
+    // Update status maintenance (untuk teknisi)
+    Route::middleware("auth")
+        ->post("maintenance-schedules/{schedule}/update-status", [
+            App\Http\Controllers\Management\MaintenanceScheduleController::class,
+            "updateStatus",
+        ])
+        ->name("maintenance-schedules.update-status");
+
     Route::middleware("permission:view-maintenance-logs")->group(function () {
         Route::resource(
             "maintenance-logs",
             App\Http\Controllers\Management\MaintenanceLogController::class,
-        );
+        )->only(["index", "show"]); // Disable create, edit, update, delete - logs are auto-generated
     });
 
     // Damage Reports & Repairs Routes
@@ -90,8 +98,16 @@ Route::middleware("auth")->group(function () {
         ]);
     });
 
+    // Assign teknisi ke damage report
+    Route::middleware("permission:update-damage-reports")
+        ->post("damage-reports/{damageReport}/assign", [
+            App\Http\Controllers\AssetDamageReportController::class,
+            "assign",
+        ])
+        ->name("damage-reports.assign");
+
     // Update status damage report (for teknisi)
-    Route::middleware("permission:update-damage-status")
+    Route::middleware("auth")
         ->post("damage-reports/{damageReport}/update-status", [
             App\Http\Controllers\AssetDamageReportController::class,
             "updateStatus",
@@ -107,8 +123,16 @@ Route::middleware("auth")->group(function () {
         ]);
     });
 
+    // Assign teknisi ke repair
+    Route::middleware("permission:update-repairs")
+        ->post("repairs/{repair}/assign", [
+            App\Http\Controllers\AssetRepairController::class,
+            "assign",
+        ])
+        ->name("repairs.assign");
+
     // Update status repair (for teknisi)
-    Route::middleware("permission:update-repair-status")
+    Route::middleware("auth")
         ->post("repairs/{repair}/update-status", [
             App\Http\Controllers\AssetRepairController::class,
             "updateStatus",
