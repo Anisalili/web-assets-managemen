@@ -58,8 +58,17 @@
 
                         <!-- List Ruangan Lantai 1 -->
                         <div class="mt-4">
-                            <h5 class="mb-3"><i class="mdi mdi-door"></i> Daftar Ruangan Lantai 1</h5>
-                            <div class="row">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="mb-0"><i class="mdi mdi-door"></i> Daftar Ruangan Lantai 1</h5>
+                                <div class="search-box" style="width: 300px;">
+                                    <input type="text"
+                                           class="form-control form-control-sm room-search"
+                                           data-floor="1"
+                                           placeholder="Cari ruangan..."
+                                           id="searchFloor1">
+                                </div>
+                            </div>
+                            <div class="row" id="roomListFloor1">
                                 @foreach($lantai1Rooms as $room)
                                 <div class="col-md-3 col-sm-6 mb-3">
                                     <div class="card room-card" style="cursor: pointer;" onclick="showRoomAssets({{ $room->id }}, '{{ addslashes($room->name) }}')">
@@ -101,8 +110,17 @@
 
                         <!-- List Ruangan Lantai 2 -->
                         <div class="mt-4">
-                            <h5 class="mb-3"><i class="mdi mdi-door"></i> Daftar Ruangan Lantai 2</h5>
-                            <div class="row">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="mb-0"><i class="mdi mdi-door"></i> Daftar Ruangan Lantai 2</h5>
+                                <div class="search-box" style="width: 300px;">
+                                    <input type="text"
+                                           class="form-control form-control-sm room-search"
+                                           data-floor="2"
+                                           placeholder="Cari ruangan..."
+                                           id="searchFloor2">
+                                </div>
+                            </div>
+                            <div class="row" id="roomListFloor2">
                                 @foreach($lantai2Rooms as $room)
                                 <div class="col-md-3 col-sm-6 mb-3">
                                     <div class="card room-card" style="cursor: pointer;" onclick="showRoomAssets({{ $room->id }}, '{{ addslashes($room->name) }}')">
@@ -254,7 +272,62 @@
                 window.open(this.src, '_blank');
             });
         });
+
+        // Room search functionality
+        const searchFloor1 = document.getElementById('searchFloor1');
+        const searchFloor2 = document.getElementById('searchFloor2');
+
+        if (searchFloor1) {
+            searchFloor1.addEventListener('keyup', function() {
+                filterRooms(this.value, 'roomListFloor1');
+            });
+        }
+
+        if (searchFloor2) {
+            searchFloor2.addEventListener('keyup', function() {
+                filterRooms(this.value, 'roomListFloor2');
+            });
+        }
     });
+
+    // Filter rooms by search query
+    function filterRooms(query, containerID) {
+        const container = document.getElementById(containerID);
+        const roomCards = container.querySelectorAll('.col-md-3');
+        const searchTerm = query.toLowerCase().trim();
+
+        let visibleCount = 0;
+
+        roomCards.forEach(card => {
+            const roomName = card.querySelector('h6').textContent.toLowerCase();
+            const roomCode = card.querySelector('small').textContent.toLowerCase();
+
+            if (roomName.includes(searchTerm) || roomCode.includes(searchTerm)) {
+                card.style.display = 'block';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        // Show "no results" message if needed
+        let noResultsMsg = container.querySelector('.no-results-message');
+
+        if (visibleCount === 0 && searchTerm !== '') {
+            if (!noResultsMsg) {
+                noResultsMsg = document.createElement('div');
+                noResultsMsg.className = 'col-12 no-results-message text-center py-4';
+                noResultsMsg.innerHTML = `
+                    <i class="mdi mdi-magnify" style="font-size: 48px; color: #ccc;"></i>
+                    <p class="text-muted mt-2">Tidak ditemukan ruangan yang cocok dengan pencarian</p>
+                `;
+                container.appendChild(noResultsMsg);
+            }
+            noResultsMsg.style.display = 'block';
+        } else if (noResultsMsg) {
+            noResultsMsg.style.display = 'none';
+        }
+    }
 
     // Function to show room assets
     function showRoomAssets(roomId, roomName) {

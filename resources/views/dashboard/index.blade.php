@@ -127,7 +127,7 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                <span class="badge badge-{{ $report->status == 'selesai' ? 'success' : 'secondary' }}">
+                                                <span class="badge badge-{{ $report->status == 'selesai' ? 'success' : ($report->status == 'dalam_proses' ? 'info' : 'warning') }}">
                                                     {{ ucfirst(str_replace('_', ' ', $report->status)) }}
                                                 </span>
                                             </td>

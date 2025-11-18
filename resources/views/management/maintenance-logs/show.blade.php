@@ -58,7 +58,7 @@
                     </tr>
                     <tr>
                         <th>Dilakukan Oleh</th>
-                        <td><strong>{{ $maintenanceLog->performed_by }}</strong></td>
+                        <td><strong>{{ $maintenanceLog->performedBy->name ?? '-' }}</strong></td>
                     </tr>
                     <tr>
                         <th>Tanggal Pelaksanaan</th>

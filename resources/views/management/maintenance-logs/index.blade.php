@@ -87,7 +87,7 @@
                                     <small class="text-muted">{{ $log->asset->asset_code }}</small>
                                 </td>
                                 <td>{{ $log->date_performed->format('d/m/Y H:i') }}</td>
-                                <td>{{ $log->performed_by }}</td>
+                                <td>{{ $log->performedBy->name ?? '-' }}</td>
                                 <td>
                                     <small class="text-muted">
                                         {{ $log->result ? Str::limit($log->result, 50) : '-' }}

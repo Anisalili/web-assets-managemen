@@ -66,7 +66,7 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <span class="badge badge-{{ $report->priority == 'critical' ? 'danger' : ($report->priority == 'high' ? 'warning' : 'primary') }}">
+                                        <span class="badge badge-{{ $report->priority == 'critical' ? 'danger' : ($report->priority == 'high' ? 'warning' : 'success') }}">
                                             {{ ucfirst($report->priority) }}
                                         </span>
                                     </td>

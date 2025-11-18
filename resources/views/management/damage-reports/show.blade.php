@@ -112,7 +112,7 @@
                             <div class="form-group">
                                 <label class="font-weight-bold">Status:</label>
                                 <p>
-                                    <span class="badge badge-{{ $damageReport->status == 'selesai' ? 'success' : ($damageReport->status == 'dalam_proses' ? 'info' : 'secondary') }}">
+                                    <span class="badge badge-{{ $damageReport->status == 'selesai' ? 'success' : ($damageReport->status == 'dalam_proses' ? 'info' : 'warning') }}">
                                         {{ ucfirst(str_replace('_', ' ', $damageReport->status)) }}
                                     </span>
                                 </p>
@@ -135,7 +135,7 @@
                             <div class="form-group">
                                 <label class="font-weight-bold">Prioritas:</label>
                                 <p>
-                                    <span class="badge badge-{{ $damageReport->priority == 'critical' ? 'danger' : ($damageReport->priority == 'high' ? 'warning' : 'secondary') }}">
+                                    <span class="badge badge-{{ $damageReport->priority == 'critical' ? 'danger' : ($damageReport->priority == 'high' ? 'warning' : 'success') }}">
                                         {{ ucfirst($damageReport->priority) }}
                                     </span>
                                 </p>
@@ -230,7 +230,7 @@
                         <div class="border-bottom pb-3 mb-3">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <h6 class="mb-0">Perbaikan #{{ $loop->iteration }}</h6>
-                                <span class="badge badge-{{ $repair->status == 'completed' ? 'success' : ($repair->status == 'in_progress' ? 'info' : 'secondary') }}">
+                                <span class="badge badge-{{ $repair->status == 'completed' ? 'success' : ($repair->status == 'in_progress' ? 'info' : 'warning') }}">
                                     {{ ucfirst(str_replace('_', ' ', $repair->status)) }}
                                 </span>
                             </div>

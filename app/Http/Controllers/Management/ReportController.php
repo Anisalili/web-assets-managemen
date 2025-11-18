@@ -91,6 +91,7 @@ class ReportController extends Controller
             "asset.category",
             "asset.room.building",
             "schedule",
+            "performedBy",
         ]);
 
         // Apply filters

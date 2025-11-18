@@ -75,7 +75,7 @@
                                     <td>{{ $maintenanceLogs->firstItem() + $index }}</td>
                                     <td>{{ $log->asset->name }}</td>
                                     <td>{{ $log->date_performed->format('d M Y') }}</td>
-                                    <td>{{ $log->performed_by }}</td>
+                                    <td>{{ $log->performedBy->name ?? '-' }}</td>
                                     <td>{{ Str::limit($log->result, 50) }}</td>
                                     <td>Rp {{ number_format($log->maintenance_cost, 0, ',', '.') }}</td>
                                     <td>{{ $log->spare_parts_used ? Str::limit($log->spare_parts_used, 30) : '-' }}</td>

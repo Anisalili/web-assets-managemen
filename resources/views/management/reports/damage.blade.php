@@ -146,12 +146,12 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <span class="badge badge-{{ $report->priority == 'critical' ? 'danger' : ($report->priority == 'high' ? 'warning' : 'secondary') }}">
+                                    <span class="badge badge-{{ $report->priority == 'critical' ? 'danger' : ($report->priority == 'high' ? 'warning' : 'success') }}">
                                         {{ ucfirst($report->priority) }}
                                     </span>
                                 </td>
                                 <td>
-                                    <span class="badge badge-{{ $report->status == 'selesai' ? 'success' : ($report->status == 'dalam_proses' ? 'info' : 'secondary') }}">
+                                    <span class="badge badge-{{ $report->status == 'selesai' ? 'success' : ($report->status == 'dalam_proses' ? 'info' : 'warning') }}">
                                         {{ ucfirst(str_replace('_', ' ', $report->status)) }}
                                     </span>
                                 </td>
