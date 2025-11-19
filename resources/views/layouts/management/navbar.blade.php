@@ -7,7 +7,7 @@
         </div>
         <div>
             <a class="navbar-brand brand-logo" href="{{ route('dashboard') }}">
-                <img src="{{ asset('images/logo-pt-pek-putih.png') }}" alt="Logo" style="height: 55px; width: auto;" class="me-2">
+                <img src="{{ asset('images/logo-pt-pek-putih.png') }}" alt="Logo" style="height: 240px; width: auto;" class="me-2">
             </a>
             <a class="navbar-brand brand-logo-mini" href="{{ route('dashboard') }}">
                 <img src="{{ asset('images/logo-pt-pek-putih.png') }}" alt="Logo" style="height: 45px; width: auto;">
