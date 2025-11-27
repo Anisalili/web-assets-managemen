@@ -165,7 +165,7 @@
                                 <div class="tab-pane fade" id="nav-history" role="tabpanel"
                                     aria-labelledby="nav-history-tab">
                                     <p> PT Panen Embun Kemakmuran memulai operasional komersialnya
-                                        pada 20 November 2020. Dalam perjalanannya, perusahaan terus berkembang menjadi salah
+                                        pada 1 November 2020. Dalam perjalanannya, perusahaan terus berkembang menjadi salah
                                         satu produsen AMDK yang dipercaya di wilayah Kalimantan Selatan.</p>
                                     <p>Dengan fasilitas produksi modern dan sistem manajemen yang terintegrasi, kami berkomitmen
                                         untuk terus meningkatkan kualitas produk dan layanan kepada konsumen.</p>
