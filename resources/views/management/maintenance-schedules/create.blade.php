@@ -10,7 +10,7 @@
                 <h4 class="card-title">Tambah Jadwal Pemeliharaan</h4>
                 <p class="card-description">Isi form di bawah untuk menambah jadwal pemeliharaan baru</p>
 
-                <form action="{{ route('maintenance-schedules.store') }}" method="POST">
+                <form action="{{ route('maintenance-schedules.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <div class="form-group">
@@ -95,6 +95,19 @@
                         @error('status')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="image_path">Foto Etiket/Jadwal</label>
+                        <input type="file"
+                               class="form-control @error('image_path') is-invalid @enderror"
+                               id="image_path"
+                               name="image_path"
+                               accept="image/*">
+                        @error('image_path')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                        <small class="form-text text-muted">Format: JPG, PNG, maksimal 2MB</small>
                     </div>
 
                     <div class="form-group">

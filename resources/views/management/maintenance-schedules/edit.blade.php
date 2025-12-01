@@ -10,7 +10,7 @@
                 <h4 class="card-title">Edit Jadwal Pemeliharaan</h4>
                 <p class="card-description">Perbarui informasi jadwal pemeliharaan</p>
 
-                <form action="{{ route('maintenance-schedules.update', $maintenanceSchedule) }}" method="POST">
+                <form action="{{ route('maintenance-schedules.update', $maintenanceSchedule) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
@@ -95,6 +95,24 @@
                         @error('status')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="image_path">Foto Etiket/Jadwal</label>
+                        @if($maintenanceSchedule->image_path)
+                        <div class="mb-2">
+                            <img src="{{ asset('storage/' . $maintenanceSchedule->image_path) }}" alt="Foto Etiket" style="max-width: 200px; max-height: 200px;">
+                        </div>
+                        @endif
+                        <input type="file"
+                               class="form-control @error('image_path') is-invalid @enderror"
+                               id="image_path"
+                               name="image_path"
+                               accept="image/*">
+                        @error('image_path')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                        <small class="form-text text-muted">Format: JPG, PNG, maksimal 2MB. Kosongkan jika tidak ingin mengubah foto.</small>
                     </div>
 
                     <div class="form-group">

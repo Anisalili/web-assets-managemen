@@ -2,16 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Building extends Model
 {
-    protected $fillable = [
-        'building_code',
-        'name',
-        'description',
-    ];
+    use HasFactory;
+    protected $fillable = ["building_code", "name", "description"];
 
     /**
      * Get all rooms for this building

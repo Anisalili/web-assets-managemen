@@ -2,18 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Room extends Model
 {
-    protected $fillable = [
-        'room_code',
-        'building_id',
-        'name',
-        'description',
-    ];
+    use HasFactory;
+    protected $fillable = ["room_code", "building_id", "name", "description"];
 
     /**
      * Get the building that owns this room

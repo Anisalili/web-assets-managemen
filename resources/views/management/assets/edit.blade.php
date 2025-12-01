@@ -128,7 +128,26 @@
                                 @error('owner')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
-                                <small class="form-text text-muted">Maksimal 100 karakter</small>
+                                <small class="form-text text-muted">Pemilik institusi/bagian</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="private_owner">Pengguna Pribadi</label>
+                                <input type="text"
+                                       class="form-control @error('private_owner') is-invalid @enderror"
+                                       id="private_owner"
+                                       name="private_owner"
+                                       value="{{ old('private_owner', $asset->private_owner) }}"
+                                       placeholder="Contoh: Budi Santoso"
+                                       maxlength="100">
+                                @error('private_owner')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                <small class="form-text text-muted">Kosongkan jika milik ruangan/institusi</small>
                             </div>
                         </div>
                     </div>

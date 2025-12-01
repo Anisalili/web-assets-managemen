@@ -158,12 +158,13 @@
                             <tr>
                                 <th width="5%">#</th>
                                 <th width="10%">Kode Aset</th>
-                                <th width="15%">Nama Aset</th>
-                                <th width="12%">Kategori</th>
-                                <th width="15%">Lokasi</th>
-                                <th width="10%">Status</th>
-                                <th width="10%">Nilai</th>
-                                <th width="12%">Pemilik</th>
+                                <th width="13%">Nama Aset</th>
+                                <th width="10%">Kategori</th>
+                                <th width="13%">Lokasi</th>
+                                <th width="8%">Status</th>
+                                <th width="8%">Nilai</th>
+                                <th width="10%">Pemilik</th>
+                                <th width="10%">Pengguna</th>
                                 <th width="11%">Aksi</th>
                             </tr>
                         </thead>
@@ -210,6 +211,13 @@
                                     <small>{{ $asset->owner ?? '-' }}</small>
                                 </td>
                                 <td>
+                                    @if($asset->private_owner)
+                                        <small class="text-info">{{ $asset->private_owner }}</small>
+                                    @else
+                                        <span class="text-muted">-</span>
+                                    @endif
+                                </td>
+                                <td>
                                     @if(auth()->user()->hasPermission('view-assets'))
                                     <a href="{{ route('assets.show', $asset) }}"
                                        class="btn btn-sm btn-info me-1"
@@ -244,7 +252,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="9" class="text-center">
+                                <td colspan="10" class="text-center">
                                     <div class="py-4">
                                         <i class="mdi mdi-package-variant" style="font-size: 48px; color: #ccc;"></i>
                                         <p class="text-muted mb-0 mt-2">Tidak ada data aset.</p>

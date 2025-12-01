@@ -7,10 +7,10 @@
         </div>
         <div>
             <a class="navbar-brand brand-logo" href="{{ route('dashboard') }}">
-                <img src="{{ asset('images/logo-pt-pek-putih.png') }}" alt="Logo" style="height: 240px; width: auto;" class="me-2">
+                <img src="{{ asset('images/siventas.png') }}" alt="SINVENTAS" style="height: 150px; width: auto;" class="me-2">
             </a>
             <a class="navbar-brand brand-logo-mini" href="{{ route('dashboard') }}">
-                <img src="{{ asset('images/logo-pt-pek-putih.png') }}" alt="Logo" style="height: 45px; width: auto;">
+                <img src="{{ asset('images/siventas.png') }}" alt="SINVENTAS" style="height: 150px; width: auto;">
             </a>
         </div>
     </div>
@@ -18,7 +18,7 @@
         <ul class="navbar-nav">
             <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
                 <h1 class="welcome-text">Selamat Datang, <span class="text-black fw-bold">{{ auth()->user()->name }}</span></h1>
-                <h3 class="welcome-sub-text">Sistem Inventaris Asset PT. Panen Embun Kemakmuran</h3>
+                <h3 class="welcome-sub-text">SINVENTAS - Sistem Informasi Inventaris Asset</h3>
             </li>
         </ul>
         <ul class="navbar-nav ms-auto">

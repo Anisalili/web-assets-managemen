@@ -77,7 +77,9 @@ class DamageReportSeeder extends Seeder
                 "impact_on_operations" => rand(0, 1)
                     ? "Mengganggu operasional produksi"
                     : "Tidak mengganggu operasional",
-                "estimated_repair_cost" => rand(500000, 5000000),
+                "estimated_repair_cost" => rand(0, 1)
+                    ? rand(500000, 5000000)
+                    : null,
                 "status" => $status,
                 "resolved_date" =>
                     $status === "selesai"
@@ -112,7 +114,7 @@ class DamageReportSeeder extends Seeder
                     "spare_parts_used" => rand(0, 1)
                         ? "Spare part A, Spare part B"
                         : null,
-                    "repair_cost" => rand(500000, 5000000),
+                    "repair_cost" => rand(0, 1) ? rand(500000, 5000000) : null,
                     "status" => $repairStatus,
                     "notes" => rand(0, 1) ? "Perbaikan berjalan lancar" : null,
                 ]);

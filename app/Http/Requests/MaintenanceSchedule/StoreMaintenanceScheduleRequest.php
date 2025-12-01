@@ -11,7 +11,8 @@ class StoreMaintenanceScheduleRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check() && auth()->user()->hasPermission('create-maintenance-schedules');
+        return auth()->check() &&
+            auth()->user()->hasPermission("create-maintenance-schedules");
     }
 
     /**
@@ -22,12 +23,23 @@ class StoreMaintenanceScheduleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'asset_id' => ['required', 'exists:assets,id'],
-            'scheduled_date' => ['required', 'date', 'after_or_equal:today'],
-            'frequency' => ['required', 'string', 'max:20', 'in:harian,mingguan,bulanan,triwulan,semesteran,tahunan'],
-            'description' => ['nullable', 'string'],
-            'assigned_to' => ['nullable', 'string', 'max:100'],
-            'status' => ['required', 'string', 'max:20', 'in:terjadwal,selesai,dibatalkan'],
+            "asset_id" => ["required", "exists:assets,id"],
+            "scheduled_date" => ["required", "date", "after_or_equal:today"],
+            "frequency" => [
+                "required",
+                "string",
+                "max:20",
+                "in:harian,mingguan,bulanan,triwulan,semesteran,tahunan",
+            ],
+            "description" => ["nullable", "string"],
+            "image_path" => ["nullable", "image", "max:2048"],
+            "assigned_to" => ["nullable", "string", "max:100"],
+            "status" => [
+                "required",
+                "string",
+                "max:20",
+                "in:terjadwal,selesai,dibatalkan",
+            ],
         ];
     }
 
@@ -37,12 +49,12 @@ class StoreMaintenanceScheduleRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'asset_id' => 'aset',
-            'scheduled_date' => 'tanggal terjadwal',
-            'frequency' => 'frekuensi',
-            'description' => 'deskripsi',
-            'assigned_to' => 'ditugaskan kepada',
-            'status' => 'status',
+            "asset_id" => "aset",
+            "scheduled_date" => "tanggal terjadwal",
+            "frequency" => "frekuensi",
+            "description" => "deskripsi",
+            "assigned_to" => "ditugaskan kepada",
+            "status" => "status",
         ];
     }
 
@@ -52,14 +64,15 @@ class StoreMaintenanceScheduleRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'asset_id.required' => 'Aset wajib dipilih.',
-            'asset_id.exists' => 'Aset tidak valid.',
-            'scheduled_date.required' => 'Tanggal terjadwal wajib diisi.',
-            'scheduled_date.after_or_equal' => 'Tanggal terjadwal tidak boleh sebelum hari ini.',
-            'frequency.required' => 'Frekuensi wajib dipilih.',
-            'frequency.in' => 'Frekuensi tidak valid.',
-            'status.required' => 'Status wajib dipilih.',
-            'status.in' => 'Status tidak valid.',
+            "asset_id.required" => "Aset wajib dipilih.",
+            "asset_id.exists" => "Aset tidak valid.",
+            "scheduled_date.required" => "Tanggal terjadwal wajib diisi.",
+            "scheduled_date.after_or_equal" =>
+                "Tanggal terjadwal tidak boleh sebelum hari ini.",
+            "frequency.required" => "Frekuensi wajib dipilih.",
+            "frequency.in" => "Frekuensi tidak valid.",
+            "status.required" => "Status wajib dipilih.",
+            "status.in" => "Status tidak valid.",
         ];
     }
 }

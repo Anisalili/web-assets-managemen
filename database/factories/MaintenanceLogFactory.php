@@ -41,6 +41,10 @@ class MaintenanceLogFactory extends Factory
             "performed_by" => $performedBy,
             "date_performed" => $datePerformed,
             "result" => fake()->optional(0.9)->paragraph(3),
+            "spare_parts_used" => fake()->optional(0.4)->words(5, true),
+            "maintenance_cost" => fake()
+                ->optional(0.5)
+                ->numberBetween(100000, 5000000),
             "next_recommendation_date" => fake()
                 ->optional(0.5)
                 ->dateTimeBetween($datePerformed, "+6 months"),

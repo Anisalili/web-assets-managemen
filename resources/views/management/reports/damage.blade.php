@@ -178,18 +178,7 @@
                             </tr>
                             @endforelse
                         </tbody>
-                        @if($damageReports->count() > 0)
-                        <tfoot class="table-light">
-                            <tr>
-                                <th colspan="7" class="text-end">Total Estimasi:</th>
-                                <th colspan="2">Rp {{ number_format($totalEstimatedCost, 0, ',', '.') }}</th>
-                            </tr>
-                            <tr>
-                                <th colspan="7" class="text-end">Total Biaya Aktual:</th>
-                                <th colspan="2">Rp {{ number_format($totalActualCost, 0, ',', '.') }}</th>
-                            </tr>
-                        </tfoot>
-                        @endif
+
                     </table>
                 </div>
 

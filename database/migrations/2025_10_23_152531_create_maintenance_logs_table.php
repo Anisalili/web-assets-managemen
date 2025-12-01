@@ -12,20 +12,13 @@ return new class extends Migration {
     {
         Schema::create("maintenance_logs", function (Blueprint $table) {
             $table->id();
-            $table
-                ->foreignId("schedule_id")
-                ->nullable()
-                ->constrained("maintenance_schedules")
-                ->onDelete("set null");
-            $table
-                ->foreignId("asset_id")
-                ->constrained("assets")
-                ->onDelete("cascade");
-            $table->string("performed_by", 100);
+            $table->unsignedBigInteger("schedule_id")->nullable();
+            $table->unsignedBigInteger("asset_id");
+            $table->unsignedBigInteger("performed_by")->nullable();
             $table->datetime("date_performed");
             $table->text("result")->nullable();
             $table->text("spare_parts_used")->nullable();
-            $table->decimal("maintenance_cost", 15, 2)->default(0);
+            $table->decimal("maintenance_cost", 15, 2)->nullable();
             $table->date("next_recommendation_date")->nullable();
             $table->text("notes")->nullable();
             $table->timestamps();

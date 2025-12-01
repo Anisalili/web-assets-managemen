@@ -65,12 +65,10 @@
                         <td><strong>{{ $maintenanceLog->date_performed->format('d F Y, H:i') }} WIB</strong></td>
                     </tr>
                     <tr>
-                        <th>Hasil Pemeliharaan</th>
+                        <th style="width: 200px; vertical-align: top;">Hasil Pemeliharaan</th>
                         <td>
                             @if($maintenanceLog->result)
-                                <div class="p-2 bg-light rounded">
-                                    {{ $maintenanceLog->result }}
-                                </div>
+                                <div class="p-2 bg-light rounded" style="white-space: pre-wrap; word-wrap: break-word;">{{ $maintenanceLog->result }}</div>
                             @else
                                 -
                             @endif

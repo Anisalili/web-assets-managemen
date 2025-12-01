@@ -12,22 +12,16 @@ return new class extends Migration {
     {
         Schema::create("asset_repairs", function (Blueprint $table) {
             $table->id();
-            $table
-                ->foreignId("damage_report_id")
-                ->constrained("asset_damage_reports")
-                ->onDelete("cascade");
-            $table
-                ->foreignId("asset_id")
-                ->constrained("assets")
-                ->onDelete("cascade");
+            $table->unsignedBigInteger("damage_report_id");
+            $table->unsignedBigInteger("asset_id");
             $table->datetime("repair_start_date");
             $table->datetime("repair_end_date")->nullable();
-            $table->string("repaired_by", 100);
+            $table->unsignedBigInteger("repaired_by")->nullable();
             $table->unsignedBigInteger("assigned_to")->nullable();
             $table->text("repair_description");
             $table->text("spare_parts_used")->nullable();
-            $table->decimal("repair_cost", 15, 2)->default(0);
-            $table->string("status", 20); // pending, in_progress, completed, failed
+            $table->decimal("repair_cost", 15, 2)->nullable();
+            $table->string("status", 20);
             $table->text("notes")->nullable();
             $table->timestamps();
         });

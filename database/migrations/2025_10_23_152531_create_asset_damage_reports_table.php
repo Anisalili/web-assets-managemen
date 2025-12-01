@@ -12,23 +12,20 @@ return new class extends Migration {
     {
         Schema::create("asset_damage_reports", function (Blueprint $table) {
             $table->id();
-            $table
-                ->foreignId("asset_id")
-                ->constrained("assets")
-                ->onDelete("cascade");
-            $table->string("reported_by", 100);
+            $table->unsignedBigInteger("asset_id");
+            $table->unsignedBigInteger("reported_by")->nullable();
             $table->unsignedBigInteger("assigned_to")->nullable();
             $table->datetime("report_date");
             $table->string("severity", 20);
-            $table->string("damage_type", 50)->nullable(); // mechanical, electrical, structural, etc
-            $table->string("priority", 20)->default("medium"); // low, medium, high, critical
+            $table->string("damage_type", 50)->nullable();
+            $table->string("priority", 20)->default("medium");
             $table->text("description");
             $table->text("impact_on_operations")->nullable();
             $table->string("image_path")->nullable();
             $table->decimal("estimated_repair_cost", 15, 2)->nullable();
             $table->string("status", 20);
             $table->datetime("resolved_date")->nullable();
-            $table->string("resolved_by", 100)->nullable();
+            $table->unsignedBigInteger("resolved_by")->nullable();
             $table->timestamps();
         });
     }
