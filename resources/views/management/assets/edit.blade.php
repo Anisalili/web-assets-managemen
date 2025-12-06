@@ -150,6 +150,27 @@
                                 <small class="form-text text-muted">Kosongkan jika milik ruangan/institusi</small>
                             </div>
                         </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="image">Foto Aset</label>
+                                @if($asset->image_path)
+                                <div class="mb-2">
+                                    <img src="{{ Storage::url($asset->image_path) }}" alt="Foto Aset" style="max-width: 200px; max-height: 200px;" class="img-thumbnail">
+                                    <p class="text-muted small mt-1">Foto saat ini</p>
+                                </div>
+                                @endif
+                                <input type="file"
+                                       class="form-control @error('image') is-invalid @enderror"
+                                       id="image"
+                                       name="image"
+                                       accept="image/jpeg,image/png,image/jpg">
+                                @error('image')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                <small class="form-text text-muted">Format: JPG, PNG, maksimal 2MB. Kosongkan jika tidak ingin mengubah foto.</small>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="row">
@@ -170,18 +191,16 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="value">Nilai Beli (Rp)</label>
-                                <input type="number"
+                                <input type="text"
                                        class="form-control @error('value') is-invalid @enderror"
                                        id="value"
                                        name="value"
                                        value="{{ old('value', $asset->value) }}"
-                                       placeholder="Contoh: 5000000"
-                                       min="0"
-                                       step="0.01">
+                                       placeholder="Belum ada harga">
                                 @error('value')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
-                                <small class="form-text text-muted">Aktiva: > 500, Pasif: ≤ 500</small>
+                                <small class="form-text text-muted">Kosongkan jika belum ada harga. Aktiva: > 500, Pasif: ≤ 500</small>
                             </div>
                         </div>
                     </div>

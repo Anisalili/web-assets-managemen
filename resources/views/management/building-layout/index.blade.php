@@ -398,11 +398,11 @@
     function getStatusBadge(status) {
         const statusMap = {
             'aktif': '<span class="badge bg-success">Aktif</span>',
-            'non-aktif': '<span class="badge bg-secondary">Non-Aktif</span>',
+            'non-aktif': '<span class="badge bg-dark">Non-Aktif</span>',
             'dalam_perbaikan': '<span class="badge bg-warning">Dalam Perbaikan</span>',
             'rusak': '<span class="badge bg-danger">Rusak</span>'
         };
-        return statusMap[status] || `<span class="badge bg-secondary">${status}</span>`;
+        return statusMap[status] || `<span class="badge bg-dark">${status}</span>`;
     }
 </script>
 @endpush

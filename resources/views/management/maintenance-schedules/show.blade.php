@@ -59,7 +59,7 @@
                     </tr>
                     <tr>
                         <th>Frekuensi</th>
-                        <td><span class="badge bg-secondary">{{ ucfirst($maintenanceSchedule->frequency) }}</span></td>
+                        <td><span class="badge bg-primary">{{ ucfirst($maintenanceSchedule->frequency) }}</span></td>
                     </tr>
                     <tr>
                         <th>Ditugaskan Kepada</th>

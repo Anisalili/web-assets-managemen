@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->string("private_owner", 100)->nullable();
             $table->date("purchase_date")->nullable();
             $table->decimal("value", 15, 2)->nullable();
+            $table->string("image_path")->nullable();
             $table->datetime("last_update")->nullable();
             $table->text("notes")->nullable();
             $table->timestamps();

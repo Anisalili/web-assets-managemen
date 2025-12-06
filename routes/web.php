@@ -38,6 +38,10 @@ Route::middleware("auth")->group(function () {
             "assets",
             App\Http\Controllers\Management\AssetController::class,
         );
+        Route::get("assets/{asset}/print", [
+            App\Http\Controllers\Management\AssetController::class,
+            "print",
+        ])->name("assets.print");
     });
 
     Route::middleware("permission:view-asset-categories")->group(function () {
@@ -144,15 +148,15 @@ Route::middleware("auth")->group(function () {
         Route::get("/reports/assets", [
             App\Http\Controllers\Management\ReportController::class,
             "assets",
-        ])->name("reports.assets");
+        ])->name("report.barang");
         Route::get("/reports/maintenance", [
             App\Http\Controllers\Management\ReportController::class,
             "maintenance",
-        ])->name("reports.maintenance");
+        ])->name("report.pemeliharaan");
         Route::get("/reports/damage", [
             App\Http\Controllers\Management\ReportController::class,
             "damage",
-        ])->name("reports.damage");
+        ])->name("report.kerusakan");
     });
 
     // Buildings & Rooms Routes

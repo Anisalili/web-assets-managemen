@@ -381,5 +381,59 @@
     </script>
 
     @stack('scripts')
+
+    <!-- Fix sidebar menu expansion - Override template.js behavior -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait for template.js to finish, then fix the menu state
+            setTimeout(function() {
+                const currentPath = window.location.pathname;
+
+                // Define which menu should be open for each route prefix
+                const menuMap = {
+                    '/reports/': 'reports-menu',
+                    '/assets': 'asset-menu',
+                    '/asset-categories': 'asset-menu',
+                    '/damage-reports': 'damage-menu',
+                    '/repairs': 'damage-menu',
+                    '/maintenance-schedules': 'maintenance-menu',
+                    '/maintenance-logs': 'maintenance-menu',
+                    '/buildings': 'location-menu',
+                    '/rooms': 'location-menu',
+                    '/building-layout': 'location-menu',
+                    '/roles': 'rbac-menu',
+                    '/permissions': 'rbac-menu',
+                };
+
+                // All menu IDs
+                const allMenuIds = ['asset-menu', 'maintenance-menu', 'damage-menu', 'reports-menu', 'location-menu', 'rbac-menu'];
+
+                // Find which menu should be open
+                let targetMenuId = null;
+                for (let [path, menuId] of Object.entries(menuMap)) {
+                    if (currentPath.startsWith(path)) {
+                        targetMenuId = menuId;
+                        break;
+                    }
+                }
+
+                // Force close all menus except the correct one
+                allMenuIds.forEach(menuId => {
+                    const menuElement = document.getElementById(menuId);
+                    if (menuElement) {
+                        if (menuId === targetMenuId) {
+                            // Ensure correct menu is open
+                            if (!menuElement.classList.contains('show')) {
+                                menuElement.classList.add('show');
+                            }
+                        } else {
+                            // Force close wrong menus
+                            menuElement.classList.remove('show');
+                        }
+                    }
+                });
+            }, 150); // Delay to run after template.js
+        });
+    </script>
 </body>
 </html>

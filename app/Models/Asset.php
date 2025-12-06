@@ -22,6 +22,7 @@ class Asset extends Model
         "private_owner",
         "purchase_date",
         "value",
+        "image_path",
         "last_update",
         "notes",
     ];

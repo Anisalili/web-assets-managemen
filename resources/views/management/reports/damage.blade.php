@@ -56,7 +56,7 @@
                 </div>
 
                 <!-- Filter Form -->
-                <form method="GET" action="{{ route('reports.damage') }}" class="mb-3">
+                <form method="GET" action="{{ route('report.kerusakan') }}" class="mb-3">
                     <div class="row g-2">
                         <div class="col-md-2">
                             <select name="asset_id" class="form-select form-select-sm">
@@ -110,7 +110,7 @@
 
                         @if(request()->hasAny(['asset_id', 'status', 'severity', 'priority']))
                         <div class="col-md-2">
-                            <a href="{{ route('reports.damage') }}" class="btn btn-secondary btn-sm w-100">
+                            <a href="{{ route('report.kerusakan') }}" class="btn btn-secondary btn-sm w-100">
                                 <i class="mdi mdi-refresh"></i> Reset
                             </a>
                         </div>

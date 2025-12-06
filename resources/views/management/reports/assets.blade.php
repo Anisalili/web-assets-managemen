@@ -9,19 +9,11 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="card-title mb-0">Laporan Aset</h4>
-                    <div>
-                        <button type="button" class="btn btn-success btn-sm me-2" onclick="exportToExcel()">
-                            <i class="mdi mdi-file-excel"></i> Export Excel
-                        </button>
-                        <button type="button" class="btn btn-danger btn-sm" onclick="exportToPDF()">
-                            <i class="mdi mdi-file-pdf"></i> Export PDF
-                        </button>
-                    </div>
                 </div>
 
                 <!-- Statistics Cards -->
                 <div class="row mb-4">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="card bg-primary text-white">
                             <div class="card-body">
                                 <h6 class="card-title mb-0">Total Aset</h6>
@@ -29,15 +21,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="card bg-success text-white">
-                            <div class="card-body">
-                                <h6 class="card-title mb-0">Total Nilai</h6>
-                                <h2 class="mt-2 mb-0">Rp {{ number_format($totalValue, 0, ',', '.') }}</h2>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="card bg-info text-white">
                             <div class="card-body">
                                 <h6 class="card-title mb-0">Aset Aktif</h6>
@@ -45,7 +29,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="card bg-danger text-white">
                             <div class="card-body">
                                 <h6 class="card-title mb-0">Aset Rusak</h6>
@@ -56,7 +40,7 @@
                 </div>
 
                 <!-- Filter Form -->
-                <form method="GET" action="{{ route('reports.assets') }}" class="mb-3">
+                <form method="GET" action="{{ route('report.barang') }}" class="mb-3">
                     <div class="row g-2">
                         <div class="col-md-2">
                             <select name="category_id" class="form-select form-select-sm">
@@ -134,6 +118,7 @@
                                 <th width="12%">Nilai Beli</th>
                                 <th width="10%">Tgl Pembelian</th>
                                 <th width="11%">Pemilik</th>
+                                <th width="10%">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -158,7 +143,7 @@
                                     @if($asset->status == 'aktif')
                                         <span class="badge bg-success">Aktif</span>
                                     @elseif($asset->status == 'non-aktif')
-                                        <span class="badge bg-secondary">Non-aktif</span>
+                                        <span class="badge bg-dark">Non-aktif</span>
                                     @elseif($asset->status == 'dalam_perbaikan')
                                         <span class="badge bg-warning">Dalam Perbaikan</span>
                                     @else
@@ -180,25 +165,25 @@
                                     @endif
                                 </td>
                                 <td>{{ $asset->owner ?? '-' }}</td>
+                                <td>
+                                    <a href="{{ route('assets.show', $asset) }}" class="btn btn-sm btn-info" title="Detail">
+                                        <i class="mdi mdi-eye"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-sm btn-danger" onclick="printAsset({{ $asset->id }})" title="Cetak">
+                                        <i class="mdi mdi-printer"></i>
+                                    </button>
+                                </td>
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="9" class="text-center py-4">
+                                <td colspan="10" class="text-center py-4">
                                     <i class="mdi mdi-file-document-outline" style="font-size: 48px; color: #ccc;"></i>
                                     <p class="text-muted mb-0 mt-2">Tidak ada data untuk ditampilkan</p>
                                 </td>
                             </tr>
                             @endforelse
                         </tbody>
-                        @if($assets->count() > 0)
-                        <tfoot class="table-light">
-                            <tr>
-                                <th colspan="6" class="text-end">Total:</th>
-                                <th>Rp {{ number_format($totalValue, 0, ',', '.') }}</th>
-                                <th colspan="2">{{ number_format($totalAssets) }} Aset</th>
-                            </tr>
-                        </tfoot>
-                        @endif
+
                     </table>
                 </div>
 
@@ -265,56 +250,9 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
-
 <script>
-    function exportToExcel() {
-        const table = document.querySelector('#reportTable table');
-        const wb = XLSX.utils.table_to_book(table, {sheet: "Laporan Aset"});
-        XLSX.writeFile(wb, 'Laporan_Aset_' + new Date().toISOString().slice(0,10) + '.xlsx');
-        showToast('success', 'Laporan berhasil di-export ke Excel');
-    }
-
-    function exportToPDF() {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF('l', 'mm', 'a4');
-
-        // Title
-        doc.setFontSize(16);
-        doc.text('Laporan Aset', 14, 15);
-        doc.setFontSize(10);
-        doc.text('Tanggal: ' + new Date().toLocaleDateString('id-ID'), 14, 22);
-
-        // Get table data
-        const tableData = [];
-        const rows = document.querySelectorAll('#reportTable tbody tr');
-
-        rows.forEach(row => {
-            const cells = row.querySelectorAll('td');
-            if (cells.length > 1) {
-                const rowData = [];
-                cells.forEach((cell, index) => {
-                    if (index < 9) { // Only get first 9 columns
-                        rowData.push(cell.textContent.trim());
-                    }
-                });
-                tableData.push(rowData);
-            }
-        });
-
-        // Add table
-        doc.autoTable({
-            head: [['#', 'Kode', 'Nama', 'Kategori', 'Lokasi', 'Status', 'Nilai', 'Tgl Beli', 'Pemilik']],
-            body: tableData,
-            startY: 28,
-            styles: { fontSize: 8 },
-            headStyles: { fillColor: [66, 139, 202] }
-        });
-
-        doc.save('Laporan_Aset_' + new Date().toISOString().slice(0,10) + '.pdf');
-        showToast('success', 'Laporan berhasil di-export ke PDF');
+    function printAsset(assetId) {
+        window.open('/assets/' + assetId + '/print', '_blank');
     }
 </script>
 @endpush

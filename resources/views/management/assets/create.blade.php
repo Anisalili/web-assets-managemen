@@ -149,6 +149,21 @@
                                 <small class="form-text text-muted">Kosongkan jika milik ruangan/institusi</small>
                             </div>
                         </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="image">Foto Aset</label>
+                                <input type="file"
+                                       class="form-control @error('image') is-invalid @enderror"
+                                       id="image"
+                                       name="image"
+                                       accept="image/jpeg,image/png,image/jpg">
+                                @error('image')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                <small class="form-text text-muted">Format: JPG, PNG, maksimal 2MB</small>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="row">
@@ -169,18 +184,16 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="value">Nilai Beli (Rp)</label>
-                                <input type="number"
+                                <input type="text"
                                        class="form-control @error('value') is-invalid @enderror"
                                        id="value"
                                        name="value"
                                        value="{{ old('value') }}"
-                                       placeholder="Contoh: 5000000"
-                                       min="0"
-                                       step="0.01">
+                                       placeholder="Belum ada harga">
                                 @error('value')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
-                                <small class="form-text text-muted">Aktiva: > 500, Pasif: ≤ 500</small>
+                                <small class="form-text text-muted">Kosongkan jika belum ada harga. Aktiva: > 500, Pasif: ≤ 500</small>
                             </div>
                         </div>
                     </div>

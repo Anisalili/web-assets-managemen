@@ -10,6 +10,9 @@
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="card-title mb-0">Detail Aset</h4>
                     <div>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="printAssetDetail()">
+                            <i class="mdi mdi-printer"></i> Cetak Laporan
+                        </button>
                         @if(auth()->user()->hasPermission('update-assets'))
                         <a href="{{ route('assets.edit', $asset) }}" class="btn btn-warning btn-sm">
                             <i class="mdi mdi-pencil"></i> Edit
@@ -34,7 +37,7 @@
                             </tr>
                             <tr>
                                 <th>Kategori</th>
-                                <td><span class="badge bg-secondary">{{ $asset->category->name }}</span></td>
+                                <td><span class="badge bg-primary">{{ $asset->category->name }}</span></td>
                             </tr>
                             <tr>
                                 <th>Lokasi</th>
@@ -56,7 +59,7 @@
                                     @if($asset->status == 'aktif')
                                         <span class="badge bg-success">Aktif</span>
                                     @elseif($asset->status == 'non-aktif')
-                                        <span class="badge bg-secondary">Non-aktif</span>
+                                        <span class="badge bg-dark">Non-aktif</span>
                                     @elseif($asset->status == 'dalam_perbaikan')
                                         <span class="badge bg-warning">Dalam Perbaikan</span>
                                     @else
@@ -178,3 +181,11 @@
 </div>
 @endif
 @endsection
+
+@push('scripts')
+<script>
+    function printAssetDetail() {
+        window.open('/assets/{{ $asset->id }}/print', '_blank');
+    }
+</script>
+@endpush

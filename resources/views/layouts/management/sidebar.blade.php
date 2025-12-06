@@ -9,13 +9,16 @@
 
         @if(auth()->user()->hasPermission('view-assets'))
         <li class="nav-item nav-category">Manajemen Asset</li>
-        <li class="nav-item {{ request()->routeIs('assets.*') ? 'active' : '' }}">
-            <a class="nav-link" data-bs-toggle="collapse" href="#asset-menu" aria-expanded="{{ request()->routeIs('assets.*') ? 'true' : 'false' }}" aria-controls="asset-menu">
+        @php
+            $assetMenuActive = (request()->routeIs('assets.index') || request()->routeIs('assets.create') || request()->routeIs('assets.show') || request()->routeIs('assets.edit') || request()->routeIs('assets.print') || request()->routeIs('asset-categories.*'));
+        @endphp
+        <li class="nav-item {{ $assetMenuActive ? 'active' : '' }}">
+            <a class="nav-link" data-bs-toggle="collapse" href="#asset-menu" aria-expanded="{{ $assetMenuActive ? 'true' : 'false' }}" aria-controls="asset-menu">
                 <i class="menu-icon mdi mdi-package-variant"></i>
                 <span class="menu-title">Asset</span>
                 <i class="menu-arrow"></i>
             </a>
-            <div class="collapse {{ request()->routeIs('assets.*') ? 'show' : '' }}" id="asset-menu" data-bs-parent="#sidebar-nav">
+            <div class="collapse {{ $assetMenuActive ? 'show' : '' }}" id="asset-menu">
                 <ul class="nav flex-column sub-menu">
                     @if(auth()->user()->hasPermission('view-assets'))
                     <li class="nav-item">
@@ -38,13 +41,16 @@
         @endif
 
         @if(auth()->user()->hasPermission('view-maintenance-schedules') || auth()->user()->hasPermission('view-maintenance-logs'))
-        <li class="nav-item {{ request()->routeIs('maintenance.*') ? 'active' : '' }}">
-            <a class="nav-link" data-bs-toggle="collapse" href="#maintenance-menu" aria-expanded="{{ request()->routeIs('maintenance.*') ? 'true' : 'false' }}" aria-controls="maintenance-menu">
+        @php
+            $maintenanceMenuActive = (request()->routeIs('maintenance-schedules.*') || request()->routeIs('maintenance-logs.*'));
+        @endphp
+        <li class="nav-item {{ $maintenanceMenuActive ? 'active' : '' }}">
+            <a class="nav-link" data-bs-toggle="collapse" href="#maintenance-menu" aria-expanded="{{ $maintenanceMenuActive ? 'true' : 'false' }}" aria-controls="maintenance-menu">
                 <i class="menu-icon mdi mdi-wrench"></i>
                 <span class="menu-title">Perawatan</span>
                 <i class="menu-arrow"></i>
             </a>
-            <div class="collapse {{ request()->routeIs('maintenance.*') ? 'show' : '' }}" id="maintenance-menu" data-bs-parent="#sidebar-nav">
+            <div class="collapse {{ $maintenanceMenuActive ? 'show' : '' }}" id="maintenance-menu">
                 <ul class="nav flex-column sub-menu">
                     @if(auth()->user()->hasPermission('view-maintenance-schedules'))
                     <li class="nav-item">
@@ -62,13 +68,16 @@
         @endif
 
         @if(auth()->user()->hasPermission('view-damage-reports') || auth()->user()->hasPermission('view-repairs'))
-        <li class="nav-item {{ request()->routeIs('damage-reports.*') || request()->routeIs('repairs.*') ? 'active' : '' }}">
-            <a class="nav-link" data-bs-toggle="collapse" href="#damage-menu" aria-expanded="{{ request()->routeIs('damage-reports.*') || request()->routeIs('repairs.*') ? 'true' : 'false' }}" aria-controls="damage-menu">
+        @php
+            $damageMenuActive = (request()->routeIs('damage-reports.*') || request()->routeIs('repairs.*'));
+        @endphp
+        <li class="nav-item {{ $damageMenuActive ? 'active' : '' }}">
+            <a class="nav-link" data-bs-toggle="collapse" href="#damage-menu" aria-expanded="{{ $damageMenuActive ? 'true' : 'false' }}" aria-controls="damage-menu">
                 <i class="menu-icon mdi mdi-alert-circle"></i>
                 <span class="menu-title">Kerusakan & Perbaikan</span>
                 <i class="menu-arrow"></i>
             </a>
-            <div class="collapse {{ request()->routeIs('damage-reports.*') || request()->routeIs('repairs.*') ? 'show' : '' }}" id="damage-menu" data-bs-parent="#sidebar-nav">
+            <div class="collapse {{ $damageMenuActive ? 'show' : '' }}" id="damage-menu">
                 <ul class="nav flex-column sub-menu">
                     @if(auth()->user()->hasPermission('view-damage-reports'))
                     <li class="nav-item">
@@ -86,22 +95,22 @@
         @endif
 
         @if(auth()->user()->hasPermission('view-reports'))
-        <li class="nav-item {{ request()->routeIs('reports.*') ? 'active' : '' }}">
-            <a class="nav-link" data-bs-toggle="collapse" href="#reports-menu" aria-expanded="{{ request()->routeIs('reports.*') ? 'true' : 'false' }}" aria-controls="reports-menu">
+        <li class="nav-item {{ request()->routeIs('report.*') ? 'active' : '' }}">
+            <a class="nav-link" data-bs-toggle="collapse" href="#reports-menu" aria-expanded="{{ request()->routeIs('report.*') ? 'true' : 'false' }}" aria-controls="reports-menu">
                 <i class="menu-icon mdi mdi-file-document"></i>
                 <span class="menu-title">Laporan</span>
                 <i class="menu-arrow"></i>
             </a>
-            <div class="collapse {{ request()->routeIs('reports.*') ? 'show' : '' }}" id="reports-menu" data-bs-parent="#sidebar-nav">
+            <div class="collapse {{ request()->routeIs('report.*') ? 'show' : '' }}" id="reports-menu">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('reports.assets') }}">Laporan Asset</a>
+                        <a class="nav-link {{ request()->routeIs('report.barang') ? 'active' : '' }}" href="{{ route('report.barang') }}">Laporan Asset</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('reports.maintenance') }}">Laporan Perawatan</a>
+                        <a class="nav-link {{ request()->routeIs('report.pemeliharaan') ? 'active' : '' }}" href="{{ route('report.pemeliharaan') }}">Laporan Perawatan</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('reports.damage') }}">Laporan Kerusakan</a>
+                        <a class="nav-link {{ request()->routeIs('report.kerusakan') ? 'active' : '' }}" href="{{ route('report.kerusakan') }}">Laporan Kerusakan</a>
                     </li>
                 </ul>
             </div>
@@ -116,7 +125,7 @@
                 <span class="menu-title">Gedung & Ruangan</span>
                 <i class="menu-arrow"></i>
             </a>
-            <div class="collapse {{ request()->routeIs('buildings.*') || request()->routeIs('rooms.*') || request()->routeIs('building-layout.*') ? 'show' : '' }}" id="location-menu" data-bs-parent="#sidebar-nav">
+            <div class="collapse {{ request()->routeIs('buildings.*') || request()->routeIs('rooms.*') || request()->routeIs('building-layout.*') ? 'show' : '' }}" id="location-menu">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('buildings.index') ? 'active' : '' }}" href="{{ route('buildings.index') }}">Daftar Gedung</a>
@@ -152,7 +161,7 @@
                 <span class="menu-title">RBAC</span>
                 <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="rbac-menu" data-bs-parent="#sidebar-nav">
+            <div class="collapse" id="rbac-menu">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('roles.index') }}">Role</a>

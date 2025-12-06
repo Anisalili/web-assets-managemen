@@ -193,7 +193,7 @@
                                     @if($asset->status == 'aktif')
                                         <span class="badge bg-success">Aktif</span>
                                     @elseif($asset->status == 'non-aktif')
-                                        <span class="badge bg-secondary">Non-aktif</span>
+                                        <span class="badge bg-dark">Non-aktif</span>
                                     @elseif($asset->status == 'dalam_perbaikan')
                                         <span class="badge bg-warning">Dalam Perbaikan</span>
                                     @else

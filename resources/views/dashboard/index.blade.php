@@ -212,7 +212,7 @@
                                 @endif
 
                                 @if(auth()->user()->hasPermission('view-reports'))
-                                <a href="{{ route('reports.assets') }}" class="btn btn-info btn-fw">
+                                <a href="{{ route('report.barang') }}" class="btn btn-info btn-fw">
                                     <i class="mdi mdi-file-document"></i> Lihat Laporan
                                 </a>
                                 @endif
