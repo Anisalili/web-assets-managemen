@@ -58,7 +58,7 @@
                 <!-- Filter Form -->
                 <form method="GET" action="{{ route('report.kerusakan') }}" class="mb-3">
                     <div class="row g-2">
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <select name="asset_id" class="form-select form-select-sm">
                                 <option value="">Semua Asset</option>
                                 @foreach($assets as $asset)
@@ -164,6 +164,9 @@
                                     @endif
                                 </td>
                                 <td>
+                                    <button type="button" class="btn btn-sm btn-primary" onclick="printDamage({{ $report->id }})" title="Cetak">
+                                        <i class="mdi mdi-printer"></i>
+                                    </button>
                                     <a href="{{ route('damage-reports.show', $report) }}" class="btn btn-sm btn-info" title="Detail">
                                         <i class="mdi mdi-eye"></i>
                                     </a>
@@ -268,6 +271,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 
 <script>
+    function printDamage(damageId) {
+        window.open('/damage-reports/' + damageId + '/print', '_blank');
+    }
+
     function exportToExcel() {
         const table = document.querySelector('#reportTable table');
         const wb = XLSX.utils.table_to_book(table, {sheet: "Laporan Kerusakan"});
@@ -293,16 +300,16 @@
             const cells = row.querySelectorAll('td');
             if (cells.length > 1) {
                 const rowData = [];
-                cells.forEach(cell => {
-                    rowData.push(cell.textContent.trim());
-                });
+                for(let i = 0; i < cells.length - 1; i++) {
+                    rowData.push(cells[i].textContent.trim());
+                }
                 tableData.push(rowData);
             }
         });
 
         // Add table
         doc.autoTable({
-            head: [['#', 'Kode', 'Nama', 'Kategori', 'Lokasi', 'Status', 'Nilai', 'Update']],
+            head: [['#', 'Asset', 'Tanggal', 'Severity', 'Priority', 'Status', 'Pelapor', 'Estimasi Biaya']],
             body: tableData,
             startY: 28,
             styles: { fontSize: 8 },

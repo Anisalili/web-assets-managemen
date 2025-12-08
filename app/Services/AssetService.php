@@ -10,9 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class AssetService
 {
-    public function __construct(
-        protected AssetRepository $assetRepository
-    ) {}
+    public function __construct(protected AssetRepository $assetRepository) {}
 
     /**
      * Get paginated assets.
@@ -25,8 +23,10 @@ class AssetService
     /**
      * Advanced search assets with filters.
      */
-    public function advancedSearchAssets(array $filters, int $perPage = 25): LengthAwarePaginator
-    {
+    public function advancedSearchAssets(
+        array $filters,
+        int $perPage = 25,
+    ): LengthAwarePaginator {
         return $this->assetRepository->advancedSearch($filters, $perPage);
     }
 
@@ -51,19 +51,19 @@ class AssetService
 
             // Record initial status history
             AssetStatusHistory::create([
-                'asset_id' => $asset->id,
-                'previous_room_id' => null,
-                'new_room_id' => $data['room_id'] ?? null,
-                'previous_status' => null,
-                'new_status' => $data['status'],
-                'changed_by' => auth()->user()->name,
-                'change_date' => now(),
-                'notes' => 'Aset baru dibuat',
+                "asset_id" => $asset->id,
+                "previous_room_id" => null,
+                "new_room_id" => $data["room_id"] ?? null,
+                "previous_status" => null,
+                "new_status" => $data["status"],
+                "changed_by" => auth()->id(),
+                "change_date" => now(),
+                "notes" => "Aset baru dibuat",
             ]);
 
             DB::commit();
 
-            return $asset->fresh(['category', 'room.building']);
+            return $asset->fresh(["category", "room.building"]);
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
@@ -80,8 +80,8 @@ class AssetService
         try {
             $oldStatus = $asset->status;
             $oldRoomId = $asset->room_id;
-            $newStatus = $data['status'];
-            $newRoomId = $data['room_id'] ?? null;
+            $newStatus = $data["status"];
+            $newRoomId = $data["room_id"] ?? null;
 
             // Update asset
             $this->assetRepository->update($asset, $data);
@@ -89,20 +89,20 @@ class AssetService
             // Record status/room change if changed
             if ($oldStatus !== $newStatus || $oldRoomId != $newRoomId) {
                 AssetStatusHistory::create([
-                    'asset_id' => $asset->id,
-                    'previous_room_id' => $oldRoomId,
-                    'new_room_id' => $newRoomId,
-                    'previous_status' => $oldStatus,
-                    'new_status' => $newStatus,
-                    'changed_by' => auth()->user()->name,
-                    'change_date' => now(),
-                    'notes' => $data['change_notes'] ?? 'Perubahan data aset',
+                    "asset_id" => $asset->id,
+                    "previous_room_id" => $oldRoomId,
+                    "new_room_id" => $newRoomId,
+                    "previous_status" => $oldStatus,
+                    "new_status" => $newStatus,
+                    "changed_by" => auth()->id(),
+                    "change_date" => now(),
+                    "notes" => $data["change_notes"] ?? "Perubahan data aset",
                 ]);
             }
 
             DB::commit();
 
-            return $asset->fresh(['category', 'room.building']);
+            return $asset->fresh(["category", "room.building"]);
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
@@ -119,14 +119,14 @@ class AssetService
         try {
             // Record final status before soft delete
             AssetStatusHistory::create([
-                'asset_id' => $asset->id,
-                'previous_room_id' => $asset->room_id,
-                'new_room_id' => null,
-                'previous_status' => $asset->status,
-                'new_status' => 'stock_off',
-                'changed_by' => auth()->user()->name,
-                'change_date' => now(),
-                'notes' => 'Aset di-stock off',
+                "asset_id" => $asset->id,
+                "previous_room_id" => $asset->room_id,
+                "new_room_id" => null,
+                "previous_status" => $asset->status,
+                "new_status" => "stock_off",
+                "changed_by" => auth()->id(),
+                "change_date" => now(),
+                "notes" => "Aset di-stock off",
             ]);
 
             // Soft delete
@@ -144,8 +144,10 @@ class AssetService
     /**
      * Check if asset_code exists.
      */
-    public function assetCodeExists(string $assetCode, ?int $excludeId = null): bool
-    {
+    public function assetCodeExists(
+        string $assetCode,
+        ?int $excludeId = null,
+    ): bool {
         return $this->assetRepository->assetCodeExists($assetCode, $excludeId);
     }
 

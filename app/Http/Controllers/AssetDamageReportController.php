@@ -228,4 +228,20 @@ class AssetDamageReportController extends Controller
             ->route("damage-reports.index")
             ->with("success", "Laporan kerusakan berhasil dihapus");
     }
+
+    /**
+     * Print the specified damage report.
+     */
+    public function print(AssetDamageReport $damageReport): View
+    {
+        $damageReport->load([
+            "asset.category",
+            "asset.room.building",
+            "reportedBy",
+            "assignedUser",
+            "resolvedBy",
+        ]);
+
+        return view("management.damage-reports.print", compact("damageReport"));
+    }
 }

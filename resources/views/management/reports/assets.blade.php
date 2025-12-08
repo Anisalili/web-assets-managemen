@@ -9,6 +9,14 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="card-title mb-0">Laporan Aset</h4>
+                    <div>
+                        <button type="button" class="btn btn-success btn-sm me-2" onclick="exportToExcel()">
+                            <i class="mdi mdi-file-excel"></i> Export Excel
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="exportToPDF()">
+                            <i class="mdi mdi-file-pdf"></i> Export PDF
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Statistics Cards -->
@@ -250,9 +258,55 @@
 @endsection
 
 @push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+
 <script>
     function printAsset(assetId) {
         window.open('/assets/' + assetId + '/print', '_blank');
+    }
+
+    function exportToExcel() {
+        const table = document.querySelector('#reportTable table');
+        const wb = XLSX.utils.table_to_book(table, {sheet: "Laporan Aset"});
+        XLSX.writeFile(wb, 'Laporan_Aset_' + new Date().toISOString().slice(0,10) + '.xlsx');
+        showToast('success', 'Laporan berhasil di-export ke Excel');
+    }
+
+    function exportToPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('l', 'mm', 'a4');
+
+        doc.setFontSize(16);
+        doc.text('Laporan Aset', 14, 15);
+        doc.setFontSize(10);
+        doc.text('Tanggal: ' + new Date().toLocaleDateString('id-ID'), 14, 22);
+
+        const tableData = [];
+        const rows = document.querySelectorAll('#reportTable tbody tr');
+
+        rows.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            if (cells.length > 1) {
+                const rowData = [];
+                for(let i = 0; i < cells.length - 1; i++) {
+                    rowData.push(cells[i].textContent.trim());
+                }
+                tableData.push(rowData);
+            }
+        });
+
+        doc.autoTable({
+            head: [['#', 'Kode', 'Nama', 'Kategori', 'Lokasi', 'Status', 'Nilai', 'Update']],
+            body: tableData,
+            startY: 28,
+            styles: { fontSize: 8 },
+            headStyles: { fillColor: [0, 123, 255] }
+        });
+
+        doc.save('Laporan_Aset_' + new Date().toISOString().slice(0,10) + '.pdf');
+        showToast('success', 'Laporan berhasil di-export ke PDF');
     }
 </script>
 @endpush

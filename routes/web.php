@@ -90,6 +90,10 @@ Route::middleware("auth")->group(function () {
             "maintenance-logs",
             App\Http\Controllers\Management\MaintenanceLogController::class,
         )->only(["index", "show"]); // Disable create, edit, update, delete - logs are auto-generated
+        Route::get("maintenance-logs/{maintenanceLog}/print", [
+            App\Http\Controllers\Management\MaintenanceLogController::class,
+            "print",
+        ])->name("maintenance-logs.print");
     });
 
     // Damage Reports & Repairs Routes
@@ -100,6 +104,10 @@ Route::middleware("auth")->group(function () {
         )->parameters([
             "damage-reports" => "damageReport",
         ]);
+        Route::get("damage-reports/{damageReport}/print", [
+            App\Http\Controllers\AssetDamageReportController::class,
+            "print",
+        ])->name("damage-reports.print");
     });
 
     // Assign teknisi ke damage report
