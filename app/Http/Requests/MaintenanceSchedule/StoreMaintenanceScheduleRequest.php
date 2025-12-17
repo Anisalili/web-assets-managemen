@@ -33,7 +33,7 @@ class StoreMaintenanceScheduleRequest extends FormRequest
             ],
             "description" => ["nullable", "string"],
             "image_path" => ["nullable", "image", "max:2048"],
-            "assigned_to" => ["nullable", "string", "max:100"],
+            "assigned_to" => ["nullable", "exists:users,id"],
             "status" => [
                 "required",
                 "string",

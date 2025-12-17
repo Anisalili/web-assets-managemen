@@ -155,7 +155,6 @@ class ReportController extends Controller
         $query = \App\Models\AssetDamageReport::with([
             "asset.category",
             "asset.room.building",
-            "reportedBy",
             "assignedUser",
             "resolvedBy",
             "repairs",

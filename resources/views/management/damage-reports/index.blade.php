@@ -58,7 +58,7 @@
                                     <td>{{ $damageReports->firstItem() + $index }}</td>
                                     <td>{{ $report->asset->name }}</td>
                                     <td>{{ $report->report_date->format('d M Y H:i') }}</td>
-                                    <td>{{ $report->reportedBy->name ?? '-' }}</td>
+                                    <td>{{ $report->reported_by ?? '-' }}</td>
                                     <td>{{ $report->assignedUser->name ?? '-' }}</td>
                                     <td>
                                         <span class="badge badge-{{ $report->severity == 'berat' ? 'danger' : ($report->severity == 'sedang' ? 'warning' : 'info') }}">

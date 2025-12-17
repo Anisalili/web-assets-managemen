@@ -48,11 +48,6 @@ class AssetDamageReport extends Model
         return $this->belongsTo(User::class, "assigned_to");
     }
 
-    public function reportedBy(): BelongsTo
-    {
-        return $this->belongsTo(User::class, "reported_by");
-    }
-
     public function resolvedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, "resolved_by");

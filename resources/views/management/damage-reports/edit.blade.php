@@ -55,6 +55,7 @@
                                     <label for="reported_by">Dilaporkan Oleh <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="reported_by" name="reported_by"
                                            value="{{ old('reported_by', $damageReport->reported_by) }}" required>
+                                    <small class="form-text text-muted">Bisa diubah untuk karyawan yang tidak memiliki akun</small>
                                 </div>
                             </div>
                         </div>
@@ -87,11 +88,11 @@
                                     <label for="damage_type">Jenis Kerusakan</label>
                                     <select class="form-control" id="damage_type" name="damage_type">
                                         <option value="">-- Pilih Jenis --</option>
-                                        <option value="mechanical" {{ old('damage_type', $damageReport->damage_type) == 'mechanical' ? 'selected' : '' }}>Mechanical</option>
-                                        <option value="electrical" {{ old('damage_type', $damageReport->damage_type) == 'electrical' ? 'selected' : '' }}>Electrical</option>
-                                        <option value="structural" {{ old('damage_type', $damageReport->damage_type) == 'structural' ? 'selected' : '' }}>Structural</option>
-                                        <option value="software" {{ old('damage_type', $damageReport->damage_type) == 'software' ? 'selected' : '' }}>Software</option>
-                                        <option value="hardware" {{ old('damage_type', $damageReport->damage_type) == 'hardware' ? 'selected' : '' }}>Hardware</option>
+                                        <option value="mechanical" {{ old('damage_type', $damageReport->damage_type) == 'mechanical' ? 'selected' : '' }}>Mekanik</option>
+                                        <option value="electrical" {{ old('damage_type', $damageReport->damage_type) == 'electrical' ? 'selected' : '' }}>Elektrik</option>
+                                        <option value="structural" {{ old('damage_type', $damageReport->damage_type) == 'structural' ? 'selected' : '' }}>Struktur</option>
+                                        <option value="software" {{ old('damage_type', $damageReport->damage_type) == 'software' ? 'selected' : '' }}>Perangkat Lunak</option>
+                                        <option value="hardware" {{ old('damage_type', $damageReport->damage_type) == 'hardware' ? 'selected' : '' }}>Perangkat Keras</option>
                                     </select>
                                 </div>
                             </div>
@@ -101,10 +102,10 @@
                                     <label for="priority">Prioritas <span class="text-danger">*</span></label>
                                     <select class="form-control" id="priority" name="priority" required>
                                         <option value="">-- Pilih Prioritas --</option>
-                                        <option value="low" {{ old('priority', $damageReport->priority) == 'low' ? 'selected' : '' }}>Low</option>
-                                        <option value="medium" {{ old('priority', $damageReport->priority) == 'medium' ? 'selected' : '' }}>Medium</option>
-                                        <option value="high" {{ old('priority', $damageReport->priority) == 'high' ? 'selected' : '' }}>High</option>
-                                        <option value="critical" {{ old('priority', $damageReport->priority) == 'critical' ? 'selected' : '' }}>Critical</option>
+                                        <option value="low" {{ old('priority', $damageReport->priority) == 'low' ? 'selected' : '' }}>Rendah</option>
+                                        <option value="medium" {{ old('priority', $damageReport->priority) == 'medium' ? 'selected' : '' }}>Sedang</option>
+                                        <option value="high" {{ old('priority', $damageReport->priority) == 'high' ? 'selected' : '' }}>Tinggi</option>
+                                        <option value="critical" {{ old('priority', $damageReport->priority) == 'critical' ? 'selected' : '' }}>Kritis</option>
                                     </select>
                                 </div>
                             </div>

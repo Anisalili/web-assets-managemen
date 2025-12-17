@@ -18,7 +18,6 @@ class AssetDamageReportController extends Controller
         $query = AssetDamageReport::with([
             "asset.category",
             "asset.room.building",
-            "reportedBy",
             "assignedUser",
             "resolvedBy",
         ]);
@@ -106,7 +105,6 @@ class AssetDamageReportController extends Controller
         $damageReport->load([
             "asset.category",
             "asset.room.building",
-            "reportedBy",
             "assignedUser",
             "resolvedBy",
             "repairs.repairedBy",
@@ -146,7 +144,7 @@ class AssetDamageReportController extends Controller
             "estimated_repair_cost" => "nullable|numeric|min:0",
             "status" => "required|in:dilaporkan,dalam_proses,selesai",
             "resolved_date" => "nullable|date",
-            "resolved_by" => "nullable|string|max:100",
+            "resolved_by" => "nullable|exists:users,id",
         ]);
 
         if ($request->hasFile("image_path")) {
@@ -237,7 +235,6 @@ class AssetDamageReportController extends Controller
         $damageReport->load([
             "asset.category",
             "asset.room.building",
-            "reportedBy",
             "assignedUser",
             "resolvedBy",
         ]);

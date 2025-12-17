@@ -145,7 +145,7 @@
             </tr>
             <tr>
                 <td>Dilaporkan Oleh</td>
-                <td>{{ $damageReport->reportedBy->name ?? '-' }}</td>
+                <td>{{ $damageReport->reported_by ?? '-' }}</td>
             </tr>
             <tr>
                 <td>Deskripsi Kerusakan</td>

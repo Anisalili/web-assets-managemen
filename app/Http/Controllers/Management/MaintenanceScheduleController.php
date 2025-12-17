@@ -122,10 +122,15 @@ class MaintenanceScheduleController extends Controller
             "semesteran",
             "tahunan",
         ];
+        $teknisi = \App\Models\User::whereHas("roles", function ($query) {
+            $query->where("name", "Teknisi");
+        })
+            ->orderBy("name")
+            ->get();
 
         return view(
             "management.maintenance-schedules.create",
-            compact("assets", "statuses", "frequencies"),
+            compact("assets", "statuses", "frequencies", "teknisi"),
         );
     }
 
@@ -187,10 +192,21 @@ class MaintenanceScheduleController extends Controller
             "semesteran",
             "tahunan",
         ];
+        $teknisi = \App\Models\User::whereHas("roles", function ($query) {
+            $query->where("name", "Teknisi");
+        })
+            ->orderBy("name")
+            ->get();
 
         return view(
             "management.maintenance-schedules.edit",
-            compact("maintenanceSchedule", "assets", "statuses", "frequencies"),
+            compact(
+                "maintenanceSchedule",
+                "assets",
+                "statuses",
+                "frequencies",
+                "teknisi",
+            ),
         );
     }
 

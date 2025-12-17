@@ -155,7 +155,7 @@
                                         {{ ucfirst(str_replace('_', ' ', $report->status)) }}
                                     </span>
                                 </td>
-                                <td>{{ $report->reportedBy->name ?? '-' }}</td>
+                                <td>{{ $report->reported_by ?? '-' }}</td>
                                 <td>
                                     @if($report->estimated_repair_cost)
                                         Rp {{ number_format($report->estimated_repair_cost, 0, ',', '.') }}

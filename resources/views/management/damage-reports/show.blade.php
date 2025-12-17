@@ -73,7 +73,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="font-weight-bold">Dilaporkan Oleh:</label>
-                                <p>{{ $damageReport->reportedBy->name ?? '-' }}</p>
+                                <p>{{ $damageReport->reported_by ?? '-' }}</p>
                             </div>
                         </div>
                     </div>

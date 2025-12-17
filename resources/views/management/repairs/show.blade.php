@@ -175,7 +175,7 @@
                             </span>
                         </div>
                         <p class="text-muted mb-1"><small>Dilaporkan: {{ $repair->damageReport->report_date->format('d M Y') }}</small></p>
-                        <p class="mb-2"><strong>Dilaporkan Oleh:</strong> {{ $repair->damageReport->reportedBy->name ?? '-' }}</p>
+                        <p class="mb-2"><strong>Dilaporkan Oleh:</strong> {{ $repair->damageReport->reported_by ?? '-' }}</p>
                         <p class="mb-2">{{ Str::limit($repair->damageReport->description, 150) }}</p>
                         <a href="{{ route('damage-reports.show', $repair->damageReport) }}" class="btn btn-sm btn-outline-primary">
                             <i class="mdi mdi-eye"></i> Lihat Laporan Lengkap

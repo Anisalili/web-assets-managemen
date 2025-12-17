@@ -46,7 +46,7 @@ class DashboardController extends Controller
             ->get();
 
         // Recent damage reports (5 terbaru)
-        $recentDamageReports = AssetDamageReport::with(["asset", "reportedBy"])
+        $recentDamageReports = AssetDamageReport::with(["asset"])
             ->orderBy("report_date", "desc")
             ->limit(5)
             ->get();

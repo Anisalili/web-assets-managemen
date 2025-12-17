@@ -68,13 +68,16 @@
 
                     <div class="form-group">
                         <label for="assigned_to">Ditugaskan Kepada</label>
-                        <input type="text"
-                               class="form-control @error('assigned_to') is-invalid @enderror"
-                               id="assigned_to"
-                               name="assigned_to"
-                               value="{{ old('assigned_to') }}"
-                               placeholder="Nama teknisi/tim"
-                               maxlength="100">
+                        <select class="form-select @error('assigned_to') is-invalid @enderror"
+                                id="assigned_to"
+                                name="assigned_to">
+                            <option value="">Pilih Teknisi</option>
+                            @foreach($teknisi as $tech)
+                            <option value="{{ $tech->id }}" {{ old('assigned_to') == $tech->id ? 'selected' : '' }}>
+                                {{ $tech->name }}
+                            </option>
+                            @endforeach
+                        </select>
                         @error('assigned_to')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
