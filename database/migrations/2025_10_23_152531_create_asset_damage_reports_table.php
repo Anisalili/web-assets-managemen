@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create("asset_damage_reports", function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("asset_id");
-            $table->unsignedBigInteger("reported_by")->nullable();
+            $table->string("reported_by", 100)->nullable(); // String, not foreign key
             $table->unsignedBigInteger("assigned_to")->nullable();
             $table->datetime("report_date");
             $table->string("severity", 20);
@@ -27,6 +27,25 @@ return new class extends Migration {
             $table->datetime("resolved_date")->nullable();
             $table->unsignedBigInteger("resolved_by")->nullable();
             $table->timestamps();
+
+            // Foreign key constraints
+            $table
+                ->foreign("asset_id")
+                ->references("id")
+                ->on("assets")
+                ->onDelete("cascade");
+
+            $table
+                ->foreign("assigned_to")
+                ->references("id")
+                ->on("users")
+                ->onDelete("set null");
+
+            $table
+                ->foreign("resolved_by")
+                ->references("id")
+                ->on("users")
+                ->onDelete("set null");
         });
     }
 

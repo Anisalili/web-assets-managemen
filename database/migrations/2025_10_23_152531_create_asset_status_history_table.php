@@ -21,6 +21,31 @@ return new class extends Migration {
             $table->datetime("change_date");
             $table->text("notes")->nullable();
             $table->timestamps();
+
+            // Foreign key constraints
+            $table
+                ->foreign("asset_id")
+                ->references("id")
+                ->on("assets")
+                ->onDelete("cascade");
+
+            $table
+                ->foreign("previous_room_id")
+                ->references("id")
+                ->on("rooms")
+                ->onDelete("set null");
+
+            $table
+                ->foreign("new_room_id")
+                ->references("id")
+                ->on("rooms")
+                ->onDelete("set null");
+
+            $table
+                ->foreign("changed_by")
+                ->references("id")
+                ->on("users")
+                ->onDelete("set null");
         });
     }
 

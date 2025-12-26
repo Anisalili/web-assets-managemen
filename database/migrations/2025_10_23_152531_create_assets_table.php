@@ -26,6 +26,19 @@ return new class extends Migration {
             $table->text("notes")->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            // Foreign key constraints
+            $table
+                ->foreign("category_id")
+                ->references("id")
+                ->on("asset_categories")
+                ->onDelete("cascade");
+
+            $table
+                ->foreign("room_id")
+                ->references("id")
+                ->on("rooms")
+                ->onDelete("set null");
         });
     }
 

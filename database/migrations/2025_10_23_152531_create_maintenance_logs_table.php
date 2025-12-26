@@ -22,6 +22,25 @@ return new class extends Migration {
             $table->date("next_recommendation_date")->nullable();
             $table->text("notes")->nullable();
             $table->timestamps();
+
+            // Foreign key constraints
+            $table
+                ->foreign("schedule_id")
+                ->references("id")
+                ->on("maintenance_schedules")
+                ->onDelete("set null");
+
+            $table
+                ->foreign("asset_id")
+                ->references("id")
+                ->on("assets")
+                ->onDelete("cascade");
+
+            $table
+                ->foreign("performed_by")
+                ->references("id")
+                ->on("users")
+                ->onDelete("set null");
         });
     }
 

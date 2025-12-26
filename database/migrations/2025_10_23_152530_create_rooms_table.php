@@ -17,6 +17,13 @@ return new class extends Migration {
             $table->string("name", 100);
             $table->text("description")->nullable();
             $table->timestamps();
+
+            // Foreign key constraints
+            $table
+                ->foreign("building_id")
+                ->references("id")
+                ->on("buildings")
+                ->onDelete("cascade");
         });
     }
 

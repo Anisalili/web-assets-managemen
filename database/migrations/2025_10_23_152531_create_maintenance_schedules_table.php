@@ -20,6 +20,19 @@ return new class extends Migration {
             $table->unsignedBigInteger("assigned_to")->nullable();
             $table->string("status", 20);
             $table->timestamps();
+
+            // Foreign key constraints
+            $table
+                ->foreign("asset_id")
+                ->references("id")
+                ->on("assets")
+                ->onDelete("cascade");
+
+            $table
+                ->foreign("assigned_to")
+                ->references("id")
+                ->on("users")
+                ->onDelete("set null");
         });
     }
 
