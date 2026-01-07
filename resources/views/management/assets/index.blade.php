@@ -232,6 +232,11 @@
                                        title="Edit">
                                         <i class="mdi mdi-pencil"></i>
                                     </a>
+                                    <a href="{{ route('assets.transfer', $asset) }}"
+                                       class="btn btn-sm btn-secondary me-1"
+                                       title="Pindah Aset">
+                                        <i class="mdi mdi-swap-horizontal"></i>
+                                    </a>
                                     @endif
 
                                     @if(auth()->user()->hasPermission('delete-assets'))

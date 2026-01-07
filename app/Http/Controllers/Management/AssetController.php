@@ -223,4 +223,43 @@ class AssetController extends Controller
 
         return view("management.assets.print", compact("asset"));
     }
+
+    /**
+     * Show the form for transferring an asset.
+     */
+    public function showTransferForm(Asset $asset): View
+    {
+        $asset->load(["category", "room.building"]);
+        $rooms = Room::with("building")->orderBy("name")->get();
+
+        return view("management.assets.transfer", compact("asset", "rooms"));
+    }
+
+    /**
+     * Transfer an asset to a new room/user.
+     */
+    public function transfer(Request $request, Asset $asset): RedirectResponse
+    {
+        $request->validate([
+            'room_id' => 'required|exists:rooms,id',
+            'private_owner' => 'nullable|string|max:100',
+            'notes' => 'nullable|string|max:500',
+        ]);
+
+        try {
+            $this->assetService->transferAsset($asset, [
+                'room_id' => $request->room_id,
+                'private_owner' => $request->private_owner,
+                'notes' => $request->notes ?? 'Perpindahan aset',
+            ]);
+
+            return redirect()
+                ->route("assets.index")
+                ->with("success", "Aset berhasil dipindahkan.");
+        } catch (\Exception $e) {
+            return back()
+                ->withInput()
+                ->with("error", "Gagal memindahkan aset: " . $e->getMessage());
+        }
+    }
 }

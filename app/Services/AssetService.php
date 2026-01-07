@@ -166,4 +166,53 @@ class AssetService
     {
         return $this->assetRepository->countByStatus($status);
     }
+
+    /**
+     * Transfer asset to new room/user and record history.
+     */
+    public function transferAsset(Asset $asset, array $data): Asset
+    {
+        DB::beginTransaction();
+
+        try {
+            $oldRoomId = $asset->room_id;
+            $oldPrivateOwner = $asset->private_owner;
+            $newRoomId = $data['room_id'];
+            $newPrivateOwner = $data['private_owner'] ?? null;
+
+            // Update asset room and private_owner
+            $this->assetRepository->update($asset, [
+                'room_id' => $newRoomId,
+                'private_owner' => $newPrivateOwner,
+                'last_update' => now(),
+            ]);
+
+            // Build notes with user change info
+            $notes = $data['notes'] ?? 'Perpindahan aset';
+            if ($oldPrivateOwner !== $newPrivateOwner) {
+                $oldOwnerText = $oldPrivateOwner ?: '(kosong)';
+                $newOwnerText = $newPrivateOwner ?: '(kosong)';
+                $notes .= " | Pengguna: {$oldOwnerText} → {$newOwnerText}";
+            }
+
+            // Record transfer history
+            AssetStatusHistory::create([
+                "asset_id" => $asset->id,
+                "previous_room_id" => $oldRoomId,
+                "new_room_id" => $newRoomId,
+                "previous_status" => $asset->status,
+                "new_status" => $asset->status, // Status tetap sama saat transfer
+                "changed_by" => auth()->id(),
+                "change_date" => now(),
+                "notes" => $notes,
+            ]);
+
+            DB::commit();
+
+            return $asset->fresh(["category", "room.building"]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+    }
 }

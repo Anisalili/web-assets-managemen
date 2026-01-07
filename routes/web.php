@@ -42,6 +42,19 @@ Route::middleware("auth")->group(function () {
             App\Http\Controllers\Management\AssetController::class,
             "print",
         ])->name("assets.print");
+
+        // Asset Transfer Routes (requires update-assets permission)
+        Route::middleware("permission:update-assets")->group(function () {
+            Route::get("assets/{asset}/transfer", [
+                App\Http\Controllers\Management\AssetController::class,
+                "showTransferForm",
+            ])->name("assets.transfer");
+
+            Route::post("assets/{asset}/transfer", [
+                App\Http\Controllers\Management\AssetController::class,
+                "transfer",
+            ])->name("assets.transfer.post");
+        });
     });
 
     Route::middleware("permission:view-asset-categories")->group(function () {
