@@ -47,4 +47,12 @@ class AssetStatusHistory extends Model
     {
         return $this->belongsTo(Room::class, 'new_room_id');
     }
+
+    /**
+     * Get the user who made the change
+     */
+    public function changedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'changed_by');
+    }
 }

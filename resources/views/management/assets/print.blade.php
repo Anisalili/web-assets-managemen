@@ -284,7 +284,7 @@
                             -
                         @endif
                     </td>
-                    <td>{{ $history->changed_by }}</td>
+                    <td>{{ $history->changedBy->name ?? '-' }}</td>
                     <td>{{ $history->notes ?? '-' }}</td>
                 </tr>
                 @endforeach

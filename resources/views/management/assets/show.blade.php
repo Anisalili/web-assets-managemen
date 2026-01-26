@@ -168,7 +168,7 @@
                                         <span class="text-muted">-</span>
                                     @endif
                                 </td>
-                                <td><small>{{ $history->changed_by }}</small></td>
+                                <td><small>{{ $history->changedBy->name ?? '-' }}</small></td>
                                 <td><small class="text-muted">{{ $history->notes ?? '-' }}</small></td>
                             </tr>
                             @endforeach
