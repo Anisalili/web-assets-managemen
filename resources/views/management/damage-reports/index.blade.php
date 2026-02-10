@@ -28,14 +28,8 @@
                         @endif
                     </div>
 
-                    @if(session('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        {{ session('success') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    @endif
+
+
 
                     <div class="table-responsive">
                         <table class="table table-hover">
@@ -89,6 +83,16 @@
                                             <i class="mdi mdi-account-plus"></i>
                                         </button>
                                         @endif
+                                        @endif
+                                        @if(auth()->user()->hasPermission('delete-damage-reports'))
+                                        <form action="{{ route('damage-reports.destroy', $report) }}" method="POST" class="d-inline delete-form">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button" class="btn btn-sm btn-danger" title="Hapus"
+                                                onclick="confirmDelete(this, 'Yakin ingin menghapus laporan kerusakan ini?')">
+                                                <i class="mdi mdi-delete"></i>
+                                            </button>
+                                        </form>
                                         @endif
                                     </td>
                                 </tr>
@@ -158,6 +162,19 @@
 
 @push('scripts')
 <script>
+// Confirm delete function using toast
+function confirmDelete(button, message) {
+    const form = button.closest('form');
+    showConfirmToast(
+        message,
+        function() {
+            form.submit();
+        },
+        'Konfirmasi Hapus',
+        'Ya, Hapus'
+    );
+}
+
 function showAssignModal(reportId, assetName) {
     document.getElementById('reportIdForAssign').value = reportId;
     document.getElementById('assetNameForAssign').textContent = assetName;
